@@ -45,6 +45,7 @@
     <Compile Include="Foundations\Angles\Deflection.cs" />
     <Compile Include="Foundations\Angles\Slope.cs" />
     <Compile Include="Foundations\Coordinates\Point.cs" />
+    <Compile Include="Foundations\Coordinates\Ray.cs" />
     <Compile Include="Foundations\Coordinates\Vector.cs" />
     <Compile Include="Foundations\Degree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

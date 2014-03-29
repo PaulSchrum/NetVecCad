@@ -60,7 +60,6 @@ namespace NVcad.Foundations.Coordinates
          if (point.z != null && vector.z != null)
             return new Point(point.x + vector.x, point.y + vector.y, point.z.Value + vector.z.Value);
 
-         Double? nulldbl = null;
          return new Point(point.x + vector.x, point.y + vector.y);
       }
 
