@@ -44,9 +44,9 @@
     <Compile Include="Foundations\Angles\Azimuth.cs" />
     <Compile Include="Foundations\Angles\Deflection.cs" />
     <Compile Include="Foundations\Angles\Slope.cs" />
+    <Compile Include="Foundations\Coordinates\Point.cs" />
+    <Compile Include="Foundations\Coordinates\Vector.cs" />
     <Compile Include="Foundations\Degree.cs" />
-    <Compile Include="Foundations\point.cs" />
-    <Compile Include="Foundations\Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

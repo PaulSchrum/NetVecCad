@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NVcad.Foundations;
 using NVcad.Foundations.Angles;
 using System.Collections.Generic;
+using NVcad.Foundations.Coordinates;
 
 namespace UnitTestNVcad
 {

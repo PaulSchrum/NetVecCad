@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using NVcad.Foundations.Angles;
 
-namespace NVcad.Foundations
+
+namespace NVcad.Foundations.Coordinates
 {
    [Serializable]
    public struct Vector
@@ -14,19 +15,22 @@ namespace NVcad.Foundations
       public Double y { get; set; }
       public Double? z { get; set; }
 
-      public Vector(double x_, double y_, double? z_) : this()
+      public Vector(double x_, double y_, double? z_)
+         : this()
       {
          x = x_; y = y_; z = z_;
       }
 
-      public Vector(Point beginPt, Point endPoint) : this()
+      public Vector(Point beginPt, Point endPoint)
+         : this()
       {
          x = endPoint.x - beginPt.x;
          y = endPoint.y - beginPt.y;
          z = endPoint.z - endPoint.z;
       }
 
-      public Vector(Azimuth direction, Double length) : this()
+      public Vector(Azimuth direction, Double length)
+         : this()
       {
          x = length * Math.Sin(direction.angle_);
          y = length * Math.Cos(direction.angle_);
@@ -59,7 +63,7 @@ namespace NVcad.Foundations
 
       public Double Length
       {
-         get { return Math.Sqrt(x * x + y * y + (Double) z * (Double) z); }
+         get { return Math.Sqrt(x * x + y * y + (Double)z * (Double)z); }
          private set { }
       }
 

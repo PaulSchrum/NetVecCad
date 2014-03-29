@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 
-namespace NVcad.Foundations
+namespace NVcad.Foundations.Coordinates
 {
    [Serializable]
    public struct Point
@@ -14,24 +14,28 @@ namespace NVcad.Foundations
       public Double y { get; set; }
       public Double? z { get; set; }
 
-      public Point(Point otherPt) : this()
+      public Point(Point otherPt)
+         : this()
       {
          x = otherPt.x; y = otherPt.y; z = otherPt.z;
       }
 
-      public Point(double X, double Y, double Z) : this()
+      public Point(double X, double Y, double Z)
+         : this()
       {
          x = X; y = Y; z = Z;
       }
 
-      public Point(String X, String Y, String Z) : this()
+      public Point(String X, String Y, String Z)
+         : this()
       {
          x = Double.Parse(X);
          y = Double.Parse(Y);
          z = Double.Parse(Z);
       }
 
-      public Point(double X, double Y) : this()
+      public Point(double X, double Y)
+         : this()
       {
          x = X; y = Y; z = null;
       }
