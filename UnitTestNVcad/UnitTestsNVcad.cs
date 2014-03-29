@@ -248,5 +248,20 @@ namespace UnitTestNVcad
          
          Assert.IsTrue(slope.isSlopeUp());
       }
+
+      [TestMethod]
+      public void Point2D_plusVector_equalsCorrectPoint()
+      {
+         Point pt1 = new Point(10.0, 10.0);
+         Vector vec1 = new Vector(5.0, 5.0, 5.0);
+
+         Point pt2 = pt1 + vec1;
+
+         Double expectedX = 15.0; Double expectedY = 15.0;
+
+         Assert.AreEqual(expected: expectedX, actual: pt2.x, delta: 0.00001);
+         Assert.AreEqual(expected: expectedY, actual: pt2.y, delta: 0.00001);
+      }
+
    }
 }
