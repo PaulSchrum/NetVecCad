@@ -8,11 +8,13 @@ using System.Globalization;
 namespace NVcad.Foundations.Coordinates
 {
    [Serializable]
-   public struct Point
+   public class Point
    {
       public Double x { get; set; }
       public Double y { get; set; }
       public Double? z { get; set; }
+
+      public Point() { }
 
       public Point(Point otherPt)
          : this()
@@ -21,6 +23,12 @@ namespace NVcad.Foundations.Coordinates
       }
 
       public Point(double X, double Y, double Z)
+         : this()
+      {
+         x = X; y = Y; z = Z;
+      }
+
+      public Point(double X, double Y, double? Z)
          : this()
       {
          x = X; y = Y; z = Z;
