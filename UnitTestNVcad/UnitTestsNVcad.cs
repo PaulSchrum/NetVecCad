@@ -13,7 +13,7 @@ namespace UnitTestNVcad
       private Double delta = 0.0000001;
 
       [TestMethod]
-      public void ptsDegree_sin90_returns1p0()
+      public void Degree_sin90_returns1p0()
       {
          Degree deg = 90.0;
          Double expectedDbl = 1.0;
@@ -22,7 +22,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void ptsDegree_Atan2Of10And0_returns90degrees()
+      public void Degree_Atan2Of10And0_returns90degrees()
       {
          Degree deg = Degree.Atan2(10.0, 0.0);
          Double expectedDbl = 90.0;
@@ -31,7 +31,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void ptsDegree_AsinOf1overSqrt2_shouldEqual45degrees()
+      public void Degree_AsinOf1overSqrt2_shouldEqual45degrees()
       {
          Degree deg = Degree.Asin(1.0 / Math.Sqrt(2.0));
          Double expectedDbl = 45.0;
@@ -262,6 +262,145 @@ namespace UnitTestNVcad
 
          Assert.AreEqual(expected: expectedX, actual: pt2.x, delta: 0.00001);
          Assert.AreEqual(expected: expectedY, actual: pt2.y, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void angleNormalization_withinPlusOrMinus2Pi_OverPositive2PI()
+      {
+         Double angleNeedingToBeNormalized = 2 * Math.PI * 4.56;
+         Double expectedAfterNormalized = 2 * Math.PI * 0.56;
+         Angle anAngle = new Angle();
+         Double actualAfterNormalization =
+            Angle.ComputeRemainderScaledByDenominator(angleNeedingToBeNormalized, 2 * Math.PI);
+
+         Assert.AreEqual(expected: expectedAfterNormalized,
+            actual: actualAfterNormalization, delta: 0.0000001);
+      }
+
+      [TestMethod]
+      public void angleNormalization_withinPlusOrMinus2Pi_UnderNegative2PI()
+      {
+         Double angleNeedingToBeNormalized = -710.0;
+         Double expectedAfterNormalized = -350.0;
+         Angle anAngle = new Angle();
+         Double actualAfterNormalization =
+            Angle.ComputeRemainderScaledByDenominator(angleNeedingToBeNormalized, 360.0);
+
+         Assert.AreEqual(expected: expectedAfterNormalized,
+            actual: actualAfterNormalization, delta: 0.0000001);
+      }
+
+      [TestMethod]
+      public void Deflection_positiveLessThan180_getAsDegrees()
+      {
+         Double expectedValue = 45.0;
+         Deflection defl = new Deflection(0.785398164, 1);
+         Double actualValue = defl.getAsDegreesDouble();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Deflection_positiveGreaterThan180_getAsDegrees()
+      {
+         Double expectedValue = 310.0;
+         Deflection defl = new Deflection(5.41052068118, 1);
+         Double actualValue = defl.getAsDegreesDouble();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Deflection_negativeLessThan180_getAsDegrees()
+      {
+         Double expectedValue = -45.0;
+         Deflection defl = new Deflection(0.785398164, -1);
+         Double actualValue = defl.getAsDegreesDouble();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Deflection_negativeGreaterThan180_getAsDegrees()
+      {
+         Double expectedValue = -310.0;
+         Deflection defl = new Deflection(5.41052068118, -1);
+         Double actualValue = defl.getAsDegreesDouble();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Deflection_positiveLessThan180_getAsRadians()
+      {
+         Double expectedValue = 0.785398164;
+         Deflection defl = new Deflection(0.785398164, 1);
+         Double actualValue = defl.getAsRadians();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Deflection_positiveGreaterThan180_getAsRadians()
+      {
+         Double expectedValue = 5.41052068118;
+         Deflection defl = new Deflection(5.41052068118, 1);
+         Double actualValue = defl.getAsRadians();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Deflection_negativeLessThan180_getAsRadians()
+      {
+         Double expectedValue = -0.39479111970;
+         Azimuth begAz = new Azimuth(new Point(0.0, 0.0, 0.0), new Point(10.0, 50.0, 0.0));
+         Azimuth endAz = new Azimuth(new Point(10.0, 50.0, 0.0), new Point(0.0, 100.0, 0.0));
+         Deflection defl = new Deflection(begAz, endAz, true);
+         Double actualValue = defl.getAsRadians();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.0000001);
+      }
+
+      [TestMethod]
+      public void Deflection_negativeGreaterThan180_getAsRadians()
+      {
+         Double expectedValue = -5.88839418748;
+         Azimuth endAz = new Azimuth(new Point(0.0, 0.0, 0.0), new Point(10.0, 50.0, 0.0));
+         Azimuth begAz = new Azimuth(new Point(10.0, 50.0, 0.0), new Point(0.0, 100.0, 0.0));
+         Deflection defl = new Deflection(begAz, endAz, false);
+         Double actualValue = defl.getAsRadians();
+         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void rayGetElevationInRayDomain_IsCorrect()
+      {
+         Ray localRay = new Ray();
+         localRay.StartPoint = new Point(25.0, 0.0, 25.0);
+         localRay.Slope = new Slope(1.0);
+         localRay.HorizontalDirection = null;
+         double? actual = localRay.getElevationAlong(35.0);
+         double? expected = 35.0;
+         Assert.AreEqual(expected.ToString(), actual.ToString());
+         //String act = actual.ToString();
+         //String exp = expected.ToString();
+      }
+
+      [TestMethod]
+      public void rayGetElevationOutsideRayDomain_IsNull()
+      {
+         Ray localRay = new Ray();
+         localRay.StartPoint = new Point(25.0, 0.0, 25.0);
+         localRay.Slope = new Slope();
+         localRay.Slope.setFromXY(0, 1);
+         localRay.HorizontalDirection = null;
+         double? actual = localRay.getElevationAlong(25.0);
+         Assert.IsNull(actual);
+      }
+
+      [TestMethod]
+      public void rayGetElevationWhenRayIsVertical_IsNull()
+      {
+         Ray localRay = new Ray();
+         localRay.StartPoint = new Point(25.0, 0.0, 25.0);
+         localRay.Slope = new Slope(1.0);
+         localRay.HorizontalDirection = null;
+         double? actual = localRay.getElevationAlong(15.0);
+         Assert.IsNull(actual);
       }
 
    }

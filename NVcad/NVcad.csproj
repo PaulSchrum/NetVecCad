@@ -39,16 +39,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CadObjects\CadObject.cs" />
     <Compile Include="Foundations\Angle.cs" />
     <Compile Include="Foundations\Angles\Azimuth.cs" />
     <Compile Include="Foundations\Angles\Deflection.cs" />
     <Compile Include="Foundations\Angles\Slope.cs" />
+    <Compile Include="Foundations\Coordinates\BoundingBox.cs" />
     <Compile Include="Foundations\Coordinates\Point.cs" />
     <Compile Include="Foundations\Coordinates\Ray.cs" />
+    <Compile Include="Foundations\Coordinates\StationOffsetElevation.cs" />
     <Compile Include="Foundations\Coordinates\Vector.cs" />
     <Compile Include="Foundations\Degree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Foundations\Coordinates\CurviLinear\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
