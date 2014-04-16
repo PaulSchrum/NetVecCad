@@ -39,7 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CadObjects\Arc.cs" />
     <Compile Include="CadObjects\CadObject.cs" />
+    <Compile Include="CadObjects\CadViewPort.cs" />
+    <Compile Include="CadObjects\ConicSegment.cs" />
+    <Compile Include="CadObjects\Geometric.cs" />
+    <Compile Include="CadObjects\Graphic.cs" />
+    <Compile Include="CadObjects\LineSegment.cs" />
+    <Compile Include="CadObjects\Path.cs" />
     <Compile Include="Foundations\Angle.cs" />
     <Compile Include="Foundations\Angles\Azimuth.cs" />
     <Compile Include="Foundations\Angles\Deflection.cs" />
@@ -50,6 +57,8 @@
     <Compile Include="Foundations\Coordinates\StationOffsetElevation.cs" />
     <Compile Include="Foundations\Coordinates\Vector.cs" />
     <Compile Include="Foundations\Degree.cs" />
+    <Compile Include="Foundations\Symbology\Color.cs" />
+    <Compile Include="Foundations\Symbology\Feature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
