@@ -52,6 +52,7 @@
     <Compile Include="Foundations\Angles\Deflection.cs" />
     <Compile Include="Foundations\Angles\Slope.cs" />
     <Compile Include="Foundations\Coordinates\BoundingBox.cs" />
+    <Compile Include="Foundations\Coordinates\IBoundingBoxed.cs" />
     <Compile Include="Foundations\Coordinates\Point.cs" />
     <Compile Include="Foundations\Coordinates\Ray.cs" />
     <Compile Include="Foundations\Coordinates\StationOffsetElevation.cs" />
@@ -63,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Foundations\Coordinates\CurviLinear\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CadObjects\CadObjectsDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
