@@ -60,10 +60,13 @@
     <Compile Include="Foundations\Degree.cs" />
     <Compile Include="Foundations\Symbology\Color.cs" />
     <Compile Include="Foundations\Symbology\Feature.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Moderators\Moderator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Foundations\Coordinates\CurviLinear\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CadObjects\CadObjectsDiagram.cd" />

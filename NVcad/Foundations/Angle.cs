@@ -11,6 +11,8 @@ namespace NVcad.Foundations
    public class Angle
    {
       protected double angle__;
+      //private Point point1;
+      //private Point point2;
 
       public static Angle HALFCIRCLE 
       {
@@ -41,6 +43,15 @@ namespace NVcad.Foundations
       public Angle(double radius, double degreeOfCurveLength)
       {
          angle__ = degreeOfCurveLength / radius;
+      }
+
+      // needs unit test
+      public Angle(Point point1, Point point2)
+      {
+         // TODO: Complete member initialization
+         //this.point1 = point1;
+         //this.point2 = point2;
+         setFromXY(point2.x - point1.x, point2.y - point1.y);
       }
       internal virtual double angle_ { get { return angle__; } set { normalize(value); } }
       //private static double angleScratchPad;
