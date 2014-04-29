@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NVcadModerator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace NetVecCad
 {
    /// <summary>
@@ -24,5 +26,18 @@ namespace NetVecCad
       {
          InitializeComponent();
       }
+
+      protected override void OnInitialized(EventArgs e)
+      {
+         base.OnInitialized(e);
+
+         Moderators = new List<Moderator>();
+         Moderators.Add(new Moderator(this.DevCanvas));
+         
+      }
+
+      public List<Moderator> Moderators { get; set; }
+      
+
    }
 }

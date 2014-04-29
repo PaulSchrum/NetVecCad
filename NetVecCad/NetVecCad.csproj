@@ -93,6 +93,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NVcadModerator\NVcadModerator.csproj">
+      <Project>{b8dd241e-63ec-48c7-b076-f2c885498d07}</Project>
+      <Name>NVcadModerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NVcad\NVcad.csproj">
+      <Project>{937a9607-3387-4b56-8a95-63f7a7c9f802}</Project>
+      <Name>NVcad</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
