@@ -21,10 +21,12 @@ namespace NVcadModerator
    /// family as Model-View-ViewModel and Model-View-Controller.  
    /// </summary>
    /// <see cref=""/>
-   public class Moderator : ICadNotificationTarget
+   public class Moderator : ICadNotificationTarget, IDisposable
    {
-      private Canvas theCanvas { get; set; }
-      private TransformGroup xformGroup { get; set; }
+      protected Window myParentWindow { get; set; }
+      protected List<Window> childWindows { get; set; }
+      protected Canvas theCanvas { get; set; }
+      protected TransformGroup xformGroup { get; set; }
 
       // public List<ViewWindow> allViewWindows = new List<ViewWindow>();
       protected Model Model { get; set; }
@@ -43,6 +45,25 @@ namespace NVcadModerator
          xformGroup.Children.Add(new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 1.0 * this.theCanvas.ActualHeight / 2.0));
 
          Model.setUpTestingModel_20140422();
+      }
+
+      public Moderator(Window aParentWindow)
+      {
+         myParentWindow = aParentWindow;
+
+         Window aWindow = new Window();
+         this.childWindows = new List<Window>();
+         this.childWindows.Add(aWindow);
+         initializeChildWindow(aWindow);
+      }
+
+      protected void initializeChildWindow(Window aWindow)
+      {
+         aWindow.Height = 100;
+         aWindow.Width = 300;
+
+
+         aWindow.Show();
       }
 
       public void DrawGraphicItem(Graphic graphicItem)
@@ -71,6 +92,18 @@ namespace NVcadModerator
          aLine.RenderTransform = xformGroup;
 
          this.theCanvas.Children.Add(aLine);
+      }
+
+      public void Dispose()
+      {
+         if(this.childWindows != null)
+         {
+            foreach (var child in this.childWindows)
+               child.Close();
+
+            this.childWindows.Clear();
+            this.childWindows = null;
+         }
       }
    }
 }

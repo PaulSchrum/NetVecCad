@@ -32,6 +32,13 @@ namespace NetVecCad
          base.OnInitialized(e);
       }
 
+      protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+      {
+         base.OnClosing(e);
+         foreach (var moderator in Moderators)
+            moderator.Dispose();
+      }
+
       protected override void OnMouseUp(MouseButtonEventArgs e)
       {
          base.OnMouseUp(e);
@@ -42,7 +49,8 @@ namespace NetVecCad
       private void DevCanvas_Loaded(object sender, RoutedEventArgs e)
       {
          Moderators = new List<Moderator>();
-         Moderators.Add(new Moderator(this.DevCanvas));
+         //
+         Moderators.Add(new Moderator(this));
       }
       
 
