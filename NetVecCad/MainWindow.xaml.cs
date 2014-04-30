@@ -30,10 +30,6 @@ namespace NetVecCad
       protected override void OnInitialized(EventArgs e)
       {
          base.OnInitialized(e);
-
-         Moderators = new List<Moderator>();
-         Moderators.Add(new Moderator(this.DevCanvas));
-         
       }
 
       protected override void OnMouseUp(MouseButtonEventArgs e)
@@ -42,6 +38,12 @@ namespace NetVecCad
       }
 
       public List<Moderator> Moderators { get; set; }
+
+      private void DevCanvas_Loaded(object sender, RoutedEventArgs e)
+      {
+         Moderators = new List<Moderator>();
+         Moderators.Add(new Moderator(this.DevCanvas));
+      }
       
 
    }

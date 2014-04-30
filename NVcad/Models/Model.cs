@@ -30,8 +30,8 @@ namespace NVcad.Models
       public void setUpTestingModel_20140422()
       {
          allGrahics = new List<Graphic>();
-         allGrahics.Add(new LineSegment(2.0, 3.0, 12.0, 20.0));
-         allGrahics.Add(new LineSegment(1.0, 7.0, 8.0, 4.0));
+         allGrahics.Add(new LineSegment(10.0, 5.0, 10.0, 10.0 + 2.5*96.0));
+         allGrahics.Add(new LineSegment(0.0, 0.0, 2.5*96.0, 0.0));
          foreach (var item in allGrahics)
             this.NotificationTarget.DrawGraphicItem(item);
       }

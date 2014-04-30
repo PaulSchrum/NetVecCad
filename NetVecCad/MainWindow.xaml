@@ -13,6 +13,10 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="DevCanvas" ClipToBounds="True" SnapsToDevicePixels="True" Background="Black" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,19.6,0.4"></Canvas> 
+        <Canvas x:Name="DevCanvas" 
+                ClipToBounds="True" 
+                SnapsToDevicePixels="True" 
+                Background="Ivory" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                Margin="0,0,19.6,0.4" Loaded="DevCanvas_Loaded"></Canvas> 
     </Grid>
 </Window>
