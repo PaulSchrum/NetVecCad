@@ -36,6 +36,11 @@ namespace NetVecCad
          
       }
 
+      protected override void OnMouseUp(MouseButtonEventArgs e)
+      {
+         base.OnMouseUp(e);
+      }
+
       public List<Moderator> Moderators { get; set; }
       
 

@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
+using NVcad;
+using NVcad.CadObjects;
+
 namespace NVcadModerator
 {
    /// <summary>
@@ -14,7 +17,7 @@ namespace NVcadModerator
    /// family as Model-View-ViewModel and Model-View-Controller.  
    /// </summary>
    /// <see cref=""/>
-   public class Moderator
+   public class Moderator : ICadNotificationTarget
    {
       private Canvas theCanvas { get; set; }
 
@@ -23,7 +26,7 @@ namespace NVcadModerator
 
       public Moderator()
       {
-         Model = new Model();
+         Model = new Model(this);
       }
 
       public Moderator(Canvas aCanvas)
@@ -31,6 +34,12 @@ namespace NVcadModerator
       {
          this.theCanvas = aCanvas;
          Model.setUpTestingModel_20140422();
+      }
+
+      public void DrawGraphicItem(Graphic graphicItem)
+      {
+         int i = 0;
+         i++;
       }
    }
 }

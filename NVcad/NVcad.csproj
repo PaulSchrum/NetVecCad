@@ -64,6 +64,7 @@
     <Compile Include="Foundations\Degree.cs" />
     <Compile Include="Foundations\Symbology\Color.cs" />
     <Compile Include="Foundations\Symbology\Feature.cs" />
+    <Compile Include="ICadNotificationTarget.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
