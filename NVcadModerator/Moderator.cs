@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 using NVcad;
 using NVcad.CadObjects;
 using NVCO = NVcad.CadObjects;
+using Xceed.Wpf.Toolkit;
+using Xceed.Wpf.Toolkit.Primitives;
+//using NVcadView;
 
 namespace NVcadModerator
 {
@@ -21,15 +24,16 @@ namespace NVcadModerator
    /// family as Model-View-ViewModel and Model-View-Controller.  
    /// </summary>
    /// <see cref=""/>
-   public class Moderator : ICadNotificationTarget, IDisposable
+   public class Moderator : ICadNotificationTarget
    {
       protected Window myParentWindow { get; set; }
-      protected List<Window> childWindows { get; set; }
+      WindowContainer cadViews { get; set; }
+      //protected List<Window> childCadViews { get; set; }
       protected Canvas theCanvas { get; set; }
       protected TransformGroup xformGroup { get; set; }
 
       // public List<ViewWindow> allViewWindows = new List<ViewWindow>();
-      protected Model Model { get; set; }
+      private Model Model { get; set; }
 
       public Moderator()
       {
@@ -47,23 +51,38 @@ namespace NVcadModerator
          Model.setUpTestingModel_20140422();
       }
 
-      public Moderator(Window aParentWindow)
+      public Moderator(Window aParentWindow, Xceed.Wpf.Toolkit.Primitives.WindowContainer aWindowContainer)
       {
          myParentWindow = aParentWindow;
 
-         Window aWindow = new Window();
-         this.childWindows = new List<Window>();
-         this.childWindows.Add(aWindow);
-         initializeChildWindow(aWindow);
+         cadViews = aWindowContainer;
+         ChildWindow aWindow = new ChildWindow();
+         cadViews.Children.Add(aWindow);
+         initializeChildCadView(aWindow);
+         cadViews.Arrange(new Rect(0, 0, 50, 50));
       }
 
-      protected void initializeChildWindow(Window aWindow)
+      protected void initializeChildCadView(ChildWindow aWindow)
       {
-         aWindow.Height = 100;
-         aWindow.Width = 300;
+         if (null == aWindow) return;
+
+         aWindow.Height = 300;
+         aWindow.Width = 440;
+         aWindow.Left = 10;
+         aWindow.Top = 10;
+         aWindow.Caption = "NVCad 视图窗口";
+         aWindow.IsModal = false;
 
 
          aWindow.Show();
+
+         //var v = (int)myParentWindow.GetValue(Panel.ZIndexProperty);
+         //var c = (int)aWindow.GetValue(Panel.ZIndexProperty);
+         //myParentWindow.SetValue(Panel.ZIndexProperty, 10);
+         //aWindow.SetValue(Panel.ZIndexProperty, 1);
+         //v = (int)myParentWindow.GetValue(Panel.ZIndexProperty);
+         //c = (int)aWindow.GetValue(Panel.ZIndexProperty);
+         //this.myParentWindow.Activate();
       }
 
       public void DrawGraphicItem(Graphic graphicItem)
@@ -94,16 +113,5 @@ namespace NVcadModerator
          this.theCanvas.Children.Add(aLine);
       }
 
-      public void Dispose()
-      {
-         if(this.childWindows != null)
-         {
-            foreach (var child in this.childWindows)
-               child.Close();
-
-            this.childWindows.Clear();
-            this.childWindows = null;
-         }
-      }
    }
 }

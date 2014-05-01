@@ -1,8 +1,10 @@
-﻿<Window x:Class="NetVecCad.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+        x:Class="NetVecCad.MainWindow"
         Title="NetVecCad" Height="600" Width="800">
-    <Grid>
+    <Grid Width="795">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="1*"/>
@@ -13,10 +15,7 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="DevCanvas" 
-                ClipToBounds="True" 
-                SnapsToDevicePixels="True" 
-                Background="Ivory" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
-                Margin="0,0,19.6,0.4" Loaded="DevCanvas_Loaded"></Canvas> 
+        <xctk:WindowContainer Grid.Column="1" Grid.Row="1" 
+            x:Name="MainWindowContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="MainWindowContainer_Loaded" />
     </Grid>
 </Window>
