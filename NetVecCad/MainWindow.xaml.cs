@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -44,18 +45,22 @@ namespace NetVecCad
 
       public List<Moderator> Moderators { get; set; }
 
-      private void DevCanvas_Loaded(object sender, RoutedEventArgs e)
-      {
-         Moderators = new List<Moderator>();
-         Moderators.Add(new Moderator(this, this.MainWindowContainer));
-      }
-
       private void MainWindowContainer_Loaded(object sender, RoutedEventArgs e)
       {
          Moderators = new List<Moderator>();
          Moderators.Add(new Moderator(this, this.MainWindowContainer));
       }
 
+      private void Window_ContentRendered(object sender, EventArgs e)
+      {
+         var t = new Timer(1500);
+         t.Elapsed += new ElapsedEventHandler(timer_Tick);
+         t.Start();
+      }
 
+      private void timer_Tick(object sender, EventArgs e)
+      {
+         Environment.Exit(0);
+      }
    }
 }
