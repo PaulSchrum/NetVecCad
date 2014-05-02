@@ -7,7 +7,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NVcad2dViewWindow}">
-                    <Border BorderBrush="#FFDF3434"></Border>
                     <!--<Grid ShowGridLines="True">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" MaxHeight="20"/>
@@ -21,10 +20,10 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" Grid.RowSpan="3" Grid.Row="0">Test</TextBox>
                     </Grid>-->
-                    <!--<Border Background="{TemplateBinding Background}"
+                    <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                    </Border>-->
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -66,12 +66,34 @@ namespace NVcadModerator
       {
          if (null == aWindow) return;
 
-         aWindow.Height = 300;
-         aWindow.Width = 440;
+         aWindow.Height = 500;
+         aWindow.Width = 550;
          aWindow.Left = 10;
          aWindow.Top = 10;
          aWindow.Caption = "NVCad 视图窗口";
          aWindow.IsModal = false;
+
+         var contentGrid = new Grid();
+         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
+         contentGrid.ColumnDefinitions[0].Width = new GridLength(20);
+         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
+         contentGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
+         contentGrid.ColumnDefinitions[2].Width = new GridLength(20);
+
+         contentGrid.RowDefinitions.Add(new RowDefinition());
+         contentGrid.RowDefinitions[0].Height = new GridLength(20);
+         contentGrid.RowDefinitions.Add(new RowDefinition());
+         contentGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+         contentGrid.RowDefinitions.Add(new RowDefinition());
+         contentGrid.RowDefinitions[2].Height = new GridLength(20);
+
+         var cvs = new Canvas();
+         cvs.Background = Brushes.Bisque;
+         contentGrid.Children.Add(cvs);
+         Grid.SetRow(cvs, 1); Grid.SetColumn(cvs, 1);
+
+         aWindow.Content = contentGrid;
 
 
          aWindow.Show();
