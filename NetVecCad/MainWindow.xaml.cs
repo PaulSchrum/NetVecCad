@@ -55,7 +55,7 @@ namespace NetVecCad
          Moderators = new List<Moderator>();
          Moderators.Add(new Moderator(this, this.MainWindowContainer));
       }
-      
+
 
    }
 }

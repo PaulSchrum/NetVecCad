@@ -14,7 +14,7 @@ using NVcad.CadObjects;
 using NVCO = NVcad.CadObjects;
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Primitives;
-//using NVcadView;
+using NVcadView;
 
 namespace NVcadModerator
 {
@@ -56,13 +56,13 @@ namespace NVcadModerator
          myParentWindow = aParentWindow;
 
          cadViews = aWindowContainer;
-         ChildWindow aWindow = new ChildWindow();
+         NVcad2dViewWindow aWindow = new NVcad2dViewWindow();
          cadViews.Children.Add(aWindow);
          initializeChildCadView(aWindow);
-         cadViews.Arrange(new Rect(0, 0, 50, 50));
+         
       }
 
-      protected void initializeChildCadView(ChildWindow aWindow)
+      protected void initializeChildCadView(NVcad2dViewWindow aWindow)
       {
          if (null == aWindow) return;
 
@@ -75,14 +75,6 @@ namespace NVcadModerator
 
 
          aWindow.Show();
-
-         //var v = (int)myParentWindow.GetValue(Panel.ZIndexProperty);
-         //var c = (int)aWindow.GetValue(Panel.ZIndexProperty);
-         //myParentWindow.SetValue(Panel.ZIndexProperty, 10);
-         //aWindow.SetValue(Panel.ZIndexProperty, 1);
-         //v = (int)myParentWindow.GetValue(Panel.ZIndexProperty);
-         //c = (int)aWindow.GetValue(Panel.ZIndexProperty);
-         //this.myParentWindow.Activate();
       }
 
       public void DrawGraphicItem(Graphic graphicItem)

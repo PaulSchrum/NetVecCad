@@ -3,19 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         x:Class="NetVecCad.MainWindow"
-        Title="NetVecCad" Height="600" Width="800">
-    <Grid Width="795">
+        Title="NetVecCad" Height="600" Width="800" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+    <Grid x:Name="TopGrid" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40" MaxHeight="40"/>
+            <RowDefinition Height="0" MaxHeight="40"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="0" MaxHeight="40"/>
+            <RowDefinition Height="40" MaxHeight="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="40" MaxWidth="40"/>
+            <ColumnDefinition Width="0" MaxWidth="40"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="0" MaxWidth="40"/>
+            <ColumnDefinition Width="40" MaxWidth="40"/>
         </Grid.ColumnDefinitions>
-        <xctk:WindowContainer Grid.Column="1" Grid.Row="1" 
-            x:Name="MainWindowContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Loaded="MainWindowContainer_Loaded" />
+        <xctk:WindowContainer Grid.Column="2" Grid.Row="2" 
+            x:Name="MainWindowContainer" 
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" 
+            Loaded="MainWindowContainer_Loaded" Background="#FFEFF9FD" />
     </Grid>
 </Window>
