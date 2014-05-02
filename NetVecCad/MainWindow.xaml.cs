@@ -58,9 +58,5 @@ namespace NetVecCad
          t.Start();
       }
 
-      private void timer_Tick(object sender, EventArgs e)
-      {
-         Environment.Exit(0);
-      }
    }
 }
