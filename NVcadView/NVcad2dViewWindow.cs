@@ -52,10 +52,39 @@ namespace NVcadView
    {
       //static NVcad2dViewWindow()
       //{
-      //    DefaultStyleKeyProperty.OverrideMetadata(typeof(NVcad2dViewWindow), new FrameworkPropertyMetadata(typeof(NVcad2dViewWindow)));
+      //   DefaultStyleKeyProperty.OverrideMetadata(typeof(NVcad2dViewWindow), new FrameworkPropertyMetadata(typeof(NVcad2dViewWindow)));
       //}
-
       
+      public void initializeCustomSettings()
+      {
+         this.Height = 500;
+         this.Width = 550;
+         this.Left = 10;
+         this.Top = 10;
+         this.Caption = "NVCad 视图窗口";
+         this.IsModal = false;
 
+         var contentGrid = new Grid();
+         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
+         contentGrid.ColumnDefinitions[0].Width = new GridLength(20);
+         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
+         contentGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
+         contentGrid.ColumnDefinitions[2].Width = new GridLength(20);
+
+         contentGrid.RowDefinitions.Add(new RowDefinition());
+         contentGrid.RowDefinitions[0].Height = new GridLength(20);
+         contentGrid.RowDefinitions.Add(new RowDefinition());
+         contentGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+         contentGrid.RowDefinitions.Add(new RowDefinition());
+         contentGrid.RowDefinitions[2].Height = new GridLength(20);
+
+         var cvs = new Canvas();
+         cvs.Background = Brushes.Bisque;
+         contentGrid.Children.Add(cvs);
+         Grid.SetRow(cvs, 1); Grid.SetColumn(cvs, 1);
+
+         this.Content = contentGrid;
+      }
    }
 }

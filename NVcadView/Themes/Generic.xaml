@@ -7,22 +7,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NVcad2dViewWindow}">
-                    <!--<Grid ShowGridLines="True">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20" MaxHeight="20"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="20" MaxHeight="20"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20" MaxWidth="20"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="20" MaxWidth="20"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Grid.RowSpan="3" Grid.Row="0">Test</TextBox>
-                    </Grid>-->
-                    <Border Background="{TemplateBinding Background}"
+                    <!--<Border Background="{TemplateBinding Background}"-->
+                    <Border Background="Beige"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid ShowGridLines="True" Background="#FFD0C0C0" 
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20" MaxHeight="20"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="20" MaxHeight="20"/>
+                                <RowDefinition Height="20" MaxHeight="20"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" MaxWidth="20"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="20" MaxWidth="20"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0">Test Text</TextBox>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

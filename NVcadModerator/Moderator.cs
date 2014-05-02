@@ -56,48 +56,8 @@ namespace NVcadModerator
          myParentWindow = aParentWindow;
 
          cadViews = aWindowContainer;
-         NVcad2dViewWindow aWindow = new NVcad2dViewWindow();
-         cadViews.Children.Add(aWindow);
-         initializeChildCadView(aWindow);
-         
-      }
-
-      protected void initializeChildCadView(NVcad2dViewWindow aWindow)
-      {
-         if (null == aWindow) return;
-
-         aWindow.Height = 500;
-         aWindow.Width = 550;
-         aWindow.Left = 10;
-         aWindow.Top = 10;
-         aWindow.Caption = "NVCad 视图窗口";
-         aWindow.IsModal = false;
-
-         var contentGrid = new Grid();
-         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
-         contentGrid.ColumnDefinitions[0].Width = new GridLength(20);
-         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
-         contentGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-         contentGrid.ColumnDefinitions.Add(new ColumnDefinition());
-         contentGrid.ColumnDefinitions[2].Width = new GridLength(20);
-
-         contentGrid.RowDefinitions.Add(new RowDefinition());
-         contentGrid.RowDefinitions[0].Height = new GridLength(20);
-         contentGrid.RowDefinitions.Add(new RowDefinition());
-         contentGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
-         contentGrid.RowDefinitions.Add(new RowDefinition());
-         contentGrid.RowDefinitions[2].Height = new GridLength(20);
-
-         var cvs = new Canvas();
-         cvs.Background = Brushes.Bisque;
-         contentGrid.Children.Add(cvs);
-         Grid.SetRow(cvs, 1); Grid.SetColumn(cvs, 1);
-
-         aWindow.Content = contentGrid;
-
-
-         aWindow.Show();
-      }
+         cadViews.AddChildWindow();
+     }
 
       public void DrawGraphicItem(Graphic graphicItem)
       {
@@ -127,5 +87,17 @@ namespace NVcadModerator
          this.theCanvas.Children.Add(aLine);
       }
 
+   }
+
+   public static class ModeratorExtensionMethods
+   {
+      public static NVcad2dViewWindow AddChildWindow(this WindowContainer container)
+      {
+         NVcad2dViewWindow newWindow = new NVcad2dViewWindow();
+         container.Children.Add(newWindow);
+         newWindow.initializeCustomSettings();
+         newWindow.Show();
+         return newWindow;
+      }
    }
 }

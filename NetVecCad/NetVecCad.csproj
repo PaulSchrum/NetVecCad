@@ -102,6 +102,10 @@
       <Project>{b8dd241e-63ec-48c7-b076-f2c885498d07}</Project>
       <Name>NVcadModerator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NVcadView\NVcadView.csproj">
+      <Project>{46a14004-fa6a-4048-b4a4-3eb8fc214c1b}</Project>
+      <Name>NVcadView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NVcad\NVcad.csproj">
       <Project>{937a9607-3387-4b56-8a95-63f7a7c9f802}</Project>
       <Name>NVcad</Name>
