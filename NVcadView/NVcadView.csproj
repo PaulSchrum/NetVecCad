@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="NVcad2dViewCanvas.cs" />
     <Compile Include="NVcad2dViewWindow.cs">
       <SubType>Code</SubType>
     </Compile>

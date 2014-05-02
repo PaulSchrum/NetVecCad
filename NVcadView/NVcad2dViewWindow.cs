@@ -54,7 +54,9 @@ namespace NVcadView
       //{
       //   DefaultStyleKeyProperty.OverrideMetadata(typeof(NVcad2dViewWindow), new FrameworkPropertyMetadata(typeof(NVcad2dViewWindow)));
       //}
-      
+
+      public NVcad2dViewCanvas primaryCanvas { get; private set; }
+
       public void initializeCustomSettings()
       {
          this.Height = 500;
@@ -79,10 +81,10 @@ namespace NVcadView
          contentGrid.RowDefinitions.Add(new RowDefinition());
          contentGrid.RowDefinitions[2].Height = new GridLength(20);
 
-         var cvs = new Canvas();
-         cvs.Background = Brushes.Bisque;
-         contentGrid.Children.Add(cvs);
-         Grid.SetRow(cvs, 1); Grid.SetColumn(cvs, 1);
+         primaryCanvas = new NVcad2dViewCanvas();
+         primaryCanvas.Background = Brushes.Bisque;
+         contentGrid.Children.Add(primaryCanvas);
+         Grid.SetRow(primaryCanvas, 1); Grid.SetColumn(primaryCanvas, 1);
 
          this.Content = contentGrid;
       }
