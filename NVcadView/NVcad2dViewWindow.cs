@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NVcad;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Primitives;
 
@@ -48,7 +48,7 @@ namespace NVcadView
    ///     <MyNamespace:CustomControl1/>
    ///
    /// </summary>
-   public class NVcad2dViewWindow : Xceed.Wpf.Toolkit.ChildWindow
+   public class NVcad2dViewWindow : Xceed.Wpf.Toolkit.ChildWindow, IcadView
    {
       //static NVcad2dViewWindow()
       //{
@@ -87,6 +87,11 @@ namespace NVcadView
          Grid.SetRow(primaryCanvas, 1); Grid.SetColumn(primaryCanvas, 1);
 
          this.Content = contentGrid;
+      }
+
+      public void updateYourself()
+      {
+         
       }
    }
 }
