@@ -29,7 +29,7 @@ namespace NVcadModerator
       protected Window myParentWindow { get; set; }
       WindowContainer cadViews { get; set; }
       //protected List<Window> childCadViews { get; set; }
-      protected Canvas theCanvas { get; set; }
+      protected NVcad2dViewCanvas theCanvas { get; set; }
       protected TransformGroup xformGroup { get; set; }
 
       // public List<ViewWindow> allViewWindows = new List<ViewWindow>();
@@ -40,7 +40,7 @@ namespace NVcadModerator
          Model = new Model(this);
       }
 
-      public Moderator(Canvas aCanvas)
+      public Moderator(NVcad2dViewCanvas aCanvas)
          : this()
       {
          this.theCanvas = aCanvas;
@@ -52,12 +52,22 @@ namespace NVcadModerator
       }
 
       public Moderator(Window aParentWindow, Xceed.Wpf.Toolkit.Primitives.WindowContainer aWindowContainer)
+         : this()
       {
          myParentWindow = aParentWindow;
 
          cadViews = aWindowContainer;
-         cadViews.AddChildWindow();
-     }
+         this.theCanvas = (cadViews.AddChildWindow()).primaryCanvas;
+      }
+
+      public void tempSeeIfYouCanDrawSomem()
+      {
+         xformGroup = new TransformGroup();
+         xformGroup.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
+         xformGroup.Children.Add(new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 1.0 * this.theCanvas.ActualHeight / 2.0));
+
+         Model.setUpTestingModel_20140422();
+      }
 
       public void DrawGraphicItem(Graphic graphicItem)
       {
