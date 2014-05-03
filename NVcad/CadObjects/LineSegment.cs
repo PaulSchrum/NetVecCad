@@ -12,7 +12,7 @@ namespace NVcad.CadObjects
 {
    public class LineSegment : Path
    {
-      public LineSegment() { }
+      protected LineSegment() { }
 
       public LineSegment(Double X1, Double Y1, Double X2, Double Y2)
       {

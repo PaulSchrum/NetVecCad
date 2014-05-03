@@ -53,9 +53,7 @@ namespace NVcadView
 
       public NVcad2dViewCanvas() : base()
       {
-         // I think true/false are backwards here, but anyway,
-         // this next line of code makes it clip -- what ever.
-         this.ClipToBounds = false;
+         this.ClipToBounds = true;
       }
 
    }

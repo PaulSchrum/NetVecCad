@@ -30,7 +30,9 @@ namespace NVcadModerator
       WindowContainer cadViews { get; set; }
       //protected List<Window> childCadViews { get; set; }
       protected NVcad2dViewCanvas theCanvas { get; set; }
-      protected TransformGroup xformGroup { get; set; }
+      protected TransformGroup xformGroup_all { get; set; }
+      protected TransformGroup xformGroup_text1 { get; set; }
+      protected TransformGroup xformGroup_text2 { get; set; }
 
       // public List<ViewWindow> allViewWindows = new List<ViewWindow>();
       private Model Model { get; set; }
@@ -44,10 +46,12 @@ namespace NVcadModerator
          : this()
       {
          this.theCanvas = aCanvas;
-         xformGroup = new TransformGroup();
-         xformGroup.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
-         xformGroup.Children.Add(new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 1.0 * this.theCanvas.ActualHeight / 2.0));
+         //xformGroup_all = new TransformGroup();
+         //xformGroup_all.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
+         //xformGroup_all.Children.Add(new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 1.0 * this.theCanvas.ActualHeight / 2.0));
+         setUpTransforms();
 
+         //xformGroup_text = new TransformGroup();
          Model.setUpTestingModel_20140422();
       }
 
@@ -62,11 +66,34 @@ namespace NVcadModerator
 
       public void tempSeeIfYouCanDrawSomem()
       {
-         xformGroup = new TransformGroup();
-         xformGroup.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
-         xformGroup.Children.Add(new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 1.0 * this.theCanvas.ActualHeight / 2.0));
-
+         setUpTransforms();
          Model.setUpTestingModel_20140422();
+      }
+
+      private void setUpTransforms()
+      {
+         xformGroup_all = new TransformGroup();
+         xformGroup_all.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
+         xformGroup_all.Children.Add(
+            new TranslateTransform(this.theCanvas.ActualWidth / 2.0,
+               1.0 * this.theCanvas.ActualHeight / 2.0));
+
+         xformGroup_text1 = new TransformGroup();
+         //xformGroup_text.Children.Add(new ScaleTransform(1.0, 1.0));
+         xformGroup_text1.Children.Add(
+            new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 
+               1.0 * this.theCanvas.ActualHeight / 2.0));
+
+         xformGroup_text2 = new TransformGroup();
+         xformGroup_text2.Children.Add(
+            new ScaleTransform(1.0, -1.0));
+         var hmm = xformGroup_text2.Value;
+         var ox = hmm.OffsetX;
+         var oy = hmm.OffsetY;
+         var M11 = hmm.M11;
+         var M12 = hmm.M12;
+         var M21 = hmm.M21;
+         var M22 = hmm.M22;
       }
 
       public void DrawGraphicItem(Graphic graphicItem)
@@ -77,6 +104,26 @@ namespace NVcadModerator
          {
             DrawGraphicItem(graphicItem as NVCO.LineSegment);
          }
+         else if (graphicItem is NVCO.Text)
+         {
+            DrawGraphicItem(graphicItem as NVCO.Text);
+         }
+      }
+
+      protected void DrawGraphicItem(NVCO.Text textItem)
+      {
+         var aTextBox = new TextBox();
+         aTextBox.FontFamily = new FontFamily("Arial");
+         aTextBox.FontSize = 24;
+         aTextBox.BorderThickness = new Thickness(0.0);
+         aTextBox.Background = Brushes.Transparent;
+
+         aTextBox.Text = textItem.Content;
+         Canvas.SetLeft(aTextBox, textItem.Origin.x);
+         Canvas.SetTop(aTextBox, textItem.Origin.y * xformGroup_text2.Value.M22);
+         aTextBox.RenderTransform = xformGroup_text1;
+
+         this.theCanvas.Children.Add(aTextBox);
       }
 
       protected void DrawGraphicItem(NVCO.LineSegment lineSegment)
@@ -92,7 +139,7 @@ namespace NVcadModerator
          aLine.StrokeThickness = 2.5;
          // aLine.Stroke = Stroke_;
          // aLine.StrokeDashArray = strokeDashArray_;
-         aLine.RenderTransform = xformGroup;
+         aLine.RenderTransform = xformGroup_all;
 
          this.theCanvas.Children.Add(aLine);
       }
