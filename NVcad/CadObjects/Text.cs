@@ -13,10 +13,16 @@ namespace NVcad.CadObjects
       public String Content { get; set; }
       public Double Height { get; set; }
       //public Double Stretch { get; set; }
-      public Angle rotationAngle { get; set; }
       public TextJustification justification { get; set; }
+      public override Angle Rotation
+      {  get { return base.Rotation; }
+         set { base.rotation_ = value; }
+      }
 
-      protected Text() { }
+      protected Text() 
+      {
+         base.rotation_ = new Angle(0.0);
+      }
 
       public Text(String someContent, Point aPoint) : this()
       {

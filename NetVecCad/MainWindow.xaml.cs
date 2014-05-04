@@ -54,7 +54,7 @@ namespace NetVecCad
       private void Window_ContentRendered(object sender, EventArgs e)
       {
          Moderators[0].tempSeeIfYouCanDrawSomem();
-         var t = new Timer(3000);
+         var t = new Timer(1400);
          t.Elapsed += new ElapsedEventHandler((sender_, e_) => { Environment.Exit(0); });
          t.Start();
       }

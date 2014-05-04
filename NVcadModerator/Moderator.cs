@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using NVcad;
 using NVcad.CadObjects;
 using NVCO = NVcad.CadObjects;
+using NVCFND = NVcad.Foundations.Coordinates;
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Primitives;
 using NVcadView;
@@ -115,13 +116,35 @@ namespace NVcadModerator
          var aTextBox = new TextBox();
          aTextBox.FontFamily = new FontFamily("Arial");
          aTextBox.FontSize = 24;
-         aTextBox.BorderThickness = new Thickness(0.0);
+         aTextBox.BorderBrush = Brushes.Transparent;
          aTextBox.Background = Brushes.Transparent;
-
+         aTextBox.Margin = new Thickness(0, 0, 0, 0);
+         aTextBox.BorderThickness = new Thickness(1, 1, 1, 1);
+         aTextBox.Padding = new Thickness(-6, -6, -6, -6);
+         var tmp = textItem.Origin;
          aTextBox.Text = textItem.Content;
-         Canvas.SetLeft(aTextBox, textItem.Origin.x);
-         Canvas.SetTop(aTextBox, textItem.Origin.y * xformGroup_text2.Value.M22);
-         aTextBox.RenderTransform = xformGroup_text1;
+         if(textItem.Rotation.getAsDegreesDouble() != 0.0)
+         {
+            var xformedOrigin = xformGroup_all.Transform(textItem.Origin);
+            var localXform = new TransformGroup(); //xformGroup_text1.Clone();
+            localXform.Children.Add(new RotateTransform(-1.0 * textItem.Rotation.getAsDegreesDouble(),
+                  textItem.Origin.x, textItem.Origin.y));
+            //localXform.Children.Add(new TranslateTransform(textItem.Origin.x, textItem.Origin.y));
+            foreach (var xform in xformGroup_text1.Children)
+            {
+               localXform.Children.Add(xform);
+            }
+            aTextBox.RenderTransform = localXform;
+            Canvas.SetLeft(aTextBox, textItem.Origin.x);
+            Canvas.SetTop(aTextBox, textItem.Origin.y);// * xformGroup_text2.Value.M22);
+         }
+         else 
+         { 
+            aTextBox.RenderTransform = xformGroup_text1;
+            Canvas.SetLeft(aTextBox, textItem.Origin.x);
+            Canvas.SetTop(aTextBox, textItem.Origin.y * xformGroup_text2.Value.M22);
+         }
+
 
          this.theCanvas.Children.Add(aTextBox);
       }
@@ -156,5 +179,13 @@ namespace NVcadModerator
          newWindow.Show();
          return newWindow;
       }
+
+      public static NVCFND.Point Transform(this TransformGroup xfrm, NVCFND.Point inPoint)
+      {
+         Point intermediatePoint = new Point(inPoint.x, inPoint.y);
+         var nxtIntPt = xfrm.Transform(intermediatePoint);
+         return new NVCFND.Point(nxtIntPt.X, nxtIntPt.Y);
+      }
+
    }
 }
