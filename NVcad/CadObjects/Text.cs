@@ -21,6 +21,7 @@ namespace NVcad.CadObjects
 
       protected Text() 
       {
+         base.BoundingBox = new BoundingBox();
          base.rotation_ = new Angle(0.0);
       }
 
@@ -28,6 +29,7 @@ namespace NVcad.CadObjects
       {
          base.Origin = aPoint;
          this.Content = someContent;
+         this.BoundingBox.expandByPoint(aPoint);
       }
 
    }

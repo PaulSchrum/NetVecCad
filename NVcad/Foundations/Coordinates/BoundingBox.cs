@@ -13,7 +13,7 @@ namespace NVcad.Foundations.Coordinates
       public Point upperRightPt { get; set; }
       private bool isInitialized { get; set; }
 
-      private BoundingBox() { isInitialized = false; }
+      internal BoundingBox() { isInitialized = false; }
 
       public BoundingBox(Double LLx, Double LLy, Double URx, Double URy)
       {
@@ -27,6 +27,32 @@ namespace NVcad.Foundations.Coordinates
          lowerLeftPt = new Point(aPoint);
          upperRightPt = new Point(aPoint);
          isInitialized = true;
+      }
+
+      public void expandByBox(BoundingBox other)
+      {
+         if (this.isInitialized == false)
+         {
+            lowerLeftPt = new Point(other.lowerLeftPt.x, other.lowerLeftPt.y, other.lowerLeftPt.z);
+            upperRightPt = new Point(other.upperRightPt.x, other.upperRightPt.y, other.upperRightPt.z);
+            this.isInitialized = true;
+         }
+         else
+         {
+            if (other.lowerLeftPt.x < lowerLeftPt.x)
+               lowerLeftPt.x = other.lowerLeftPt.x;
+            if (other.lowerLeftPt.y < lowerLeftPt.y)
+               lowerLeftPt.y = other.lowerLeftPt.y;
+            if (other.lowerLeftPt.z < lowerLeftPt.z)
+               lowerLeftPt.z = other.lowerLeftPt.z;
+
+            if (other.upperRightPt.x > upperRightPt.x)
+               upperRightPt.x = other.upperRightPt.x;
+            if (other.upperRightPt.y > upperRightPt.y)
+               upperRightPt.y = other.upperRightPt.y;
+            if (other.upperRightPt.z > upperRightPt.z)
+               upperRightPt.z = other.upperRightPt.z;
+         }
       }
 
       public void expandByPoint(Point aPoint)

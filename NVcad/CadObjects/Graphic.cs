@@ -21,7 +21,11 @@ namespace NVcad.CadObjects
          get
          { return rotation_; }
          set
-         { throw new NotSupportedException(); }
+         { setRotation(value); }
+      }
+      protected virtual void setRotation(Angle newRotation)
+      {
+         rotation_ = newRotation;
       }
 
       protected Double scale_;
