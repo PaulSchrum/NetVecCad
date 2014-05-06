@@ -10,5 +10,13 @@ namespace NVcad.CadObjects
    {
       public Double Height { get; set; }
       public Double Width { get; set; }
+      // base.Origin is the view center.
+      // base.Rotation is the view rotation.
+      // base.Scale is the view scale.
+
+      protected void updateBoundingBox()
+      {
+          
+      }
    }
 }

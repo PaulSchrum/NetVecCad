@@ -129,5 +129,44 @@ namespace NVcad.Foundations.Coordinates
 
          return true;
       }
+
+      public void setFrom_2dOnly(Point Center, Double totalWidth, Double totalHeight, Angle rotation)
+      {  // yea, the 3d version will require a quaternion.  Implement 3d maybe in 2015.
+         Vector topRight = new Vector(totalWidth / 2.0, totalHeight / 2.0, null);
+         var bottomRight = new Vector(topRight); bottomRight.flipAboutX_2d();
+         var topLeft = new Vector(topRight); topLeft.flipAboutY_2d();
+         var bottomLeft = new Vector(topRight); bottomLeft.scale(-1.0, -1.0, null);
+
+         topRight.rotateAboutZ(rotation);
+         bottomRight.rotateAboutZ(rotation);
+         topLeft.rotateAboutZ(rotation);
+         bottomLeft.rotateAboutZ(rotation);
+
+         this.isInitialized = false;
+         this.expandByPoint(Center + topRight);
+         this.expandByPoint(Center + topLeft);
+         this.expandByPoint(Center + bottomLeft);
+         this.expandByPoint(Center + bottomRight);
+
+      }
+
+      public Vector getAsVectorLLtoUR()
+      {
+         return new Vector(this.lowerLeftPt, this.upperRightPt);
+      }
+
+      public bool overlapsWith(BoundingBox other)
+      {
+         if (this.upperRightPt.x < other.lowerLeftPt.x)
+            return false;
+         if (this.lowerLeftPt.x > other.upperRightPt.x)
+            return false;
+         if (this.upperRightPt.y < other.lowerLeftPt.y)
+            return false;
+         if (this.lowerLeftPt.y > other.upperRightPt.y)
+            return false;
+
+         return true;
+      }
    }
 }

@@ -34,6 +34,20 @@ namespace NVcad.Foundations
 
       public Angle() { }
 
+      public static Angle AngleFactory(Double dx, Double dy)
+      {
+         Angle newAngle = new Angle();
+         newAngle.angle__ = Math.Atan2(dy, dx);
+         return newAngle;
+      }
+
+      public static Angle AngleFactory(Double valueAsDegrees)
+      {
+         Angle newAngle = new Angle();
+         newAngle.setFromDegreesDouble(valueAsDegrees);
+         return newAngle;
+      }
+
       public Angle(Double valueAsRadians)
       {
          angle__ = valueAsRadians;
@@ -186,6 +200,21 @@ namespace NVcad.Foundations
          return new Angle(this.angle__ * multiplier);
       }
       
+      public Double cos()
+      {
+         return Math.Cos(this.angle__);
+      }
+
+      public Double sin()
+      {
+         return Math.Sin(this.angle__);
+      }
+
+      public Double tan()
+      {
+         return Math.Tan(this.angle__);
+      }
+
       // operator overloads
       public static implicit operator Angle(double angleAs_double)
       {
@@ -200,6 +229,5 @@ namespace NVcad.Foundations
          anAngle.angle__ = Math.Atan2(angleAs_vector.y, angleAs_vector.x);
          return anAngle;
       }
-
    }
 }

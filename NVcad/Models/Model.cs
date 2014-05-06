@@ -13,12 +13,14 @@ namespace NVcad.Models
    public class Model : IBoundingBoxed
    {
       protected BoundingBox BoundingBox { get; set; }
+      protected List<CadViewPort> allViewPorts { get; set; }
       protected List<Graphic> allGrahics { get; set; } // All except ViewPorts  // maybe refactor later to concurrent collection
       protected ICadNotificationTarget NotificationTarget { get; set; }
 
       public Model() 
       {
          BoundingBox = new BoundingBox();
+         allViewPorts = new List<CadViewPort>();
          allGrahics = new List<Graphic>();
          NotificationTarget = null;
       }
@@ -33,10 +35,23 @@ namespace NVcad.Models
          return BoundingBox;
       }
 
-      protected void AddGraphic(Graphic newGraphic)
+      internal void AddGraphic(Graphic newGraphic)
       {
+         if (newGraphic is CadViewPort)
+         { throw new InvalidGraphicTypeException(newGraphic); }
+
          this.BoundingBox.expandByBox(newGraphic.BoundingBox);
          allGrahics.Add(newGraphic);
+      }
+
+      internal void AddViewPort(CadViewPort newViewPort)
+      {
+         if (!(newViewPort is CadViewPort))
+         { throw new InvalidGraphicTypeException(newViewPort); }
+
+         // Note: we do not expand this.BoundingBox for views.
+         //    Very Important.
+         allViewPorts.Add(newViewPort);
       }
 
       public void setUpTestingModel_20140422()
@@ -52,6 +67,17 @@ namespace NVcad.Models
          //this.AddGraphic(rotText);
          foreach (var item in allGrahics)
             this.NotificationTarget.DrawGraphicItem(item);
+      }
+   }
+
+   public class InvalidGraphicTypeException : Exception
+   {
+      public InvalidGraphicTypeException()
+      {
+      }
+
+      public InvalidGraphicTypeException(Graphic badType) : base("NVcad: Invalid Graphic Type: " + badType.GetType().Name)
+      {
       }
    }
 }

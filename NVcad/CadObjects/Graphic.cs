@@ -37,7 +37,7 @@ namespace NVcad.CadObjects
          { scale_ = value; }
       }
 
-      public BoundingBox BoundingBox { get; set; }
+      public BoundingBox BoundingBox { get; protected set; }
 
       public BoundingBox getBoundingBox()
       { return this.BoundingBox; }

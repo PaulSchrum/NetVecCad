@@ -51,6 +51,62 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
+      public void Angle_cos_minus120_equalsMinus0_5()
+      {
+         Double expected = -0.5;
+         Double actual = (Angle.AngleFactory(-120.0)).cos();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void Angle_sin_minus150_equalsMinus0_5()
+      {
+         Double expected = -0.5;
+         Double actual = (Angle.AngleFactory(-150.0)).sin();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void Angle_tan_minus45_equalsMinus1()
+      {
+         Double expected = -1.0;
+         Double actual = (Angle.AngleFactory(-45.0)).tan();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void Angle_fromDxDy_quadrant1_1010_equals45Degrees()
+      {
+         Double expected = 45.0;
+         Double actual = (Angle.AngleFactory(dx: 10.0, dy: 10.0)).getAsDegreesDouble();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void Angle_fromDxDy_quadrant1_1010_equals135Degrees()
+      {
+         Double expected = 135.0;
+         Double actual = (Angle.AngleFactory(dx: -10.0, dy: 10.0)).getAsDegreesDouble();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void Angle_fromDxDy_quadrant1_1010_equalsMinus135Degrees()
+      {
+         Double expected = -135.0;
+         Double actual = (Angle.AngleFactory(dx: -10.0, dy: -10.0)).getAsDegreesDouble();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void Angle_fromDxDy_quadrant1_1010_equalsMinus45Degrees()
+      {
+         Double expected = -45.0;
+         Double actual = (Angle.AngleFactory(dx: 10.0, dy: -10.0)).getAsDegreesDouble();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
       public void ptsAngle_settingTo1_shouldResultIn_equals57_2957795Degrees()
       {
          Angle angle = 1.0;
@@ -265,6 +321,26 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
+      public void Vector_rotating1_1vector90degress_yields1_Minus1vectorOfSameLength()
+      {
+         Vector firstVec = new Vector(1.0, 1.0, null);
+         var firstAngle = firstVec.DirectionHorizontal;
+         Vector secondVec = firstVec.rotateCloneAboutZ(Angle.AngleFactory(-90.0));
+         Assert.AreEqual(expected: firstVec.Length, actual: secondVec.Length, delta: 0.00001);
+         Assert.AreEqual(expected: firstVec.Azimuth.getAsDegreesDouble() + 90.0, actual: secondVec.Azimuth.getAsDegreesDouble(), delta: 0.00001);
+      }
+
+      [TestMethod]
+      public void Vector_rotatingM1_M1vector90degress_yieldsM1_1vectorOfSameLength()
+      {
+         Vector firstVec = new Vector(-1.0, -1.0, null);
+         var firstAngle = firstVec.DirectionHorizontal;
+         Vector secondVec = firstVec.rotateCloneAboutZ(Angle.AngleFactory(-90.0));
+         Assert.AreEqual(expected: firstVec.Length, actual: secondVec.Length, delta: 0.00001);
+         Assert.AreEqual(expected: firstVec.Azimuth.getAsDegreesDouble() + 90.0, actual: secondVec.Azimuth.getAsDegreesDouble(), delta: 0.00001);
+      }
+
+      [TestMethod]
       public void angleNormalization_withinPlusOrMinus2Pi_OverPositive2PI()
       {
          Double angleNeedingToBeNormalized = 2 * Math.PI * 4.56;
@@ -401,6 +477,84 @@ namespace UnitTestNVcad
          localRay.HorizontalDirection = null;
          double? actual = localRay.getElevationAlong(15.0);
          Assert.IsNull(actual);
+      }
+
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_20_20Rotated45degrees_yields28_28()
+      {
+         var bb = new BoundingBox(-10, -10, 10, 10);
+         var aspectVector = bb.getAsVectorLLtoUR();
+         bb.setFrom_2dOnly(new Point(0, 0), 20, 20, Angle.AngleFactory(45.0));
+         aspectVector = bb.getAsVectorLLtoUR();
+
+         Double expectedURx = 14.142136; Double expectedURy = 14.142136;
+         Double actualURx = bb.upperRightPt.x;
+         Double actualURy = bb.upperRightPt.y;
+
+         Assert.AreEqual(expected: expectedURx, actual: actualURx, delta: 0.00001);
+         Assert.AreEqual(expected: expectedURy, actual: actualURy, delta: 0.00001);
+         Assert.AreEqual(expected: aspectVector.Length, actual: 40.0, delta: 0.00001);
+         Assert.AreEqual(expected: aspectVector.Azimuth.getAsDegreesDouble(),
+            actual: 45.0, delta: 0.00001);
+      }
+
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_Translated_20_20Rotated45degrees_yields28_28()
+      {
+         var bb = new BoundingBox(-90, -10, 110, 10);
+         var aspectVector = bb.getAsVectorLLtoUR();
+         bb.setFrom_2dOnly(new Point(100, 0), 20, 20, Angle.AngleFactory(45.0));
+         aspectVector = bb.getAsVectorLLtoUR();
+
+         Double expectedURx = 114.142136; Double expectedURy = 14.142136;
+         Double expectedLLx = 85.85786;
+         Double actualURx = bb.upperRightPt.x;
+         Double actualURy = bb.upperRightPt.y;
+         Double actualLLx = bb.lowerLeftPt.x;
+
+         Assert.AreEqual(expected: expectedURx, actual: actualURx, delta: 0.00001);
+         Assert.AreEqual(expected: expectedLLx, actual: actualLLx, delta: 0.00001);
+         Assert.AreEqual(expected: expectedURy, actual: actualURy, delta: 0.00001);
+         Assert.AreEqual(expected: aspectVector.Length, actual: 40.0, delta: 0.00001);
+         Assert.AreEqual(expected: aspectVector.Azimuth.getAsDegreesDouble(),
+            actual: 45.0, delta: 0.00001);
+      }
+
+
+      //[TestCategory("BoundingBox"), TestMethod()]
+      //public void BoundingBox_constructorValuesKatiwumpus_BBstillValid()
+
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_OverlapsOther_Partial_returnsTrue()
+      {
+         var bbLeftLow = new BoundingBox(100, 100, 200, 200);
+         var bbRightHigh = new BoundingBox(150, 150, 250, 250);
+         Assert.AreEqual(expected: true,
+            actual: bbLeftLow.overlapsWith(bbRightHigh));
+         Assert.AreEqual(expected: true,
+            actual: bbRightHigh.overlapsWith(bbLeftLow));
+      }
+
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_NoOverlapOther_returnsFalse()
+      {
+         var bbLeftLow = new BoundingBox(100, 100, 150, 150);
+         var bbRightHigh = new BoundingBox(151, 151, 250, 250);
+         Assert.AreEqual(expected: false,
+            actual: bbLeftLow.overlapsWith(bbRightHigh));
+         Assert.AreEqual(expected: false,
+            actual: bbRightHigh.overlapsWith(bbLeftLow));
+      }
+
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_TotallyContainsOther_returnsTrue()
+      {
+         var bbBigUn = new BoundingBox(100, 100, 500, 500);
+         var bbLittleUn = new BoundingBox(150, 150, 250, 250);
+         Assert.AreEqual(expected: true,
+            actual: bbBigUn.overlapsWith(bbLittleUn));
+         Assert.AreEqual(expected: true,
+            actual: bbLittleUn.overlapsWith(bbBigUn));
       }
 
    }
