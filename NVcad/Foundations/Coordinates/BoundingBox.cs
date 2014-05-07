@@ -12,6 +12,20 @@ namespace NVcad.Foundations.Coordinates
       public Point lowerLeftPt { get; set; }
       public Point upperRightPt { get; set; }
       private bool isInitialized { get; set; }
+      public Point centerPt 
+      { 
+         get
+         {
+            if (null == lowerLeftPt.z)
+               return new Point((upperRightPt.x + lowerLeftPt.x) / 2.0,
+                  (upperRightPt.y + lowerLeftPt.y) / 2.0);
+            else
+               return new Point((upperRightPt.x + lowerLeftPt.x) / 2.0,
+                  (upperRightPt.y + lowerLeftPt.y) / 2.0, 
+                  (upperRightPt.z + lowerLeftPt.z) / 2.0);
+         }
+         private set{}
+      }
 
       internal BoundingBox() { isInitialized = false; }
 

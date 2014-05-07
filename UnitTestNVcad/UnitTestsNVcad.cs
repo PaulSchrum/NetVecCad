@@ -557,5 +557,13 @@ namespace UnitTestNVcad
             actual: bbLittleUn.overlapsWith(bbBigUn));
       }
 
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_CenterPoint_returnCorrectValue()
+      {
+         var aBB = new BoundingBox(-100, -100, 100, 100);
+         Assert.AreEqual(expected: 0.0, actual: aBB.centerPt.x, delta: 0.000001);
+         Assert.AreEqual(expected: 0.0, actual: aBB.centerPt.y, delta: 0.000001);
+      }
+
    }
 }
