@@ -32,10 +32,10 @@ namespace NVcad.CadObjects
          { }
       }
 
-      public override double Scale
+      public override Vector ScaleVector
       {
          get
-         {  return 1.0; }
+         {  return new Vector(1, 1, 1); }
          set
          { }
       }

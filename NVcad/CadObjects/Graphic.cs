@@ -28,14 +28,21 @@ namespace NVcad.CadObjects
          rotation_ = newRotation;
       }
 
-      protected Double scale_;
-      public virtual Double Scale
+      protected Vector scale_;
+      public virtual Vector ScaleVector
       {
-         get
-         { return scale_; }
-         set
-         { scale_ = value; }
+         get { return scale_; }
+         set { scale_ = value; }
       }
+
+      //protected Double xscale_;
+      //public virtual Double xScale
+      //{
+      //   get
+      //   { return xscale_; }
+      //   set
+      //   { xscale_ = value; }
+      //}
 
       public BoundingBox BoundingBox { get; protected set; }
 

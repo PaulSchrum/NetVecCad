@@ -13,14 +13,14 @@ namespace NVcad.Models
    public class Model : IBoundingBoxed
    {
       protected BoundingBox BoundingBox { get; set; }
-      protected List<CadViewPort> allViewPorts { get; set; }
+      Dictionary<String, CadViewPort> allViewPorts { get; set; }
       protected List<Graphic> allGrahics { get; set; } // All except ViewPorts  // maybe refactor later to concurrent collection
       protected ICadNotificationTarget NotificationTarget { get; set; }
 
       public Model() 
       {
          BoundingBox = new BoundingBox();
-         allViewPorts = new List<CadViewPort>();
+         allViewPorts = new Dictionary<String, CadViewPort>();
          allGrahics = new List<Graphic>();
          NotificationTarget = null;
       }
@@ -44,14 +44,29 @@ namespace NVcad.Models
          allGrahics.Add(newGraphic);
       }
 
-      internal void AddViewPort(CadViewPort newViewPort)
+      public bool IsViewPortNameAvailable(String Name)
+      {
+         return !(allViewPorts.ContainsKey(Name));
+      }
+
+      public CadViewPort createNewViewPort(String Name)
+      {
+         return null;
+      }
+
+
+
+      internal void AddViewPort(String Name, CadViewPort newViewPort)
       {
          if (!(newViewPort is CadViewPort))
          { throw new InvalidGraphicTypeException(newViewPort); }
 
+         if (allViewPorts.ContainsKey(Name) == true)
+         { throw new ViewNameAlreadyExists(Name); }
+
          // Note: we do not expand this.BoundingBox for views.
          //    Very Important.
-         allViewPorts.Add(newViewPort);
+         allViewPorts.Add(Name, newViewPort);
       }
 
       public void setUpTestingModel_20140422()
@@ -76,7 +91,16 @@ namespace NVcad.Models
       {
       }
 
-      public InvalidGraphicTypeException(Graphic badType) : base("NVcad: Invalid Graphic Type: " + badType.GetType().Name)
+      public InvalidGraphicTypeException(Graphic badType)
+         : base("NVcad: Invalid Graphic Type: " + badType.GetType().Name)
+      {
+      }
+   }
+
+   public class ViewNameAlreadyExists : Exception
+   {
+      public ViewNameAlreadyExists(String Name)
+         : base("NVcad: A view of name \"" + Name + "\" already exists.")
       {
       }
    }
