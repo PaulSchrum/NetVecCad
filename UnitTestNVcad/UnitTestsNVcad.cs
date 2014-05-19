@@ -4,6 +4,7 @@ using NVcad.Foundations;
 using NVcad.Foundations.Angles;
 using System.Collections.Generic;
 using NVcad.Foundations.Coordinates;
+using NVcad.Foundations.WorkingUnits;
 
 namespace UnitTestNVcad
 {
@@ -563,6 +564,24 @@ namespace UnitTestNVcad
          var aBB = new BoundingBox(-100, -100, 100, 100);
          Assert.AreEqual(expected: 0.0, actual: aBB.centerPt.x, delta: 0.000001);
          Assert.AreEqual(expected: 0.0, actual: aBB.centerPt.y, delta: 0.000001);
+      }
+
+      [TestCategory("WorkingUnits"), TestMethod()]
+      public void UnitsLength_1Inch_equals_0p0254Meters()
+      {
+         Double expected = 0.0254;
+         var length = new Length(1.0, LengthUnit.Inch);
+         Double actual = length.GetAs(LengthUnit.Meter);
+         Assert.AreEqual(expected: expected, actual: actual, delta: 0.000000001);
+      }
+
+      [TestCategory("WorkingUnits"), TestMethod()]
+      public void UnitsLength_12Inch_equals_1Foot()
+      {
+         Double expected = 1.0;
+         var length = new Length(12.0, LengthUnit.Inch);
+         Double actual = length.GetAs(LengthUnit.Foot);
+         Assert.AreEqual(expected: expected, actual: actual, delta: 0.000000001);
       }
 
    }
