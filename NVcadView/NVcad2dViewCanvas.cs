@@ -78,27 +78,36 @@ namespace NVcadView
          myCadViewPort.pairedUIview = this;
       }
 
+      Point canvasCenter;
+      Double widthUnscale = 0;
       TransformGroup xformGroup_allButText;
       TransformGroup xformGroup_text1;
       TransformGroup xformGroup_text2;
       internal void establishTransforms()
       {
+         if (this.ActualWidth <= 0.0) return;
+         canvasCenter.X = this.ActualWidth / 2.0;
+         canvasCenter.Y = this.ActualHeight / 2.0;
+         widthUnscale = 1.0 / 96.0;
+         System.Diagnostics.Debug.Print("hi");
          xformGroup_allButText = new TransformGroup();
          xformGroup_allButText.Children.Add(
             new ScaleTransform(1, -1)
             );
-         //xformGroup_allButText.Children.Add(
-         //   new TranslateTransform(200, 90));
-         if (this.ActualWidth <= 0.0) return;
          var w = this.ActualWidth;
          var h = this.ActualHeight;
          xformGroup_allButText.Children.Add(
-            new TranslateTransform(96.0 * w / 2.0, 96.0 * h / 2.0));
+            new TranslateTransform(canvasCenter.X, canvasCenter.Y));
+         //xformGroup_allButText.Children.Add(
+         //   new TranslateTransform(w / 2.0, h / 2.0));
+         xformGroup_allButText.Children.Add(
+            new ScaleTransform(96, 96, canvasCenter.X, canvasCenter.Y)
+            );
       }
 
       public void ViewCreatedAnew()
       {
-         this.establishTransforms();
+         //this.establishTransforms();
          var visibleObjects = myCadViewPort.getVisibleGraphicElements();
          if (null == visibleObjects) return;
          foreach (var graphic in visibleObjects)
@@ -169,7 +178,7 @@ namespace NVcadView
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
          aLine.Stroke = Brushes.Black;
-         aLine.StrokeThickness = 2.5;
+         aLine.StrokeThickness = 2.5 * widthUnscale;
          // aLine.Stroke = Stroke_;
          // aLine.StrokeDashArray = strokeDashArray_;
          aLine.RenderTransform = xformGroup_allButText;

@@ -99,10 +99,9 @@ namespace NVcadView
          this.Content = contentGrid;
       }
 
-      protected override void OnInitialized(EventArgs e)
+      public void establishTransforms()
       {
-         base.OnInitialized(e);
-         primaryCanvas.refresh();
+         primaryCanvas.establishTransforms();
       }
 
       public void associateCadViewPort(CadViewPort aCVP)

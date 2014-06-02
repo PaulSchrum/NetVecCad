@@ -16,6 +16,8 @@ using NVCFND = NVcad.Foundations.Coordinates;
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Primitives;
 using NVcadView;
+using System.Timers;
+using System.Windows.Threading;
 
 namespace NVcadModerator
 {
@@ -29,13 +31,6 @@ namespace NVcadModerator
    {
       protected Window myParentWindow { get; set; }
       WindowContainer cadViews { get; set; }
-      //protected List<Window> childCadViews { get; set; }
-      protected NVcad2dViewCanvas theCanvas { get; set; }
-      protected TransformGroup xformGroup_all { get; set; }
-      protected TransformGroup xformGroup_text1 { get; set; }
-      protected TransformGroup xformGroup_text2 { get; set; }
-
-      // public List<ViewWindow> allViewWindows = new List<ViewWindow>();
       private Model Model { get; set; }
 
       public Moderator()
@@ -53,6 +48,7 @@ namespace NVcadModerator
          cadViews = aWindowContainer;
       }
 
+      System.Timers.Timer t = new Timer(16);
       public void CreateNewEmptyModel()
       {
          if (null == cadViews) return;
@@ -60,7 +56,37 @@ namespace NVcadModerator
          cadViews.Children.Clear();
          this.Model = new Model(this);
          Model.setUpTestingModel_20140422();
-         this.refreshAllViews();
+         t.Elapsed += new ElapsedEventHandler((sender_, e_) => { tempFunc(this); });
+         t.Start();
+      }
+
+      public void tempFunc(Moderator aMod)
+      {
+         NVcad2dViewWindow w = null;
+         double ww = 0.0;
+         this.myParentWindow.Dispatcher.BeginInvoke(new Action(() =>
+         {
+            w = aMod.cadViews.Children[0] as NVcad2dViewWindow;
+            aMod.t.Stop();
+            aMod.t.Interval = 5;
+            ww = w.ActualWidth;
+            System.Diagnostics.Debug.Print("Canvas Width = {0}", ww);
+            if (ww > 0.0)
+            {
+               aMod.t.Enabled = false;
+               aMod.establishAllViewTransforms();
+            }
+         }));
+         if (ww == 0.0) return;
+      }
+
+      private void establishAllViewTransforms()
+      {
+         foreach (NVcad2dViewWindow view in this.cadViews.Children)
+         {
+            view.establishTransforms();
+            view.refresh();
+         }
       }
 
       private void refreshAllViews()
