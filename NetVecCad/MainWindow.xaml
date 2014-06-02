@@ -4,7 +4,9 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         xmlns:nvcView="clr-namespace:NVcadView;assembly=NVcadView"
         x:Class="NetVecCad.MainWindow"
-        Title="NetVecCad" Height="600" Width="800" ScrollViewer.VerticalScrollBarVisibility="Disabled" ContentRendered="Window_ContentRendered">
+        Title="NetVecCad" Height="600" Width="800" 
+        ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+        ContentRendered="Window_ContentRendered">
     <Grid x:Name="TopGrid" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Grid.RowDefinitions>
             <RowDefinition Height="24" MaxHeight="24"/>

@@ -28,35 +28,25 @@ namespace NetVecCad
          InitializeComponent();
       }
 
-      protected override void OnInitialized(EventArgs e)
-      {
-         base.OnInitialized(e);
-      }
-
-      protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-      {
-         base.OnClosing(e);
-      }
-
-      protected override void OnMouseUp(MouseButtonEventArgs e)
-      {
-         base.OnMouseUp(e);
-      }
-
       public List<Moderator> Moderators { get; set; }
+      public Moderator activeModerator;
 
       private void MainWindowContainer_Loaded(object sender, RoutedEventArgs e)
       {
          Moderators = new List<Moderator>();
-         Moderators.Add(new Moderator(this, this.MainWindowContainer));
+         activeModerator = new Moderator(this, this.MainWindowContainer);
+         Moderators.Add(activeModerator);
       }
 
       private void Window_ContentRendered(object sender, EventArgs e)
       {
-         Moderators[0].tempSeeIfYouCanDrawSomem();
+         if (null != activeModerator)
+         {
+            activeModerator.CreateNewEmptyModel();
+         }
          var t = new Timer(1400);
          t.Elapsed += new ElapsedEventHandler((sender_, e_) => { Environment.Exit(0); });
-         t.Start();
+         //t.Start();
       }
 
    }

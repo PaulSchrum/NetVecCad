@@ -65,6 +65,7 @@
     <Compile Include="Foundations\Degree.cs" />
     <Compile Include="Foundations\Symbology\Color.cs" />
     <Compile Include="Foundations\Symbology\Feature.cs" />
+    <Compile Include="Foundations\WorkingUnits\Length.cs" />
     <Compile Include="ICadNotificationTarget.cs" />
     <Compile Include="IcadView.cs" />
     <Compile Include="Models\Model.cs" />

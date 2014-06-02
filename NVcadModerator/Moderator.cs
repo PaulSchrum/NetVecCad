@@ -43,58 +43,38 @@ namespace NVcadModerator
          Model = new Model(this);
       }
 
-      public Moderator(NVcad2dViewCanvas aCanvas)
-         : this()
-      {
-         this.theCanvas = aCanvas;
-         //xformGroup_all = new TransformGroup();
-         //xformGroup_all.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
-         //xformGroup_all.Children.Add(new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 1.0 * this.theCanvas.ActualHeight / 2.0));
-         setUpTransforms();
-
-         //xformGroup_text = new TransformGroup();
-         Model.setUpTestingModel_20140422();
-      }
-
-      public Moderator(Window aParentWindow, Xceed.Wpf.Toolkit.Primitives.WindowContainer aWindowContainer)
+      public Moderator(
+         Window aParentWindow,
+         Xceed.Wpf.Toolkit.Primitives.WindowContainer aWindowContainer)
          : this()
       {
          myParentWindow = aParentWindow;
 
          cadViews = aWindowContainer;
-         this.theCanvas = (cadViews.AddChildWindow()).primaryCanvas;
       }
 
-      public void tempSeeIfYouCanDrawSomem()
+      public void CreateNewEmptyModel()
       {
-         setUpTransforms();
+         if (null == cadViews) return;
+         // todo: offer to save the existing open model if necessary
+         cadViews.Children.Clear();
+         this.Model = new Model(this);
          Model.setUpTestingModel_20140422();
+         this.refreshAllViews();
       }
 
-      private void setUpTransforms()
+      private void refreshAllViews()
       {
-         xformGroup_all = new TransformGroup();
-         xformGroup_all.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
-         xformGroup_all.Children.Add(
-            new TranslateTransform(this.theCanvas.ActualWidth / 2.0,
-               1.0 * this.theCanvas.ActualHeight / 2.0));
+         foreach (NVcad2dViewWindow view in this.cadViews.Children)
+         {
+            view.refresh();
+         }
+      }
 
-         xformGroup_text1 = new TransformGroup();
-         //xformGroup_text.Children.Add(new ScaleTransform(1.0, 1.0));
-         xformGroup_text1.Children.Add(
-            new TranslateTransform(this.theCanvas.ActualWidth / 2.0, 
-               1.0 * this.theCanvas.ActualHeight / 2.0));
-
-         xformGroup_text2 = new TransformGroup();
-         xformGroup_text2.Children.Add(
-            new ScaleTransform(1.0, -1.0));
-         var hmm = xformGroup_text2.Value;
-         var ox = hmm.OffsetX;
-         var oy = hmm.OffsetY;
-         var M11 = hmm.M11;
-         var M12 = hmm.M12;
-         var M21 = hmm.M21;
-         var M22 = hmm.M22;
+      public void ViewPortAdded(CadViewPort newViewPort)
+      {  // Code Documentation Tag 20140530_02
+         if (null == cadViews) return;  // todo: throw exception
+         cadViews.AddChildWindow(newViewPort);
       }
 
       public void DrawGraphicItem(Graphic graphicItem)
@@ -125,16 +105,17 @@ namespace NVcadModerator
          aTextBox.Text = textItem.Content;
          if(textItem.Rotation.getAsDegreesDouble() != 0.0)
          {
-            var xformedOrigin = xformGroup_all.Transform(textItem.Origin);
-            var localXform = new TransformGroup(); //xformGroup_text1.Clone();
-            localXform.Children.Add(new RotateTransform(-1.0 * textItem.Rotation.getAsDegreesDouble(),
-                  textItem.Origin.x, textItem.Origin.y));
-            //localXform.Children.Add(new TranslateTransform(textItem.Origin.x, textItem.Origin.y));
-            foreach (var xform in xformGroup_text1.Children)
-            {
-               localXform.Children.Add(xform);
-            }
-            aTextBox.RenderTransform = localXform;
+            aTextBox.RenderTransform = xformGroup_text1;
+            //var xformedOrigin = xformGroup_all.Transform(textItem.Origin);
+            //var localXform = new TransformGroup(); //xformGroup_text1.Clone();
+            //localXform.Children.Add(new RotateTransform(-1.0 * textItem.Rotation.getAsDegreesDouble(),
+            //      textItem.Origin.x, textItem.Origin.y));
+            ////localXform.Children.Add(new TranslateTransform(textItem.Origin.x, textItem.Origin.y));
+            //foreach (var xform in xformGroup_text1.Children)
+            //{
+            //   localXform.Children.Add(xform);
+            //}
+            //aTextBox.RenderTransform = localXform;
             Canvas.SetLeft(aTextBox, textItem.Origin.x);
             Canvas.SetTop(aTextBox, textItem.Origin.y);// * xformGroup_text2.Value.M22);
          }
@@ -144,7 +125,6 @@ namespace NVcadModerator
             Canvas.SetLeft(aTextBox, textItem.Origin.x);
             Canvas.SetTop(aTextBox, textItem.Origin.y * xformGroup_text2.Value.M22);
          }
-
 
          this.theCanvas.Children.Add(aTextBox);
       }
@@ -167,15 +147,42 @@ namespace NVcadModerator
          this.theCanvas.Children.Add(aLine);
       }
 
+      private void setUpTransforms()
+      {
+         xformGroup_all = new TransformGroup();
+         xformGroup_all.Children.Add(new ScaleTransform(1.0, -1.0, 0.0, 0.0));
+         xformGroup_all.Children.Add(
+            new TranslateTransform(this.theCanvas.ActualWidth / 2.0,
+               1.0 * this.theCanvas.ActualHeight / 2.0));
+
+         xformGroup_text1 = new TransformGroup();
+         //xformGroup_text.Children.Add(new ScaleTransform(1.0, 1.0));
+         xformGroup_text1.Children.Add(
+            new TranslateTransform(this.theCanvas.ActualWidth / 2.0,
+               1.0 * this.theCanvas.ActualHeight / 2.0));
+
+         xformGroup_text2 = new TransformGroup();
+         xformGroup_text2.Children.Add(
+            new ScaleTransform(1.0, -1.0));
+         var hmm = xformGroup_text2.Value;
+         var ox = hmm.OffsetX;
+         var oy = hmm.OffsetY;
+         var M11 = hmm.M11;
+         var M12 = hmm.M12;
+         var M21 = hmm.M21;
+         var M22 = hmm.M22;
+      }
+
    }
 
    public static class ModeratorExtensionMethods
    {
-      public static NVcad2dViewWindow AddChildWindow(this WindowContainer container)
-      {
-         NVcad2dViewWindow newWindow = new NVcad2dViewWindow();
+      public static NVcad2dViewWindow AddChildWindow
+         (this WindowContainer container,
+         CadViewPort newViewPort)
+      {  // Code Documentation Tag 20140530_03
+         NVcad2dViewWindow newWindow = new NVcad2dViewWindow(newViewPort);
          container.Children.Add(newWindow);
-         newWindow.initializeCustomSettings();
          newWindow.Show();
          return newWindow;
       }

@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Primitives;
 
+using NVcad.CadObjects;
+using System.Media;
+
 
 namespace NVcadView
 {
@@ -55,9 +58,15 @@ namespace NVcadView
       //   DefaultStyleKeyProperty.OverrideMetadata(typeof(NVcad2dViewWindow), new FrameworkPropertyMetadata(typeof(NVcad2dViewWindow)));
       //}
 
+      public NVcad2dViewWindow(CadViewPort newViewPort)
+      {
+         initializeCustomSettings(newViewPort);
+         Caption = "View " + newViewPort.Name;
+      }
+
       public NVcad2dViewCanvas primaryCanvas { get; private set; }
 
-      public void initializeCustomSettings()
+      public void initializeCustomSettings(CadViewPort newViewPort)
       {
          this.Height = 500;
          this.Width = 550;
@@ -81,7 +90,7 @@ namespace NVcadView
          contentGrid.RowDefinitions.Add(new RowDefinition());
          contentGrid.RowDefinitions[2].Height = new GridLength(20);
 
-         primaryCanvas = new NVcad2dViewCanvas();
+         primaryCanvas = new NVcad2dViewCanvas(newViewPort);
          primaryCanvas.Background = Brushes.Bisque;
          contentGrid.Children.Add(primaryCanvas);
          Grid.SetRow(primaryCanvas, 1); Grid.SetColumn(primaryCanvas, 1);
@@ -89,9 +98,25 @@ namespace NVcadView
          this.Content = contentGrid;
       }
 
+      protected override void OnInitialized(EventArgs e)
+      {
+         base.OnInitialized(e);
+         primaryCanvas.refresh();
+      }
+
+      public void associateCadViewPort(CadViewPort aCVP)
+      {
+         this.primaryCanvas.myCadViewPort = aCVP;
+      }
+
       public void updateYourself()
       {
          
+      }
+
+      public void refresh()
+      {
+         this.primaryCanvas.refresh();
       }
    }
 }
