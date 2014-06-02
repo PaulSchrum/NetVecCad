@@ -78,73 +78,12 @@ namespace NVcadModerator
       }
 
       public void DrawGraphicItem(Graphic graphicItem)
+      { }
+
+      public void tempFunc()
       {
-         //int i = 0;
-         //i++;
-         //if (graphicItem is NVCO.LineSegment)
-         //{
-         //   DrawGraphicItem(graphicItem as NVCO.LineSegment);
-         //}
-         //else if (graphicItem is NVCO.Text)
-         //{
-         //   DrawGraphicItem(graphicItem as NVCO.Text);
-         //}
-      }
-
-      protected void DrawGraphicItem(NVCO.Text textItem)
-      {
-         var aTextBox = new TextBox();
-         aTextBox.FontFamily = new FontFamily("Arial");
-         aTextBox.FontSize = 24;
-         aTextBox.BorderBrush = Brushes.Transparent;
-         aTextBox.Background = Brushes.Transparent;
-         aTextBox.Margin = new Thickness(0, 0, 0, 0);
-         aTextBox.BorderThickness = new Thickness(1, 1, 1, 1);
-         aTextBox.Padding = new Thickness(-6, -6, -6, -6);
-         var tmp = textItem.Origin;
-         aTextBox.Text = textItem.Content;
-         if(textItem.Rotation.getAsDegreesDouble() != 0.0)
-         {
-            aTextBox.RenderTransform = xformGroup_text1;
-            //var xformedOrigin = xformGroup_all.Transform(textItem.Origin);
-            //var localXform = new TransformGroup(); //xformGroup_text1.Clone();
-            //localXform.Children.Add(new RotateTransform(-1.0 * textItem.Rotation.getAsDegreesDouble(),
-            //      textItem.Origin.x, textItem.Origin.y));
-            ////localXform.Children.Add(new TranslateTransform(textItem.Origin.x, textItem.Origin.y));
-            //foreach (var xform in xformGroup_text1.Children)
-            //{
-            //   localXform.Children.Add(xform);
-            //}
-            //aTextBox.RenderTransform = localXform;
-            Canvas.SetLeft(aTextBox, textItem.Origin.x);
-            Canvas.SetTop(aTextBox, textItem.Origin.y);// * xformGroup_text2.Value.M22);
-         }
-         else 
-         { 
-            aTextBox.RenderTransform = xformGroup_text1;
-            Canvas.SetLeft(aTextBox, textItem.Origin.x);
-            Canvas.SetTop(aTextBox, textItem.Origin.y * xformGroup_text2.Value.M22);
-         }
-
-         this.theCanvas.Children.Add(aTextBox);
-      }
-
-      protected void DrawGraphicItem(NVCO.LineSegment lineSegment)
-      {
-         Line aLine = new Line();
-         aLine.X1 = lineSegment.Origin.x;
-         aLine.Y1 = lineSegment.Origin.y;
-         aLine.X2 = lineSegment.EndPoint.x;
-         aLine.Y2 = lineSegment.EndPoint.y;
-         aLine.HorizontalAlignment = HorizontalAlignment.Left;
-         aLine.VerticalAlignment = VerticalAlignment.Bottom;
-         aLine.Stroke = Brushes.Black;
-         aLine.StrokeThickness = 2.5;
-         // aLine.Stroke = Stroke_;
-         // aLine.StrokeDashArray = strokeDashArray_;
-         aLine.RenderTransform = xformGroup_all;
-
-         this.theCanvas.Children.Add(aLine);
+         var w = this.cadViews.Children[0] as NVcad2dViewWindow;
+         var ww = w.ActualWidth;
       }
 
       private void setUpTransforms()
