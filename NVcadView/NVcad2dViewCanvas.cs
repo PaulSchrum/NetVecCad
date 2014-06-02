@@ -62,7 +62,7 @@ namespace NVcadView
          { 
             myCadViewPort_ = value;
             if (null != myCadViewPort_) myCadViewPort_.pairedUIview = this;
-            establishTransforms();
+            //establishTransforms();
          }
       }
 
@@ -81,12 +81,19 @@ namespace NVcadView
       TransformGroup xformGroup_allButText;
       TransformGroup xformGroup_text1;
       TransformGroup xformGroup_text2;
-      private void establishTransforms()
+      internal void establishTransforms()
       {
          xformGroup_allButText = new TransformGroup();
          xformGroup_allButText.Children.Add(
-            new ScaleTransform(1, 1)
+            new ScaleTransform(1, -1)
             );
+         //xformGroup_allButText.Children.Add(
+         //   new TranslateTransform(200, 90));
+         if (this.ActualWidth <= 0.0) return;
+         var w = this.ActualWidth;
+         var h = this.ActualHeight;
+         xformGroup_allButText.Children.Add(
+            new TranslateTransform(96.0 * w / 2.0, 96.0 * h / 2.0));
       }
 
       public void ViewCreatedAnew()

@@ -74,19 +74,19 @@ namespace NVcad.Models
       public void setUpTestingModel_20140422()
       {
          allGrahics = new List<Graphic>();
-         this.AddGraphic(new LineSegment(0.0, 0.0, 1.0, 1.0));
-         
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, 1.0));
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, 1.3));
-         
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, -1.0));
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -1.3));
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -0.7));
+         //this.AddGraphic(new LineSegment(0.0, 0.0, 1.0, 1.0));
 
-         this.AddGraphic(new LineSegment(0.1, 0.0, 1.0, -1.0));
-         this.AddGraphic(new LineSegment(0.1, 0.0, 1.3, -1.3));
-         this.AddGraphic(new LineSegment(0.1, 0.0, 1.3, -0.7));
-         this.AddGraphic(new LineSegment(0.1, 0.0, 1.6, -1.6));
+         this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, 1.0));
+         //this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, 1.3));
+         
+         //this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, -1.0));
+         //this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -1.3));
+         //this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -0.7));
+
+         //this.AddGraphic(new LineSegment(0.1, 0.0, 1.0, -1.0));
+         //this.AddGraphic(new LineSegment(0.1, 0.0, 1.3, -1.3));
+         //this.AddGraphic(new LineSegment(0.1, 0.0, 1.3, -0.7));
+         //this.AddGraphic(new LineSegment(0.1, 0.0, 1.6, -1.6));
          //this.AddGraphic(new Text("190, 50", new Point(180.0, 50.0)));
          //this.AddGraphic(new Text("50, 0", new Point(50.0, 0.0)));
          //var rotText = new Text("Rotated 30°", new Point(0.0, 70.0));

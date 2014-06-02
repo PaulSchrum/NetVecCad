@@ -92,6 +92,7 @@ namespace NVcadView
 
          primaryCanvas = new NVcad2dViewCanvas(newViewPort);
          primaryCanvas.Background = Brushes.Bisque;
+         //primaryCanvas.establishTransforms();
          contentGrid.Children.Add(primaryCanvas);
          Grid.SetRow(primaryCanvas, 1); Grid.SetColumn(primaryCanvas, 1);
 

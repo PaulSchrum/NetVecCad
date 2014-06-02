@@ -79,16 +79,16 @@ namespace NVcadModerator
 
       public void DrawGraphicItem(Graphic graphicItem)
       {
-         int i = 0;
-         i++;
-         if (graphicItem is NVCO.LineSegment)
-         {
-            DrawGraphicItem(graphicItem as NVCO.LineSegment);
-         }
-         else if (graphicItem is NVCO.Text)
-         {
-            DrawGraphicItem(graphicItem as NVCO.Text);
-         }
+         //int i = 0;
+         //i++;
+         //if (graphicItem is NVCO.LineSegment)
+         //{
+         //   DrawGraphicItem(graphicItem as NVCO.LineSegment);
+         //}
+         //else if (graphicItem is NVCO.Text)
+         //{
+         //   DrawGraphicItem(graphicItem as NVCO.Text);
+         //}
       }
 
       protected void DrawGraphicItem(NVCO.Text textItem)
