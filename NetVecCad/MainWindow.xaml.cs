@@ -46,12 +46,7 @@ namespace NetVecCad
          }
          var t = new Timer(1400);
          t.Elapsed += new ElapsedEventHandler((sender_, e_) => { Environment.Exit(0); });
-         t.Start();
-      }
-
-      private void Button_Click(object sender, RoutedEventArgs e)
-      {
-         this.activeModerator.tempFunc();
+         //t.Start();
       }
 
    }

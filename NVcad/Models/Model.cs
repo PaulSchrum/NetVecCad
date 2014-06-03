@@ -74,7 +74,10 @@ namespace NVcad.Models
       public void setUpTestingModel_20140422()
       {
          allGrahics = new List<Graphic>();
-         this.AddGraphic(new LineSegment(0.0, 0.0, 1.0, 1.0));
+         this.AddGraphic(new LineSegment(1.0, 8.5, 13.2, 0.8));
+         this.AddGraphic(new LineSegment(1.0, 2.5, 3.2, 0.8));
+         this.AddGraphic(new LineSegment(0.0, 0.0, 2.0, 2.3));
+         this.AddGraphic(new LineSegment(2.0, 1.0, 1.0, 1.0));
 
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, 1.0));
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, 1.3));
