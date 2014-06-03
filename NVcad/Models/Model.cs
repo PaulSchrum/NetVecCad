@@ -76,7 +76,7 @@ namespace NVcad.Models
          allGrahics = new List<Graphic>();
          this.AddGraphic(new LineSegment(1.0, 8.5, 13.2, 0.8));
          this.AddGraphic(new LineSegment(1.0, 2.5, 3.2, 0.8));
-         this.AddGraphic(new LineSegment(0.0, 0.0, 2.0, 2.3));
+         this.AddGraphic(new LineSegment(0.0, 0.0, 0.5, 0.25));
          this.AddGraphic(new LineSegment(2.0, 1.0, 1.0, 1.0));
 
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, 1.0));
@@ -97,6 +97,7 @@ namespace NVcad.Models
          //this.AddGraphic(rotText);
          //foreach (var item in allGrahics)
          //   this.NotificationTarget.DrawGraphicItem(item);
+         this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.0, 1.0, null);
       }
 
       public CadViewPort createViewForTesting_20140507()
@@ -104,10 +105,11 @@ namespace NVcad.Models
          String newName = "1";
          if (!(this.IsViewPortNameAvailable(newName))) return null;
          var newVP = new CadViewPort("1", this, new Point(0, 0), 5, 5, 
-            new Vector(1, 1, null), 0);
+            scaleVec: new Vector(1, 1, null), rotation: 0);
          this.AddViewPort("1", newVP);
          return newVP;
       }
+
 
    }
 

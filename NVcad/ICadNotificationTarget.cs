@@ -17,6 +17,7 @@ namespace NVcad
    public interface ICadViewChangedNotification
    {
       void ViewCreatedAnew();
+      void ViewContentsChanged();
       //void ViewGeometryChanged();
       //void FeatureFilterChanged();
       //void SymbologyAdapterChanged();

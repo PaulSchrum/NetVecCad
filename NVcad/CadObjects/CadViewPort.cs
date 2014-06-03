@@ -29,8 +29,8 @@ namespace NVcad.CadObjects
 
       protected NVcad.Models.Model parentModel { get; set; }
 
-      private Object pairedUIview_;
-      public Object pairedUIview 
+      private ICadViewChangedNotification pairedUIview_;
+      public ICadViewChangedNotification pairedUIview
       {
          get { return pairedUIview_; }
          set
@@ -104,6 +104,14 @@ namespace NVcad.CadObjects
       public void setCadView(ICadViewChangedNotification correspondingUIview)
       {
          pairedUIview = correspondingUIview;
+      }
+
+      public void SetHeightAndWidth(Double height, Double width, Boolean triggerRedraw)
+      {
+         this.ViewAspect = new Vector(height, width, null);
+         updateBoundingBox();
+         if(true == triggerRedraw)
+            this.pairedUIview.ViewContentsChanged();
       }
 
    }
