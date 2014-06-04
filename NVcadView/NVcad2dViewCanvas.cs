@@ -106,6 +106,11 @@ namespace NVcadView
                96.0 / this.myCadViewPort.ScaleVector.y, 
                canvasCenter.X, canvasCenter.Y)
             );
+
+         xformGroup_text1 = new TransformGroup();
+         xformGroup_text1.Children.Add(
+            new TranslateTransform(canvasCenter.X,
+               1 * canvasCenter.Y));
       }
 
       public void ViewCreatedAnew()
@@ -135,6 +140,8 @@ namespace NVcadView
 
       protected void DrawGraphicItem(NVCO.Text textItem)
       {
+         var scrnPt = new Point(textItem.Origin.x * 96, 
+            textItem.Origin.y * -96);
          var aTextBox = new TextBox();
          aTextBox.FontFamily = new FontFamily("Arial");
          aTextBox.FontSize = 24;
@@ -143,30 +150,21 @@ namespace NVcadView
          aTextBox.Margin = new Thickness(0, 0, 0, 0);
          aTextBox.BorderThickness = new Thickness(1, 1, 1, 1);
          aTextBox.Padding = new Thickness(-6, -6, -6, -6);
-         var tmp = textItem.Origin;
          aTextBox.Text = textItem.Content;
+         var xfrmGrp = xformGroup_text1.Clone();
          if (textItem.Rotation.getAsDegreesDouble() != 0.0)
          {
-            aTextBox.RenderTransform = xformGroup_text1;
-            //var xformedOrigin = xformGroup_all.Transform(textItem.Origin);
-            //var localXform = new TransformGroup(); //xformGroup_text1.Clone();
-            //localXform.Children.Add(new RotateTransform(-1.0 * textItem.Rotation.getAsDegreesDouble(),
-            //      textItem.Origin.x, textItem.Origin.y));
-            ////localXform.Children.Add(new TranslateTransform(textItem.Origin.x, textItem.Origin.y));
-            //foreach (var xform in xformGroup_text1.Children)
-            //{
-            //   localXform.Children.Add(xform);
-            //}
-            //aTextBox.RenderTransform = localXform;
-            Canvas.SetLeft(aTextBox, textItem.Origin.x);
-            Canvas.SetTop(aTextBox, textItem.Origin.y);// * xformGroup_text2.Value.M22);
+            var rotAboutPt = xformGroup_text1.Transform(textItem.Origin);
+            xfrmGrp.Children.Add(
+               new RotateTransform(
+                  -1*textItem.Rotation.getAsDegreesDouble(),
+                  rotAboutPt.X, rotAboutPt.Y
+                  )
+               );
          }
-         else
-         {
-            aTextBox.RenderTransform = xformGroup_text1;
-            Canvas.SetLeft(aTextBox, textItem.Origin.x);
-            Canvas.SetTop(aTextBox, textItem.Origin.y * xformGroup_text2.Value.M22);
-         }
+         aTextBox.RenderTransform = xfrmGrp;
+         Canvas.SetLeft(aTextBox, scrnPt.X);
+         Canvas.SetTop(aTextBox, scrnPt.Y);
 
          this.Children.Add(aTextBox);
       }
@@ -206,6 +204,19 @@ namespace NVcadView
          {
             this.DrawGraphicItem(grphic);
          }
+      }
+   }
+
+   internal static class extensionMethods
+   {
+      private static Point pt;
+      public static System.Windows.Point Transform
+         ( this TransformGroup xfg,
+            NVCFND.Point ptPreXfrm
+         )
+      {
+         pt = new Point(ptPreXfrm.x, ptPreXfrm.y);
+         return xfg.Transform(pt);
       }
    }
 }

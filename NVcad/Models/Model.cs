@@ -80,24 +80,20 @@ namespace NVcad.Models
          this.AddGraphic(new LineSegment(0.0, 0.0, 0.5, 0.25));
          this.AddGraphic(new LineSegment(2.0, 1.0, 1.0, 1.0));
 
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, 1.0));
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, 1.3));
 
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.0, -1.0));
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -1.3));
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -0.7));
 
          this.AddGraphic(new LineSegment(0.1, 0.0, 1.0, -1.0));
-         this.AddGraphic(new LineSegment(0.1, 0.0, 1.3, -1.3));
          this.AddGraphic(new LineSegment(0.1, 0.0, 1.3, -0.7));
          this.AddGraphic(new LineSegment(0.1, 0.0, 1.6, -1.6));
-         //this.AddGraphic(new Text("190, 50", new Point(180.0, 50.0)));
-         //this.AddGraphic(new Text("50, 0", new Point(50.0, 0.0)));
-         //var rotText = new Text("Rotated 30°", new Point(0.0, 70.0));
-         //rotText.Rotation = Angle.radiansFromDegree(44.01);
-         //this.AddGraphic(rotText);
-         //foreach (var item in allGrahics)
-         //   this.NotificationTarget.DrawGraphicItem(item);
+         this.AddGraphic(new Text("1.6, -0.6", new Point(1.6, -0.6), 0.25));
+         this.AddGraphic(new Text("-2, +0.9", new Point(-2, 0.9), 0.45));
+         var rotText = new Text("Rotated", new Point(-1,-1), 0.3);
+         rotText.Rotation = Angle.radiansFromDegree(-11);
+         this.AddGraphic(rotText);
+         
          this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.0, 1.0, null);
       }
 

@@ -109,12 +109,6 @@ namespace NVcadModerator
       public void DrawGraphicItem(Graphic graphicItem)
       { }
 
-      public void tempFunc()
-      {
-         var w = this.cadViews.Children[0] as NVcad2dViewWindow;
-         var ww = w.ActualWidth;
-      }
-
    }
 
    public static class ModeratorExtensionMethods

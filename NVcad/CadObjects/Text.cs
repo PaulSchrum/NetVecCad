@@ -29,7 +29,14 @@ namespace NVcad.CadObjects
       {
          base.Origin = aPoint;
          this.Content = someContent;
+         Height = 1.0;
          this.BoundingBox.expandByPoint(aPoint);
+      }
+
+      public Text(String someContent, Point aPoint, Double height)
+         : this(someContent, aPoint)
+      {
+         Height = height;
       }
 
    }
