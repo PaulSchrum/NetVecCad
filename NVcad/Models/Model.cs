@@ -94,7 +94,7 @@ namespace NVcad.Models
          rotText.Rotation = Angle.radiansFromDegree(-11);
          this.AddGraphic(rotText);
          
-         this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.0, 1.0, null);
+         this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.7, 1.7, null);
       }
 
    }

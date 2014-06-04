@@ -144,12 +144,17 @@ namespace NVcadView
             textItem.Origin.y * -96);
          var aTextBox = new TextBox();
          aTextBox.FontFamily = new FontFamily("Arial");
-         aTextBox.FontSize = 24;
+         aTextBox.FontSize = textItem.Height * 72 / 
+            this.myCadViewPort.ScaleVector.y;
+         //aTextBox.FontSize = 4.6;
          aTextBox.BorderBrush = Brushes.Transparent;
          aTextBox.Background = Brushes.Transparent;
          aTextBox.Margin = new Thickness(0, 0, 0, 0);
          aTextBox.BorderThickness = new Thickness(1, 1, 1, 1);
-         aTextBox.Padding = new Thickness(-6, -6, -6, -6);
+         if (aTextBox.FontSize > 10.6)
+            aTextBox.Padding = new Thickness(0,0,0,0);
+         else
+            aTextBox.Padding = new Thickness(-6, -6, -6, -6);
          aTextBox.Text = textItem.Content;
          var xfrmGrp = xformGroup_text1.Clone();
          if (textItem.Rotation.getAsDegreesDouble() != 0.0)
@@ -163,8 +168,8 @@ namespace NVcadView
                );
          }
          aTextBox.RenderTransform = xfrmGrp;
-         Canvas.SetLeft(aTextBox, scrnPt.X);
-         Canvas.SetTop(aTextBox, scrnPt.Y);
+         Canvas.SetLeft(aTextBox, scrnPt.X / this.myCadViewPort.ScaleVector.x);
+         Canvas.SetTop(aTextBox, scrnPt.Y / this.myCadViewPort.ScaleVector.y);
 
          this.Children.Add(aTextBox);
       }
