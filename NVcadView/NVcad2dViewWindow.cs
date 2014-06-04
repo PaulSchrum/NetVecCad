@@ -90,6 +90,7 @@ namespace NVcadView
          contentGrid.RowDefinitions.Add(new RowDefinition());
          contentGrid.RowDefinitions[2].Height = new GridLength(20);
 
+         // Code Documentation Tag 20140603_05
          primaryCanvas = new NVcad2dViewCanvas(newViewPort);
          primaryCanvas.Background = Brushes.Bisque;
          //primaryCanvas.establishTransforms();
@@ -100,7 +101,7 @@ namespace NVcadView
       }
 
       public void establishTransforms()
-      {
+      {  // Code Documentation Tag 20140603_06
          primaryCanvas.establishTransforms();
       }
 

@@ -73,7 +73,7 @@ namespace NVcadView
       }
 
       public NVcad2dViewCanvas(CadViewPort newViewPort) : this()
-      {
+      {  // Code Documentation Tag 20140603_05
          myCadViewPort = newViewPort;
          myCadViewPort.pairedUIview = this;
       }
@@ -84,12 +84,14 @@ namespace NVcadView
       TransformGroup xformGroup_text1;
       TransformGroup xformGroup_text2;
       internal void establishTransforms()
-      {
+      {  // Code Documentation Tag 20140603_06
          if (this.ActualWidth <= 0.0) return;
          this.myCadViewPort.SetHeightAndWidth(this.ActualHeight, this.ActualWidth, false);
          canvasCenter.X = this.ActualWidth / 2.0;
          canvasCenter.Y = this.ActualHeight / 2.0;
          itemWidthUnscale = 1.0 / 96.0;
+
+         // Code Documentation Tag 20140603_07
          xformGroup_allButText = new TransformGroup();
          xformGroup_allButText.Children.Add(
             new ScaleTransform(1, -1)

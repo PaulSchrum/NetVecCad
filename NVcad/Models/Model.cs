@@ -28,14 +28,15 @@ namespace NVcad.Models
       }
 
       public Model(ICadNotificationTarget aNotificationTarget) : this()
-      {
+      {  // Code Documentation Tag 20140603_01
          this.NotificationTarget = aNotificationTarget;
          String defaultViewPortName = "1";
-         // Code Documentation Tag 20140530_01
+
+         // Code Documentation Tag 20140603_02
          var defaultViewPort = new CadViewPort(defaultViewPortName, this);
          this.AddViewPort(defaultViewPortName, defaultViewPort);
 
-         // Code Documentation Tag 20140530_02
+         // Code Documentation Tag 20140603_03
          aNotificationTarget.ViewPortAdded(defaultViewPort);
       }
 
@@ -99,17 +100,6 @@ namespace NVcad.Models
          //   this.NotificationTarget.DrawGraphicItem(item);
          this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.0, 1.0, null);
       }
-
-      public CadViewPort createViewForTesting_20140507()
-      {
-         String newName = "1";
-         if (!(this.IsViewPortNameAvailable(newName))) return null;
-         var newVP = new CadViewPort("1", this, new Point(0, 0), 5, 5, 
-            scaleVec: new Vector(1, 1, null), rotation: 0);
-         this.AddViewPort("1", newVP);
-         return newVP;
-      }
-
 
    }
 

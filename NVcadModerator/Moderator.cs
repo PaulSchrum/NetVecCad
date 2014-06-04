@@ -54,38 +54,41 @@ namespace NVcadModerator
          if (null == cadViews) return;
          // todo: offer to save the existing open model if necessary
          cadViews.Children.Clear();
-         this.Model = new Model(this);
+         this.Model = new Model(this);  // Code Documentation Tag 20140603_01
          Model.setUpTestingModel_20140422();
-         t.Elapsed += new ElapsedEventHandler((sender_, e_) => { tempFunc(this); });
+
+
+         t.Elapsed += new ElapsedEventHandler((sender_, e_) => { finishBuildingChildWindow(this); });
          t.Start();
       }
 
-      public void tempFunc(Moderator aMod)
+      protected void finishBuildingChildWindow(Moderator aMod)
       {
-         NVcad2dViewWindow w = null;
-         double ww = 0.0;
+         NVcad2dViewWindow wndow = null;
+         double wndowwidth = 0.0;
          this.myParentWindow.Dispatcher.BeginInvoke(new Action(() =>
          {
-            w = aMod.cadViews.Children[0] as NVcad2dViewWindow;
+            wndow = aMod.cadViews.Children[0] as NVcad2dViewWindow;
             aMod.t.Stop();
             aMod.t.Interval = 5;
-            ww = w.ActualWidth;
-            System.Diagnostics.Debug.Print("Canvas Width = {0}", ww);
-            if (ww > 0.0)
+            wndowwidth = wndow.ActualWidth;
+            //System.Diagnostics.Debug.Print("Canvas Width = {0}", ww);
+            if (wndowwidth > 0.0)
             {
                aMod.t.Enabled = false;
+               // Code Documentation Tag 20140603_06
                aMod.establishAllViewTransforms();
             }
          }));
-         if (ww == 0.0) return;
+         if (wndowwidth == 0.0) return;
       }
 
       private void establishAllViewTransforms()
-      {
+      {  // Code Documentation Tag 20140603_06
          foreach (NVcad2dViewWindow view in this.cadViews.Children)
          {
             view.establishTransforms();
-            view.refresh();
+            view.refresh();  // Code Documentation Tag 20140603_08
          }
       }
 
@@ -98,7 +101,7 @@ namespace NVcadModerator
       }
 
       public void ViewPortAdded(CadViewPort newViewPort)
-      {  // Code Documentation Tag 20140530_02
+      {  // Code Documentation Tag 20140603_03
          if (null == cadViews) return;  // todo: throw exception
          cadViews.AddChildWindow(newViewPort);
       }
@@ -119,7 +122,7 @@ namespace NVcadModerator
       public static NVcad2dViewWindow AddChildWindow
          (this WindowContainer container,
          CadViewPort newViewPort)
-      {  // Code Documentation Tag 20140530_03
+      {  // Code Documentation Tag 20140603_04
          NVcad2dViewWindow newWindow = new NVcad2dViewWindow(newViewPort);
          container.Children.Add(newWindow);
          newWindow.Show();
