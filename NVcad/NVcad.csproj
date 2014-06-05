@@ -69,6 +69,7 @@
     <Compile Include="ICadNotificationTarget.cs" />
     <Compile Include="IcadView.cs" />
     <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\WorldMouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

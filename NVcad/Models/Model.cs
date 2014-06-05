@@ -8,19 +8,22 @@ using NVcad.Foundations.Coordinates;
 using NVcad.CadObjects;
 using NVcad.Foundations;
 using NVcad.Foundations.WorkingUnits;
+using System.ComponentModel;
 
 namespace NVcad.Models
 {
-   public class Model : IBoundingBoxed
+   public class Model : IBoundingBoxed, INotifyPropertyChanged
    {
       public Length WorkingUnits { get; set; }
       protected BoundingBox BoundingBox { get; set; }
+      public WorldMouse WorldMouse { get; protected set; }
       internal Dictionary<String, CadViewPort> allViewPorts { get; set; }
       internal List<Graphic> allGrahics { get; set; } // All except ViewPorts  // maybe refactor later to concurrent collection
       protected ICadNotificationTarget NotificationTarget { get; set; }
 
       public Model() 
       {
+         WorldMouse = new Models.WorldMouse();
          BoundingBox = new BoundingBox();
          allViewPorts = new Dictionary<String, CadViewPort>();
          allGrahics = new List<Graphic>();
@@ -95,6 +98,15 @@ namespace NVcad.Models
          this.AddGraphic(rotText);
          
          this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.7, 1.7, null);
+      }
+
+      public event PropertyChangedEventHandler PropertyChanged;
+      public void RaisePropertyChanged(String prop)
+      {
+         if (null != PropertyChanged)
+         {
+            PropertyChanged(this, new PropertyChangedEventArgs(prop));
+         }
       }
 
    }

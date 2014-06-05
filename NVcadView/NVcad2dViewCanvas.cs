@@ -20,6 +20,8 @@ using NVCFND = NVcad.Foundations.Coordinates;
 using Xceed.Wpf.Toolkit;
 using Xceed.Wpf.Toolkit.Primitives;
 using NVcadView;
+using System.ComponentModel;
+using System.Media;
 
 namespace NVcadView
 {
@@ -52,14 +54,15 @@ namespace NVcadView
    ///     <MyNamespace:CustomControl1/>
    ///
    /// </summary>
-   public class NVcad2dViewCanvas : Canvas, ICadViewChangedNotification
+   public class NVcad2dViewCanvas : Canvas,
+      ICadViewChangedNotification
    {
       CadViewPort myCadViewPort_;
       internal CadViewPort myCadViewPort
       {
          get { return myCadViewPort_; }
          set 
-         { 
+         {
             myCadViewPort_ = value;
             if (null != myCadViewPort_) myCadViewPort_.pairedUIview = this;
             //establishTransforms();
@@ -68,6 +71,7 @@ namespace NVcadView
 
       public NVcad2dViewCanvas() : base()
       {
+         this.MouseMove +=NVcad2dViewCanvas_MouseMove;
          this.ClipToBounds = true;
          myCadViewPort = null;
       }
@@ -78,11 +82,34 @@ namespace NVcadView
          myCadViewPort.pairedUIview = this;
       }
 
+      System.Windows.Point mousePos_;
+      public Point MousePos
+      {
+         get { return mousePos_; }
+         protected set
+         {
+            mousePos_ = value;
+            handleMouseMoves();
+         }
+      }
+
+      protected virtual void handleMouseMoves()
+      {
+         try
+         {
+            myCadViewPort.parentModel.WorldMouse.PointX = mousePos_.X;
+            myCadViewPort.parentModel.WorldMouse.PointY = mousePos_.Y;
+         }
+         catch(NullReferenceException e)
+         {
+            return;
+         }
+      }
+
       Point canvasCenter;
       Double itemWidthUnscale = 0;
       TransformGroup xformGroup_allButText;
       TransformGroup xformGroup_text1;
-      TransformGroup xformGroup_text2;
       internal void establishTransforms()
       {  // Code Documentation Tag 20140603_06
          if (this.ActualWidth <= 0.0) return;
@@ -210,6 +237,14 @@ namespace NVcadView
             this.DrawGraphicItem(grphic);
          }
       }
+
+      private void NVcad2dViewCanvas_MouseMove(object sender, MouseEventArgs e)
+      {
+         MousePos = xformGroup_allButText.Inverse.Transform(e.GetPosition(this));
+         //System.Diagnostics.Debug.Print("Hi {0}  {1}", MousePos.X.ToString(),
+         //   MousePos.Y.ToString());
+      }
+
    }
 
    internal static class extensionMethods

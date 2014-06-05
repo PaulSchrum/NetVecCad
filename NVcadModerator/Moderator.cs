@@ -18,6 +18,7 @@ using Xceed.Wpf.Toolkit.Primitives;
 using NVcadView;
 using System.Timers;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace NVcadModerator
 {
@@ -27,11 +28,11 @@ namespace NVcadModerator
    /// family as Model-View-ViewModel and Model-View-Controller.  
    /// </summary>
    /// <see cref=""/>
-   public class Moderator : ICadNotificationTarget
+   public class Moderator : ICadNotificationTarget, INotifyPropertyChanged
    {
       protected Window myParentWindow { get; set; }
       WindowContainer cadViews { get; set; }
-      private Model Model { get; set; }
+      public Model Model { get; set; }
 
       public Moderator()
       {
@@ -46,6 +47,7 @@ namespace NVcadModerator
          myParentWindow = aParentWindow;
 
          cadViews = aWindowContainer;
+         TestStr = "hh";
       }
 
       System.Timers.Timer t = new Timer(16);
@@ -56,7 +58,6 @@ namespace NVcadModerator
          cadViews.Children.Clear();
          this.Model = new Model(this);  // Code Documentation Tag 20140603_01
          Model.setUpTestingModel_20140422();
-
 
          t.Elapsed += new ElapsedEventHandler((sender_, e_) => { finishBuildingChildWindow(this); });
          t.Start();
@@ -72,12 +73,12 @@ namespace NVcadModerator
             aMod.t.Stop();
             aMod.t.Interval = 5;
             wndowwidth = wndow.ActualWidth;
-            //System.Diagnostics.Debug.Print("Canvas Width = {0}", ww);
             if (wndowwidth > 0.0)
             {
                aMod.t.Enabled = false;
                // Code Documentation Tag 20140603_06
                aMod.establishAllViewTransforms();
+               this.Model.WorldMouse.PropertyChanged +=WorldMouse_PropertyChanged;
             }
          }));
          if (wndowwidth == 0.0) return;
@@ -108,6 +109,65 @@ namespace NVcadModerator
 
       public void DrawGraphicItem(Graphic graphicItem)
       { }
+
+      private void WorldMouse_PropertyChanged(object sender, PropertyChangedEventArgs e)
+      {
+         switch (e.PropertyName)
+         {
+            case "PointX":
+               {
+                  WorldMouseX = Model.WorldMouse.PointX;
+                  break;
+               }
+            case "PointY":
+               {
+                  WorldMouseY = Model.WorldMouse.PointY;
+                  break;
+               }
+         }
+      }
+
+      private Double worldMouseX_;
+      public Double WorldMouseX
+      {
+         get { return worldMouseX_; }
+         private set
+         {
+            worldMouseX_ = value;
+            RaisePropertyChanged("WorldMouseX");
+         }
+      }
+
+      private Double worldMouseY_;
+      public Double WorldMouseY
+      {
+         get { return worldMouseY_; }
+         private set
+         {
+            worldMouseY_ = value;
+            RaisePropertyChanged("WorldMouseY");
+         }
+      }
+
+      private String testStr_;
+      public String TestStr
+      {
+         get { return testStr_; }
+         set 
+         { 
+            testStr_ = value; 
+            RaisePropertyChanged("TestStr"); 
+         }
+      }
+
+      public event PropertyChangedEventHandler PropertyChanged;
+      public void RaisePropertyChanged(String prop)
+      {
+         if (null != PropertyChanged)
+         {
+            PropertyChanged(this, new PropertyChangedEventArgs(prop));
+         }
+      }
 
    }
 

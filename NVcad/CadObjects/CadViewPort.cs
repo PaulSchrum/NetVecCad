@@ -27,7 +27,7 @@ namespace NVcad.CadObjects
       // ScaleVector is [1, 1].
       // Scale and ViewAspect are independent of each other.
 
-      protected NVcad.Models.Model parentModel { get; set; }
+      public NVcad.Models.Model parentModel { get; set; }
 
       private ICadViewChangedNotification pairedUIview_;
       public ICadViewChangedNotification pairedUIview

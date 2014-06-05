@@ -1,4 +1,5 @@
-﻿using NVcadModerator;
+﻿using NVcad.Models;
+using NVcadModerator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,19 @@ namespace NetVecCad
       }
 
       public List<Moderator> Moderators { get; set; }
-      public Moderator activeModerator;
+      private Moderator activeModerator_;
+      public Moderator activeModerator 
+      {
+         get { return activeModerator_; } 
+         set
+         {
+            activeModerator_ = value;
+            if(null != activeModerator_)
+            {
+               this.TopGrid.DataContext = activeModerator_;
+            }
+         }
+      }
 
       private void MainWindowContainer_Loaded(object sender, RoutedEventArgs e)
       {
@@ -48,6 +61,7 @@ namespace NetVecCad
          t.Elapsed += new ElapsedEventHandler((sender_, e_) => { Environment.Exit(0); });
          //t.Start();
       }
+
 
    }
 }
