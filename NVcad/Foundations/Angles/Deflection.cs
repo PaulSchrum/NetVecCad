@@ -126,6 +126,18 @@ namespace NVcad.Foundations.Angles
          return 180.0 * this.getAsRadians() / Math.PI;
       }
 
+      public static Deflection operator *(Deflection defl, Double multiplier)
+      {
+         Deflection retDefl = new Deflection();
+         retDefl.angle_ = defl.angle_ * multiplier;
+         return retDefl;
+      }
+
+      public static Deflection operator /(Deflection defl, Double divisor)
+      {
+         return defl * (1 / divisor);
+      }
+
       public static implicit operator Deflection(double radianDbl)
       {
          return new Deflection(radianDbl);

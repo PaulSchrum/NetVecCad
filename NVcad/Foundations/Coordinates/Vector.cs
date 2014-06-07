@@ -75,11 +75,25 @@ namespace NVcad.Foundations.Coordinates
 
       public Double Length
       {
-         get { 
-            var zSquared = (null == z) ? 0.0 :
+         get { return getLen(); }
+         set 
+         {
+            Double prevLen = getLen();
+            if(0.0 != prevLen)
+            {
+               Double scaleFactor = value / prevLen;
+               this.scale(scaleFactor, scaleFactor, scaleFactor);
+            }
+            // else -- 0-length vector - undefined meaning,
+            // thus no action -- leave as it is, silently.
+         }
+      }
+
+      private Double getLen()
+      {
+         var zSquared = (null == z) ? 0.0 :
             (Double) (z * z);
-            return Math.Sqrt(x * x + y * y + zSquared); }
-         private set { }
+         return Math.Sqrt(x * x + y * y + zSquared);
       }
 
       public Azimuth DirectionHorizontal
