@@ -31,13 +31,17 @@ namespace NVcad.CadObjects
          set { centralVector_ = value; }
       }
 
-      protected Deflection sweepAngle_;
-      public virtual Deflection SweepAngle
+      protected Deflection deflection_;
+      public virtual Deflection Deflection
       {
-         get { return sweepAngle_; }
-         set { sweepAngle_ = value; }
+         get { return deflection_; }
+         set { deflection_ = value; }
       }
 
+      /// <summary>
+      /// Begin Point Angle is the deflection from the central
+      ///    vector to the begin vector
+      /// </summary>
       protected Deflection beginPointAngle_;
       public virtual Deflection BeginPointAngle
       {

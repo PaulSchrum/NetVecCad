@@ -57,6 +57,9 @@ namespace NVcadView
    public class NVcad2dViewCanvas : Canvas,
       ICadViewChangedNotification
    {
+      SoundPlayer clickSound = 
+         new SoundPlayer(@"C:\SourceModules\NetVecCad\NVcadView\typewriter-key-1.wav");
+
       CadViewPort myCadViewPort_;
       internal CadViewPort myCadViewPort
       {
@@ -163,6 +166,10 @@ namespace NVcadView
          {
             DrawGraphicItem(graphicItem as NVCO.Text);
          }
+         else if (graphicItem is NVCO.Arc)
+         {
+            DrawGraphicItem(graphicItem as NVCO.Arc);
+         }
       }
 
       protected void DrawGraphicItem(NVCO.Text textItem)
@@ -199,6 +206,39 @@ namespace NVcadView
          Canvas.SetTop(aTextBox, scrnPt.Y / this.myCadViewPort.ScaleVector.y);
 
          this.Children.Add(aTextBox);
+      }
+
+      protected void DrawGraphicItem(NVCO.Arc arcItem)
+      {
+         //if (null != clickSound)
+         //   clickSound.PlaySync();
+         SweepDirection dir = (arcItem.Deflection.getAsRadians() > 0.0) ?
+            SweepDirection.Clockwise : 
+            SweepDirection.Counterclockwise;
+
+         bool largeArc = (Math.Abs(arcItem.Deflection.getAsDegreesDouble()) > 180.0) ?
+            true : false;
+
+         PathGeometry pGeom = new PathGeometry();
+         PathFigure pFig = new PathFigure();
+         pFig.StartPoint = new Point(arcItem.Origin.x, arcItem.Origin.y);
+         pFig.Segments.Add(
+            new ArcSegment(new Point(arcItem.EndPoint.x, arcItem.EndPoint.y),
+               new Size(arcItem.Radius, arcItem.Radius),
+               arcItem.Rotation.getAsDegreesDouble(),
+               largeArc,
+               dir,
+               true));
+         pGeom.Figures.Add(pFig);
+         System.Windows.Shapes.Path path = new System.Windows.Shapes.Path();
+         path.Data = pGeom;
+         path.Fill = Brushes.Thistle;
+         path.Stroke = Brushes.Black;
+         //path.StrokeThickness = 2.5 * itemWidthUnscale;
+         path.StrokeThickness = 2.0;
+         //path.RenderTransform = xformGroup_allButText;
+
+         this.Children.Add(path);
       }
 
       protected void DrawGraphicItem(NVCO.LineSegment lineSegment)

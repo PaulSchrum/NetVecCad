@@ -44,6 +44,9 @@ namespace NVcad.CadObjects
       //   { xscale_ = value; }
       //}
 
+      protected virtual void computeBoundingBox()
+      { }
+
       public BoundingBox BoundingBox { get; protected set; }
 
       public BoundingBox getBoundingBox()

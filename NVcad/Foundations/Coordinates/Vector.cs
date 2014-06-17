@@ -42,6 +42,13 @@ namespace NVcad.Foundations.Coordinates
          z = null;
       }
 
+      public Vector(Double dx, Double dy)
+         : this()
+      {
+         x = dx;
+         y = dy;
+      }
+
       public Object Clone()
       {
          Vector clone = new Vector();

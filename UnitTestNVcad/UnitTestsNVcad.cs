@@ -5,6 +5,8 @@ using NVcad.Foundations.Angles;
 using System.Collections.Generic;
 using NVcad.Foundations.Coordinates;
 using NVcad.Foundations.WorkingUnits;
+using NVcad.CadObjects;
+using System.Media;
 
 namespace UnitTestNVcad
 {
@@ -322,6 +324,16 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
+      public void Vector_newVector_isCorrect()
+      {
+         var aVec = new Vector(Azimuth.ctorAzimuthFromDegree(90.0),
+            50.0);
+         Assert.IsNotNull(aVec);
+         Assert.AreEqual(expected: 50.0,
+            actual: aVec.x, delta: 0.00001);
+      }
+
+      [TestMethod]
       public void Vector_rotating1_1vector90degress_yields1_Minus1vectorOfSameLength()
       {
          Vector firstVec = new Vector(1.0, 1.0, null);
@@ -585,4 +597,119 @@ namespace UnitTestNVcad
       }
 
    }
+
+   [TestClass]
+   public class TestClassForCadObject
+   {
+      [TestMethod]
+      public void Arc_CreateArc_ctor3IsCorrect()
+      {
+         var anArc = new Arc(new Point(100.0, 100.0),
+            Azimuth.ctorAzimuthFromAngle(90),
+            Deflection.ctorDeflectionFromAngle(90.0, 1), 50.0);
+
+         Assert.IsNotNull(anArc);
+
+         Assert.AreEqual(
+            expected: 0.0,
+            actual: anArc.BeginRadiusVector.Azimuth.getAsDegreesDouble(),
+            delta: 0.00001);
+         Assert.AreEqual(
+            expected: 45.0,
+            actual: anArc.BeginPointAngle.getAsDegreesDouble(),
+            delta: 0.00001);
+         Assert.IsNotNull(anArc.BoundingBox);
+         Assertt.AreEqual(
+            expected: new Point(100,50),
+            actual: anArc.CenterPt);
+         Assertt.AreEqual(
+            expected: new Vector(Azimuth.ctorAzimuthFromDegree(45.0), 50.0),
+            actual: anArc.CentralVector);
+         Assert.AreEqual(
+            expected: 90.0,
+            actual: anArc.Deflection.getAsDegreesDouble(),
+            delta: 0.00001);
+         Assert.AreEqual(
+            expected: 0.0,
+            actual: anArc.Eccentricity,
+            delta: 0.00001);
+         Assertt.AreEqual(
+            expected: new Point(150.0, 50.0),
+            actual: anArc.EndPoint);
+         var expecVec = new Vector(Azimuth.ctorAzimuthFromDegree(90.0),
+            50.0);
+         Assertt.AreEqual(
+            expected: expecVec,
+            actual: anArc.EndRadiusVector);
+         Assertt.AreEqual(
+            expected: new Point(100.0, 100.0),
+            actual: anArc.Origin);
+         Assert.AreEqual(
+            expected: 50.0,
+            actual: anArc.Radius,
+            delta: 0.00001);
+         Assert.AreEqual(
+            expected: 90.0,
+            actual: anArc.Rotation.getAsDegreesDouble(),
+            delta: 0.00001);
+         Assertt.AreEqual(
+            expected: new Vector(1.0,1.0),
+            actual: anArc.ScaleVector);
+      }
+   }
+
+   public static class Assertt
+   {
+      public static void AreEqual(Vector expected, Vector actual)
+      {
+         Assert.AreEqual(expected: expected.x, actual: actual.x, delta: 0.0001);
+         Assert.AreEqual(expected: expected.y, actual: actual.y, delta: 0.0001);
+
+         if (expected.z != null)
+         {
+            if (actual.z != null)
+            {
+               Assert.AreEqual(
+                  expected: (Double)expected.z,
+                  actual: (Double)actual.z,
+                  delta: 0.0001);
+            }
+            else
+            {
+               Assert.Fail("One of two Nullable Doubles is null.");
+            }
+         }
+         else if (actual.z != null)
+         {
+            Assert.Fail("One of two Nullable Doubles is null.");
+         }
+      }
+
+      public static void AreEqual(Point expected, Point actual)
+      {
+         Assert.AreEqual(expected: expected.x, actual: actual.x, delta: 0.0001);
+         Assert.AreEqual(expected: expected.y, actual: actual.y, delta: 0.0001);
+
+         if (expected.z != null)
+         {
+            if (actual.z != null)
+            {
+               Assert.AreEqual(
+                  expected: (Double)expected.z,
+                  actual: (Double)actual.z,
+                  delta: 0.0001);
+            }
+            else
+            {
+               Assert.Fail("One of two Nullable Doubles is null.");
+            }
+         }
+         else if (actual.z != null)
+         {
+            Assert.Fail("One of two Nullable Doubles is null.");
+         }
+      }
+
+   }
+
 }

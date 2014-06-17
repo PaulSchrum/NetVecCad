@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NVcad.Foundations.Angles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,14 @@ namespace NVcad.Foundations.Coordinates
          lowerLeftPt = new Point(aPoint);
          upperRightPt = new Point(aPoint);
          isInitialized = true;
+      }
+
+      public void expandByRadius(Double radius)
+      {
+         this.lowerLeftPt = this.lowerLeftPt +
+            new Vector((Azimuth)135.0, radius);
+         this.upperRightPt = this.upperRightPt +
+            new Vector((Azimuth)45.0, radius);
       }
 
       public void expandByBox(BoundingBox other)

@@ -9,6 +9,7 @@ using NVcad.CadObjects;
 using NVcad.Foundations;
 using NVcad.Foundations.WorkingUnits;
 using System.ComponentModel;
+using NVcad.Foundations.Angles;
 
 namespace NVcad.Models
 {
@@ -96,7 +97,14 @@ namespace NVcad.Models
          var rotText = new Text("Rotated", new Point(-1,-1), 0.3);
          rotText.Rotation = Angle.radiansFromDegree(-11);
          this.AddGraphic(rotText);
-         
+
+         var anArc = new Arc(new Point(50.0, -30.0),
+            Azimuth.ctorAzimuthFromAngle(90), 
+            Deflection.ctorDeflectionFromAngle(90.0, 1), 170.0);
+         this.AddGraphic(anArc);
+         //this.AddGraphic(new Arc(new Point(-1.25, 1.25),
+         //   new Point(1.5, 1.2), -40.0));
+
          this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.7, 1.7, null);
       }
 

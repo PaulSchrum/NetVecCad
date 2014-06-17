@@ -81,7 +81,14 @@ namespace NVcad.Foundations.Angles
       //setAsDegreeMinuteSecond
       //yada
 
-      public static Azimuth newAzimuthFromAngle(Angle angle)
+      public static Azimuth ctorAzimuthFromDegree(Double deg)
+      {
+         Azimuth retAz = new Azimuth();
+         retAz.setFromDegreesDouble(deg);
+         return retAz;
+      }
+
+      public static Azimuth ctorAzimuthFromAngle(Angle angle)
       {
          Azimuth retAz = new Azimuth();
          retAz.setFromDegreesDouble(angle.getAsDegreesDouble());

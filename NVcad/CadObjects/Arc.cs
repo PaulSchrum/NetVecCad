@@ -11,20 +11,43 @@ namespace NVcad.CadObjects
 {
    public class Arc : ConicSegment
    {
-      protected Arc() { }
+      protected Arc() 
+      {
+      }
 
-      public Arc(Point centerPt, Point StartPt, Deflection sweepAngle)
+      public Arc(Point centerPt, Point StartPt, Deflection defl)
+         : this()
       {
          Eccentricity = 0.0;
          Origin = StartPt;
-         SweepAngle = sweepAngle;
+         Deflection = defl;
          CenterPt = centerPt;
 
          BeginRadiusVector = Origin - CenterPt;
-         BeginPointAngle = SweepAngle / 2;
+         BeginPointAngle = Deflection / 2;
          CentralVector = BeginRadiusVector + BeginPointAngle;
-         EndRadiusVector = BeginRadiusVector + SweepAngle;
+         EndRadiusVector = BeginRadiusVector + Deflection;
          EndPoint = CenterPt + EndRadiusVector;
+         computeBoundingBox();
+      }
+
+      public Arc(Point StartPt, Azimuth incomingDir, Deflection defl,
+         Double radius) : this()
+      {
+         Eccentricity = 0.0;
+         Origin = StartPt;
+         Deflection = defl;
+
+         BeginRadiusVector = new Vector(
+            direction: incomingDir + -1 * Deflection.deflectionDirection * 90.0, 
+            length: radius);
+         CenterPt = StartPt - BeginRadiusVector;
+         BeginPointAngle = Deflection / 2;
+         CentralVector = BeginRadiusVector + BeginPointAngle;
+         EndRadiusVector = BeginRadiusVector + Deflection;
+         EndPoint = CenterPt + EndRadiusVector;
+
+         computeBoundingBox();
       }
 
       public Point CenterPt { get; set; }
@@ -43,8 +66,14 @@ namespace NVcad.CadObjects
       
       public override Vector ScaleVector
       {
-         get {  return new Vector(1, 1, 1); }
+         get {  return new Vector(1, 1, null); }
          set { }
+      }
+
+      protected override void computeBoundingBox()
+      {
+         this.BoundingBox = new BoundingBox(CenterPt);
+         this.BoundingBox.expandByRadius(this.Radius);
       }
    }
 }
