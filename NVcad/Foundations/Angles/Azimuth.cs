@@ -123,6 +123,15 @@ namespace NVcad.Foundations.Angles
          return retAz;
       }
 
+      public static Azimuth operator -(Azimuth Az1, Deflection defl)
+      {
+         var newAzDeg = Az1.getAsDegreesDouble() - defl.getAsDegreesDouble();
+         Double retDbl = Angle.normalizeToPlusOrMinus360Static(newAzDeg);
+         Azimuth retAz = new Azimuth();
+         retAz.setFromDegreesDouble(retDbl);
+         return retAz;
+      }
+
       public Deflection minus(Azimuth Az2)
       {
          Double returnDeflection = (this.angle_ - Az2.angle_);

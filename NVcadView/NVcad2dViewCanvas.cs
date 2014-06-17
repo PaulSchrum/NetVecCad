@@ -212,7 +212,7 @@ namespace NVcadView
       {
          //if (null != clickSound)
          //   clickSound.PlaySync();
-         SweepDirection dir = (arcItem.Deflection.getAsRadians() > 0.0) ?
+         SweepDirection dir = (arcItem.Deflection.getAsRadians() < 0.0) ?
             SweepDirection.Clockwise : 
             SweepDirection.Counterclockwise;
 
@@ -232,11 +232,11 @@ namespace NVcadView
          pGeom.Figures.Add(pFig);
          System.Windows.Shapes.Path path = new System.Windows.Shapes.Path();
          path.Data = pGeom;
-         path.Fill = Brushes.Thistle;
+         path.Fill = Brushes.Transparent;
          path.Stroke = Brushes.Black;
-         //path.StrokeThickness = 2.5 * itemWidthUnscale;
-         path.StrokeThickness = 2.0;
-         //path.RenderTransform = xformGroup_allButText;
+         path.StrokeThickness = 2.5 * itemWidthUnscale;
+         //path.StrokeThickness = 2.0;
+         path.RenderTransform = xformGroup_allButText;
 
          this.Children.Add(path);
       }

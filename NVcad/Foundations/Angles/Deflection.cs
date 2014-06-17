@@ -20,7 +20,7 @@ namespace NVcad.Foundations.Angles
          }
       }
 
-      public bool isLessThanEqual_180degrees { get; set; }
+      private bool isLessThanEqual_180degrees { get; set; }
 
       public Deflection() { }
 
@@ -67,7 +67,7 @@ namespace NVcad.Foundations.Angles
       public Deflection(double deflectionAngleDbl)
          : this(deflectionAngleDbl, Math.Sign(deflectionAngleDbl))
       { }
-
+      
       internal override double angle_
       {
          get
@@ -130,12 +130,22 @@ namespace NVcad.Foundations.Angles
       {
          Deflection retDefl = new Deflection();
          retDefl.angle_ = defl.angle_ * multiplier;
+         retDefl.deflectionDirection_ = defl.deflectionDirection_;
          return retDefl;
       }
 
       public static Deflection operator /(Deflection defl, Double divisor)
       {
-         return defl * (1 / divisor);
+         if (defl.deflectionDirection_ > 0)
+            return defl * (1 / divisor);
+         else
+         { // Deflection is negative
+            Deflection retDefl = new Deflection();
+            retDefl.deflectionDirection_ = defl.deflectionDirection_;
+            //retDefl.isLessThanEqual_180degrees = true;
+            retDefl.angle__ = defl.angle__ / divisor;
+            return retDefl;
+         }
       }
 
       public static implicit operator Deflection(double radianDbl)

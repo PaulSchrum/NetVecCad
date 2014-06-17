@@ -180,6 +180,30 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
+      public void DeflectionRight_divideBy2_isCorrect()
+      {
+         Deflection deflA = new Deflection();
+         deflA.setFromDegreesDouble(4.0);
+         Deflection defl = deflA / 2.0;
+
+         Double expected = 2.0;
+         Double actual = defl.getAsDegreesDouble();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
+      public void DeflectionLeft_divideBy2_isCorrect()
+      {
+         Deflection deflA = new Deflection();
+         deflA.setFromDegreesDouble(-4.0);
+         Deflection defl = deflA / 2.0;
+
+         Double expected = -2.0;
+         Double actual = defl.getAsDegreesDouble();
+         Assert.AreEqual(expected: expected, actual: actual, delta: delta);
+      }
+
+      [TestMethod]
       public void Azimuth1_30_addDeflection_Pos2_15_shouldYieldNewAzimuth_3_45()
       {
          Azimuth anAzimuth = new Azimuth();
@@ -601,11 +625,68 @@ namespace UnitTestNVcad
    [TestClass]
    public class TestClassForCadObject
    {
+
+
       [TestMethod]
-      public void Arc_CreateArc_ctor3IsCorrect()
+      public void Arc_CreateArc_ctor3DeflectingLeft90_IsCorrect()
       {
          var anArc = new Arc(new Point(100.0, 100.0),
-            Azimuth.ctorAzimuthFromAngle(90),
+            Azimuth.ctorAzimuthFromDegree(90),
+            Deflection.ctorDeflectionFromAngle(90.0, -1), 50.0);
+         Assert.IsNotNull(anArc);
+
+         Assert.AreEqual(
+            expected: 180.0,
+            actual: anArc.BeginRadiusVector.Azimuth.getAsDegreesDouble(),
+            delta: 0.00001, message: "BeginRadiusVector");
+         Assert.AreEqual(
+            expected: -45.0,
+            actual: anArc.BeginPointAngle.getAsDegreesDouble(),
+            delta: 0.00001, message: "BeginPointAngle");
+         Assert.IsNotNull(anArc.BoundingBox);
+         Assertt.AreEqual(
+            expected: new Point(100,150),
+            actual: anArc.CenterPt);
+         Assertt.AreEqual(
+            expected: new Vector(Azimuth.ctorAzimuthFromDegree(135.0), 50.0),
+            actual: anArc.CentralVector);
+         Assert.AreEqual(
+            expected: -90.0,
+            actual: anArc.Deflection.getAsDegreesDouble(),
+            delta: 0.00001, message: "Deflection");
+         Assert.AreEqual(
+            expected: 0.0,
+            actual: anArc.Eccentricity,
+            delta: 0.00001, message: "Eccentricity");
+         Assertt.AreEqual(
+            expected: new Point(150.0, 150.0),
+            actual: anArc.EndPoint);
+         var expecVec = new Vector(Azimuth.ctorAzimuthFromDegree(90.0),
+            50.0);
+         Assertt.AreEqual(
+            expected: expecVec,
+            actual: anArc.EndRadiusVector);
+         Assertt.AreEqual(
+            expected: new Point(100.0, 100.0),
+            actual: anArc.Origin);
+         Assert.AreEqual(
+            expected: 50.0,
+            actual: anArc.Radius,
+            delta: 0.00001, message: "Radius");
+         Assert.AreEqual(
+            expected: 90.0,
+            actual: anArc.Rotation.getAsDegreesDouble(),
+            delta: 0.00001, message: "Rotation");
+         Assertt.AreEqual(
+            expected: new Vector(1.0,1.0),
+            actual: anArc.ScaleVector);
+      }
+
+      [TestMethod]
+      public void Arc_CreateArc_ctor3DeflectingRight90_IsCorrect()
+      {
+         var anArc = new Arc(new Point(100.0, 100.0),
+            Azimuth.ctorAzimuthFromDegree(90),
             Deflection.ctorDeflectionFromAngle(90.0, 1), 50.0);
 
          Assert.IsNotNull(anArc);

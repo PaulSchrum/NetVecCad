@@ -84,7 +84,7 @@ namespace NVcad.Models
          this.AddGraphic(new LineSegment(0.0, 0.0, 0.5, 0.25));
          this.AddGraphic(new LineSegment(2.0, 1.0, 1.0, 1.0));
 
-         this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, 1.3));
+         this.AddGraphic(new LineSegment(0.0, 0.0, 1.5, 0.0));
 
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -1.3));
          this.AddGraphic(new LineSegment(0.1, 0.0, -1.3, -0.7));
@@ -94,16 +94,18 @@ namespace NVcad.Models
          this.AddGraphic(new LineSegment(0.1, 0.0, 1.6, -1.6));
          this.AddGraphic(new Text("1.6, -0.6", new Point(1.6, -0.6), 0.25));
          this.AddGraphic(new Text("-2, +0.9", new Point(-2, 0.9), 0.45));
-         var rotText = new Text("Rotated", new Point(-1,-1), 0.3);
+         var rotText = new Text("Rotated", new Point(-1, -1), 0.3);
          rotText.Rotation = Angle.radiansFromDegree(-11);
          this.AddGraphic(rotText);
 
-         var anArc = new Arc(new Point(50.0, -30.0),
-            Azimuth.ctorAzimuthFromAngle(90), 
-            Deflection.ctorDeflectionFromAngle(90.0, 1), 170.0);
+         var anArc = new Arc(new Point(-1.4, 1.5),
+            Azimuth.ctorAzimuthFromDegree(20.0),
+            Deflection.ctorDeflectionFromAngle(350.0, 1), 0.25);
          this.AddGraphic(anArc);
-         //this.AddGraphic(new Arc(new Point(-1.25, 1.25),
-         //   new Point(1.5, 1.2), -40.0));
+         //anArc = new Arc(new Point(0.0, 0.0),
+         //   Azimuth.ctorAzimuthFromDegree(80.0),
+         //   Deflection.ctorDeflectionFromAngle(350.0, -1), 10.0);
+         //this.AddGraphic(anArc);
 
          this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.7, 1.7, null);
       }

@@ -38,8 +38,11 @@ namespace NVcad.CadObjects
          Origin = StartPt;
          Deflection = defl;
 
+         Azimuth BegRadiusDirection = incomingDir + 
+            new Deflection(Math.PI / 2.0, -1 * Deflection.deflectionDirection); 
+
          BeginRadiusVector = new Vector(
-            direction: incomingDir + -1 * Deflection.deflectionDirection * 90.0, 
+            direction: BegRadiusDirection, 
             length: radius);
          CenterPt = StartPt - BeginRadiusVector;
          BeginPointAngle = Deflection / 2;
@@ -58,7 +61,8 @@ namespace NVcad.CadObjects
       {
          get
          {
-            return BeginRadiusVector.DirectionHorizontal + Angle.radiansFromDegree(90.0);
+            return BeginRadiusVector.DirectionHorizontal + 
+               Angle.radiansFromDegree(this.deflection_.deflectionDirection * 90.0);
          }
          set
          { }

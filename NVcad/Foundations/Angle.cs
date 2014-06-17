@@ -14,7 +14,7 @@ namespace NVcad.Foundations
       //private Point point1;
       //private Point point2;
 
-      public static Angle HALFCIRCLE 
+      public static Angle WHOLECIRCLE 
       {
          get { return new Angle(2.0 * Math.PI); } 
          private set{}
