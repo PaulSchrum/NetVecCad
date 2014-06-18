@@ -57,9 +57,6 @@ namespace NVcadView
    public class NVcad2dViewCanvas : Canvas,
       ICadViewChangedNotification
    {
-      SoundPlayer clickSound = 
-         new SoundPlayer(@"C:\SourceModules\NetVecCad\NVcadView\typewriter-key-1.wav");
-
       CadViewPort myCadViewPort_;
       internal CadViewPort myCadViewPort
       {
