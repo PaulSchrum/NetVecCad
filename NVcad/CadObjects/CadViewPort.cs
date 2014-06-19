@@ -114,5 +114,15 @@ namespace NVcad.CadObjects
             this.pairedUIview.ViewContentsChanged();
       }
 
+
+      public void SlideOrigin(double dx, double dy, Double? dz)
+      {
+         this.Origin.x += dx;
+         this.Origin.y += dy;
+         if (null != dz && null != this.Origin.z) this.Origin.z += dz;
+         // todo: update for rotated views
+
+         this.BoundingBox.Slide(dx, dy, dz);
+      }
    }
 }

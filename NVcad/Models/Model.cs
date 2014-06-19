@@ -38,6 +38,8 @@ namespace NVcad.Models
 
          // Code Documentation Tag 20140603_02
          var defaultViewPort = new CadViewPort(defaultViewPortName, this);
+         defaultViewPort.Origin.x = 0.0;
+         defaultViewPort.Origin.y = 0.0;
          this.AddViewPort(defaultViewPortName, defaultViewPort);
 
          // Code Documentation Tag 20140603_03
@@ -102,12 +104,6 @@ namespace NVcad.Models
             Azimuth.ctorAzimuthFromDegree(20.0),
             Deflection.ctorDeflectionFromAngle(350.0, 1), 0.25);
          this.AddGraphic(anArc);
-         //anArc = new Arc(new Point(0.0, 0.0),
-         //   Azimuth.ctorAzimuthFromDegree(80.0),
-         //   Deflection.ctorDeflectionFromAngle(350.0, -1), 10.0);
-         //this.AddGraphic(anArc);
-
-         this.allViewPorts.FirstOrDefault().Value.ScaleVector = new Vector(1.7, 1.7, null);
       }
 
       public event PropertyChangedEventHandler PropertyChanged;

@@ -191,5 +191,18 @@ namespace NVcad.Foundations.Coordinates
 
          return true;
       }
+
+      internal void Slide(Double dx, Double dy, Double? dz)
+      {
+         this.lowerLeftPt.x += dx;
+         this.lowerLeftPt.y += dy;
+         if (null != dz && null != this.lowerLeftPt.z)
+            this.lowerLeftPt.z += dz;
+
+         this.upperRightPt.x += dx;
+         this.upperRightPt.y += dy;
+         if (null != dz && null != this.upperRightPt.z)
+            this.upperRightPt.z += dz;
+      }
    }
 }

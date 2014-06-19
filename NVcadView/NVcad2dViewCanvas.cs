@@ -80,6 +80,8 @@ namespace NVcadView
       {  // Code Documentation Tag 20140603_05
          myCadViewPort = newViewPort;
          myCadViewPort.pairedUIview = this;
+         this.MouseDown += new MouseButtonEventHandler(local_MouseDown);
+         this.MouseMove += new MouseEventHandler(local_MouseMove);
       }
 
       System.Windows.Point mousePos_;
@@ -104,6 +106,24 @@ namespace NVcadView
          {
             return;
          }
+      }
+
+      private Point lastPos { get; set; }
+      private Point moveDelta;
+      private void local_MouseMove(object sender, MouseEventArgs e)
+      {
+         if(e.LeftButton == MouseButtonState.Pressed)
+         {
+            moveDelta.X = e.GetPosition(this).X - lastPos.X;
+            moveDelta.Y = e.GetPosition(this).Y - lastPos.Y;
+            updateTranformsForTranslate();
+            lastPos = e.GetPosition(this);
+         }
+      }
+
+      private void local_MouseDown(object sender, MouseEventArgs e)
+      {
+         lastPos = e.GetPosition(this);
       }
 
       Point canvasCenter;
@@ -133,11 +153,41 @@ namespace NVcadView
                96.0 / this.myCadViewPort.ScaleVector.y, 
                canvasCenter.X, canvasCenter.Y)
             );
+         xformGroup_allButText.Children.Add(
+            new TranslateTransform(
+               this.myCadViewPort.Origin.x * -96.0 / this.myCadViewPort.ScaleVector.x,
+               this.myCadViewPort.Origin.y * 96.0 / this.myCadViewPort.ScaleVector.y)
+            );
 
          xformGroup_text1 = new TransformGroup();
          xformGroup_text1.Children.Add(
             new TranslateTransform(canvasCenter.X,
                1 * canvasCenter.Y));
+      }
+
+      internal void updateTranformsForTranslate()
+      {
+         Double dx = moveDelta.X * this.myCadViewPort.ScaleVector.x / -96.0;
+         Double dy = moveDelta.Y * this.myCadViewPort.ScaleVector.y / 96.0;
+         this.myCadViewPort.SlideOrigin(
+            dx: dx,
+            dy: dy,
+            dz: null);
+         //System.Diagnostics.Debug.Print("md " + moveDelta.ToString());
+         //System.Diagnostics.Debug.Print("cv " + this.myCadViewPort.Origin.ToString());
+         this.xformGroup_allButText.Children.Add(
+               new TranslateTransform(moveDelta.X, moveDelta.Y)
+            );
+         this.xformGroup_text1.Children.Add(
+               new TranslateTransform(moveDelta.X, moveDelta.Y)
+            );
+         updateAllElements();
+      }
+
+      private void updateAllElements()
+      {
+         this.Children.Clear();
+         this.refresh();
       }
 
       public void ViewCreatedAnew()
@@ -280,6 +330,8 @@ namespace NVcadView
          MousePos = xformGroup_allButText.Inverse.Transform(e.GetPosition(this));
          //System.Diagnostics.Debug.Print("Hi {0}  {1}", MousePos.X.ToString(),
          //   MousePos.Y.ToString());
+
+         // PrevMousePos = MousePos;  start here Albert
       }
 
    }
