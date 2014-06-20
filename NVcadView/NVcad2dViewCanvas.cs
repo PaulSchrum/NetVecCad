@@ -82,6 +82,31 @@ namespace NVcadView
          myCadViewPort.pairedUIview = this;
          this.MouseDown += new MouseButtonEventHandler(local_MouseDown);
          this.MouseMove += new MouseEventHandler(local_MouseMove);
+         this.MouseWheel += new MouseWheelEventHandler(local_MouseWheel);
+      }
+
+      private double wheelZoomFactor = Math.Sqrt(2.0);
+      private void local_MouseWheel(object sender, MouseWheelEventArgs e)
+      {
+         Double actualScale = wheelZoomFactor;
+         int sign = Math.Sign(e.Delta);
+         if (sign < 0) actualScale = 1.0 / wheelZoomFactor;
+         updateTransformsForScale(actualScale);
+         updateAllElements();
+      }
+
+      private void updateTransformsForScale(Double scale)
+      {
+         //this.myCadViewPort.sc
+         this.myCadViewPort.ScaleVector.scale(
+            scale, scale, null);
+         this.xformGroup_allButText.Children.Add(
+               new ScaleTransform(scale, scale)
+            );
+         this.xformGroup_text1.Children.Add(
+               new ScaleTransform(scale, scale)
+            );
+         updateAllElements();
       }
 
       System.Windows.Point mousePos_;
