@@ -92,6 +92,22 @@ namespace NVcad.CadObjects
          return visibleGraphicItems.Union(visibleViews);
       }
 
+      public void ScaleAbout(Point scalePt, Double scaleFactor)
+      {
+         this.scale_.x *= scaleFactor;
+         this.scale_.y *= scaleFactor;
+         this.scale_.z *= scaleFactor;
+
+         this.Height *= scaleFactor;
+         this.Width *= scaleFactor;
+
+         this.Origin.x = scalePt.x - (scaleFactor * (scalePt.x - this.Origin.x));
+         this.Origin.y = scalePt.y - (scaleFactor * (scalePt.y - this.Origin.y));
+         this.Origin.z = scalePt.z - (scaleFactor * (scalePt.z - this.Origin.z));
+
+         pairedUIview.ViewGeometryChanged();
+      }
+
       protected void updateBoundingBox()
       {
          if (null == this.BoundingBox) this.BoundingBox = new BoundingBox();

@@ -18,7 +18,7 @@ namespace NVcad
    {
       void ViewCreatedAnew();
       void ViewContentsChanged();
-      //void ViewGeometryChanged();
+      void ViewGeometryChanged();
       //void FeatureFilterChanged();
       //void SymbologyAdapterChanged();
       //void TransparenciesChanged();

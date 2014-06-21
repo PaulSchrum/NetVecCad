@@ -132,5 +132,9 @@ namespace NVcad.Foundations.Coordinates
             dblZ.ToString(NumberFormatInfo.InvariantInfo);
       }
 
+      public static explicit operator Point(System.Windows.Point pt)
+      {
+         return new Point(pt.X, pt.Y, null);
+      }
    }
 }

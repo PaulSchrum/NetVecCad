@@ -90,14 +90,22 @@ namespace NVcadView
       {
          Double actualScale = wheelZoomFactor;
          int sign = Math.Sign(e.Delta);
-         if (sign < 0) actualScale = 1.0 / wheelZoomFactor;
-         updateTransformsForScale(actualScale);
-         updateAllElements();
+         if (sign > 0) actualScale = 1.0 / wheelZoomFactor;
+
+         Point screenPt = e.GetPosition(this);
+         NVCFND.Point zoomPt = GetWorldPoint(e.GetPosition(this));
+         this.myCadViewPort.ScaleAbout(zoomPt, actualScale);
+      }
+
+      private NVCFND.Point GetWorldPoint(Point screenPt)
+      {
+         var xfPoint = xformGroup_allButText.Inverse.Transform(screenPt);
+         return
+            (NVCFND.Point)xfPoint;
       }
 
       private void updateTransformsForScale(Double scale)
       {
-         //this.myCadViewPort.sc
          this.myCadViewPort.ScaleVector.scale(
             scale, scale, null);
          this.xformGroup_allButText.Children.Add(
@@ -106,7 +114,7 @@ namespace NVcadView
          this.xformGroup_text1.Children.Add(
                new ScaleTransform(scale, scale)
             );
-         updateAllElements();
+         this.refresh();
       }
 
       System.Windows.Point mousePos_;
@@ -206,12 +214,6 @@ namespace NVcadView
          this.xformGroup_text1.Children.Add(
                new TranslateTransform(moveDelta.X, moveDelta.Y)
             );
-         updateAllElements();
-      }
-
-      private void updateAllElements()
-      {
-         this.Children.Clear();
          this.refresh();
       }
 
@@ -337,6 +339,12 @@ namespace NVcadView
       //        new FrameworkPropertyMetadata(typeof(NVcad2dViewCanvas)));
       //}
 
+      public void ViewGeometryChanged()
+      {
+         this.establishTransforms();
+         this.refresh();
+      }
+
       public void ViewContentsChanged()
       {
          this.refresh();
@@ -344,6 +352,7 @@ namespace NVcadView
 
       internal void refresh()
       {
+         this.Children.Clear();
          foreach (var grphic in this.myCadViewPort.getVisibleGraphicElements())
          {
             this.DrawGraphicItem(grphic);
