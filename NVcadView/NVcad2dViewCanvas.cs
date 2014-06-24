@@ -196,6 +196,12 @@ namespace NVcadView
          xformGroup_text1.Children.Add(
             new TranslateTransform(canvasCenter.X,
                1 * canvasCenter.Y));
+         xformGroup_text1.Children.Add(
+            new ScaleTransform(
+               1.0 / this.myCadViewPort.ScaleVector.x, 
+               1.0 / this.myCadViewPort.ScaleVector.y, 
+               canvasCenter.X, canvasCenter.Y)
+            );
       }
 
       internal void updateTranformsForTranslate()
@@ -206,8 +212,6 @@ namespace NVcadView
             dx: dx,
             dy: dy,
             dz: null);
-         //System.Diagnostics.Debug.Print("md " + moveDelta.ToString());
-         //System.Diagnostics.Debug.Print("cv " + this.myCadViewPort.Origin.ToString());
          this.xformGroup_allButText.Children.Add(
                new TranslateTransform(moveDelta.X, moveDelta.Y)
             );
@@ -248,13 +252,12 @@ namespace NVcadView
 
       protected void DrawGraphicItem(NVCO.Text textItem)
       {
-         var scrnPt = new Point(textItem.Origin.x * 96, 
-            textItem.Origin.y * -96);
+         var scrnPt = xformGroup_allButText.Transform(textItem.Origin);
+
          var aTextBox = new TextBox();
          aTextBox.FontFamily = new FontFamily("Arial");
          aTextBox.FontSize = textItem.Height * 72 / 
             this.myCadViewPort.ScaleVector.y;
-         //aTextBox.FontSize = 4.6;
          aTextBox.BorderBrush = Brushes.Transparent;
          aTextBox.Background = Brushes.Transparent;
          aTextBox.Margin = new Thickness(0, 0, 0, 0);
@@ -264,7 +267,7 @@ namespace NVcadView
          else
             aTextBox.Padding = new Thickness(-6, -6, -6, -6);
          aTextBox.Text = textItem.Content;
-         var xfrmGrp = xformGroup_text1.Clone();
+         var xfrmGrp = new TransformGroup();
          if (textItem.Rotation.getAsDegreesDouble() != 0.0)
          {
             var rotAboutPt = xformGroup_text1.Transform(textItem.Origin);
@@ -275,9 +278,9 @@ namespace NVcadView
                   )
                );
          }
-         aTextBox.RenderTransform = xfrmGrp;
-         Canvas.SetLeft(aTextBox, scrnPt.X / this.myCadViewPort.ScaleVector.x);
-         Canvas.SetTop(aTextBox, scrnPt.Y / this.myCadViewPort.ScaleVector.y);
+         //aTextBox.RenderTransform = xfrmGrp;
+         Canvas.SetLeft(aTextBox, scrnPt.X );/// this.myCadViewPort.ScaleVector.x);
+         Canvas.SetTop(aTextBox, scrnPt.Y);/// this.myCadViewPort.ScaleVector.y);
 
          this.Children.Add(aTextBox);
       }
