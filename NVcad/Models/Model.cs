@@ -78,6 +78,23 @@ namespace NVcad.Models
          allViewPorts.Add(Name, newViewPort);
       }
 
+      public void fitView(String viewName)
+      {  // Technical Debt: This only works on the first view.
+         // Later it must work on the view that the command
+         // issues from.
+         CadViewPort aView;
+         if (viewName.Length > 0)
+         {
+            if (!allViewPorts.ContainsKey(viewName)) return;
+            aView = allViewPorts[viewName];
+         }
+         else
+         {
+            aView = allViewPorts.FirstOrDefault().Value;
+         }
+         aView.FitView();
+      }
+
       public void setUpTestingModel_20140422()
       {
          allGrahics = new List<Graphic>();

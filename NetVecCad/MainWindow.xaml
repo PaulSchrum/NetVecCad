@@ -26,6 +26,14 @@
             <ColumnDefinition Width="0" MaxWidth="24"/>
             <ColumnDefinition Width="24" MaxWidth="24"/>
         </Grid.ColumnDefinitions>
+        <Menu IsMainMenu="True" 
+              Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+            <MenuItem Header="_File"/>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Fit"
+                          Click="MenuItem_ViewFit_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
         <xctk:WindowContainer Grid.Column="2" Grid.Row="2" 
             x:Name="MainWindowContainer" 
             Loaded="MainWindowContainer_Loaded" Background="#FF64C6EC">

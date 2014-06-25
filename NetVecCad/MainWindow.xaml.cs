@@ -62,6 +62,11 @@ namespace NetVecCad
          //t.Start();
       }
 
+      private void MenuItem_ViewFit_Click(object sender, RoutedEventArgs e)
+      {
+         this.activeModerator.FitView();
+      }
+
 
    }
 }

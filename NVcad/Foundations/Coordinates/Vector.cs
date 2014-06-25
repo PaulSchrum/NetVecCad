@@ -66,6 +66,31 @@ namespace NVcad.Foundations.Coordinates
          return new Vector(this.x, this.y, null);
       }
 
+      public Double getAbsMax()
+      {
+         Double intermedSecond;
+         intermedSecond = (this.z == null) ? 
+            Math.Abs(this.y) :
+            Math.Max(Math.Abs(this.y), Math.Abs((Double) this.z));
+         return Math.Max(Math.Abs(this.x), intermedSecond);
+      }
+
+      public Double getScaleToMatch_maximized(Vector other)
+      {
+         return 
+            (this.getScaleToMatch(other)).getAbsMax();
+      }
+
+      public Vector getScaleToMatch(Vector other)
+      {
+         Vector retVec = new Vector();
+         retVec.x = other.x / this.x;
+         retVec.y = other.y / this.y;
+         retVec.z = other.z / this.z;
+
+         return retVec;
+      }
+
       public Point plus(Point aPoint)
       {
          return new Point(aPoint.x + this.x, aPoint.y + this.y, aPoint.z.Value + this.z.Value);

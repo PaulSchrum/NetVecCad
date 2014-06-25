@@ -140,5 +140,26 @@ namespace NVcad.CadObjects
 
          this.BoundingBox.Slide(dx, dy, dz);
       }
+
+      internal void FitView()
+      {
+         Vector screenVec = new Vector();
+         screenVec.x = pairedUIview.getWidth();
+         screenVec.y = pairedUIview.getHeight();
+         var scaleFac = 
+            this.BoundingBox.getAsVectorLLtoUR().
+            getScaleToMatch_maximized(
+               this.parentModel.getBoundingBox().getAsVectorLLtoUR());
+
+         screenVec.scale(scaleFac, scaleFac, scaleFac);
+         // I have to divide the scale by 6.  I do not understand why.
+         this.scale_.x = screenVec.x / 6;
+         this.scale_.y = screenVec.y / 6;
+         this.scale_.z = screenVec.z / 6;
+
+         this.Origin = this.parentModel.getBoundingBox().getCenterPoint();
+
+         pairedUIview.ViewGeometryChanged();
+      }
    }
 }

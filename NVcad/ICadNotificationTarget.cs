@@ -22,5 +22,8 @@ namespace NVcad
       //void FeatureFilterChanged();
       //void SymbologyAdapterChanged();
       //void TransparenciesChanged();
+
+      Double getWidth();
+      Double getHeight();
    }
 }

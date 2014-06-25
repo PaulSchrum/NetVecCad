@@ -371,6 +371,11 @@ namespace NVcadView
          // PrevMousePos = MousePos;  start here Albert
       }
 
+      public Double getWidth()
+      { return this.ActualWidth; }
+
+      public Double getHeight()
+      { return this.ActualHeight; }
    }
 
    internal static class extensionMethods

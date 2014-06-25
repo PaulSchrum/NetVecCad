@@ -178,6 +178,14 @@ namespace NVcad.Foundations.Coordinates
          return new Vector(this.lowerLeftPt, this.upperRightPt);
       }
 
+      internal Point getCenterPoint()
+      {
+         return new Point(
+            (this.upperRightPt.x + this.lowerLeftPt.x) / 2,
+            (this.upperRightPt.y + this.lowerLeftPt.y) / 2,
+            (this.upperRightPt.z + this.lowerLeftPt.z) / 2);
+      }
+
       public bool overlapsWith(BoundingBox other)
       {
          if (this.upperRightPt.x < other.lowerLeftPt.x)
@@ -204,5 +212,6 @@ namespace NVcad.Foundations.Coordinates
          if (null != dz && null != this.upperRightPt.z)
             this.upperRightPt.z += dz;
       }
+
    }
 }

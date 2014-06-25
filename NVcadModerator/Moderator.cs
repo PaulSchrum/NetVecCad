@@ -169,6 +169,11 @@ namespace NVcadModerator
          }
       }
 
+
+      public void FitView()
+      {
+         this.Model.fitView("");
+      }
    }
 
    public static class ModeratorExtensionMethods
