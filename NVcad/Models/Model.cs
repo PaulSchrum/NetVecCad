@@ -10,6 +10,7 @@ using NVcad.Foundations;
 using NVcad.Foundations.WorkingUnits;
 using System.ComponentModel;
 using NVcad.Foundations.Angles;
+using NVcad.Foundations.Symbology;
 
 namespace NVcad.Models
 {
@@ -21,6 +22,7 @@ namespace NVcad.Models
       internal Dictionary<String, CadViewPort> allViewPorts { get; set; }
       internal List<Graphic> allGrahics { get; set; } // All except ViewPorts  // maybe refactor later to concurrent collection
       protected ICadNotificationTarget NotificationTarget { get; set; }
+      public FeatureList FeatureList { get; protected set; }
 
       public Model() 
       {
@@ -29,6 +31,7 @@ namespace NVcad.Models
          allViewPorts = new Dictionary<String, CadViewPort>();
          allGrahics = new List<Graphic>();
          NotificationTarget = null;
+         FeatureList = new FeatureList();
       }
 
       public Model(ICadNotificationTarget aNotificationTarget) : this()

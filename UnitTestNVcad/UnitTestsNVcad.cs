@@ -7,6 +7,7 @@ using NVcad.Foundations.Coordinates;
 using NVcad.Foundations.WorkingUnits;
 using NVcad.CadObjects;
 using System.Media;
+using NVcad.Foundations.Symbology;
 
 namespace UnitTestNVcad
 {
@@ -737,6 +738,78 @@ namespace UnitTestNVcad
             expected: new Vector(1.0,1.0),
             actual: anArc.ScaleVector);
       }
+
+      [TestMethod]
+      public void FeatureList_NewHasDefaultFeature()
+      {
+         FeatureList fl = new FeatureList();
+         Assert.AreEqual(expected: 1,
+            actual: fl.Children.Count);
+         Assert.AreEqual(expected: "Default",
+            actual: fl.Children["Default"].Name);
+      }
+
+      private void add3Features(FeatureList aFL)
+      {
+         var f1 = new Feature();
+         f1.Name = "F1";
+         aFL.AddFeature(f1);
+         f1 = new Feature();
+         f1.Name = "F2";
+         aFL.AddFeature(f1);
+         f1 = new Feature();
+         f1.Name = "F3";
+         aFL.AddFeature(f1);
+      }
+
+      [TestMethod]
+      public void FeatureList_Adding3Features_yields4Count()
+      {
+         FeatureList fl = new FeatureList();
+         add3Features(fl);
+         Assert.AreEqual(expected: 4,
+            actual: fl.Children.Count);
+      }
+
+      [TestMethod]
+      public void FeatureList_RemovingDefault_Fails()
+      {
+         FeatureList fl = new FeatureList();
+         add3Features(fl);
+         int precount = fl.Children.Count;
+         bool actual = fl.TryRemoveFeature("Default");
+         Assert.AreEqual(expected: false,
+            actual: actual);
+         Assert.AreEqual(expected: precount,
+            actual: fl.Children.Count);
+      }
+
+      [TestMethod]
+      public void FeatureList_RemovingExistingMember_Succeeds()
+      {
+         FeatureList fl = new FeatureList();
+         add3Features(fl);
+         int precount = fl.Children.Count;
+         bool actual = fl.TryRemoveFeature("F2");
+         Assert.AreEqual(expected: true,
+            actual: actual);
+         Assert.AreEqual(expected: precount - 1,
+            actual: fl.Children.Count);
+      }
+
+      [TestMethod]
+      public void FeatureList_RemovingNonExistantMember_Fails()
+      {
+         FeatureList fl = new FeatureList();
+         add3Features(fl);
+         int precount = fl.Children.Count;
+         bool actual = fl.TryRemoveFeature("Doesnt Exist");
+         Assert.AreEqual(expected: false,
+            actual: actual);
+         Assert.AreEqual(expected: precount,
+            actual: fl.Children.Count);
+      }
+
    }
 
    public static class Assertt
