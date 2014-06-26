@@ -102,6 +102,7 @@ namespace NVcad.Models
 
       public void setUpTestingModel_20140422()
       {
+         setUpFeaturesForTestingModel();
          allGrahics = new List<Graphic>();
          this.AddGraphic(new LineSegment(1.0, 8.5, 13.2, 0.8));
          this.AddGraphic(new LineSegment(1.0, 2.5, 3.2, 0.8));
@@ -135,9 +136,9 @@ namespace NVcad.Models
          var anArc = new Arc(new Point(-1.4, 1.5),
             Azimuth.ctorAzimuthFromDegree(20.0),
             Deflection.ctorDeflectionFromAngle(350.0, 1), 0.25);
+         anArc.Feature = this.FeatureList.Children["BlueDashed"];
          this.AddGraphic(anArc);
-         setUpFeaturesForTestingModel();
-         allGrahics[0].Feature = this.FeatureList.Children["Default"];
+         allGrahics[0].Feature = this.FeatureList.Children["GreenDot"];
          allGrahics[1].Feature = this.FeatureList.Children["RedThick"];
          allGrahics[2].Feature = this.FeatureList.Children["BlueDashed"];
       }
@@ -147,15 +148,23 @@ namespace NVcad.Models
          Feature ft = new Feature();
          ft.Name = "RedThick";
          ft.Color = (ColorAsBrush)WPFmedia.Brushes.Red;
-         ft.Weight = 4;
-         ft.Style = 0;  // Continuous
+         ft.Weight = 9;
+         ft.Thickness = 1/12.0;
+         ft.Style = 2;  // Medium Dashed
          this.FeatureList.AddFeature(ft);
 
          ft = new Feature();
          ft.Name = "BlueDashed";
          ft.Color = (ColorAsBrush)WPFmedia.Brushes.Blue;
          ft.Weight = 1;
-         ft.Style = 1;  // Dashed
+         ft.Style = 1;  // Long Dashed
+         this.FeatureList.AddFeature(ft);
+
+         ft = new Feature();
+         ft.Name = "GreenDot";
+         ft.Color = (ColorAsBrush)WPFmedia.Brushes.Green;
+         ft.Weight = 1;
+         ft.Style = 3;  // Dots
          this.FeatureList.AddFeature(ft);
 
       }

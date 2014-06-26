@@ -23,6 +23,8 @@ using NVcadView;
 using System.ComponentModel;
 using System.Media;
 using System.Windows.Threading;
+using NVcad.Foundations.Symbology;
+using SYMB = NVcad.Foundations.Symbology;
 
 namespace NVcadView
 {
@@ -331,9 +333,10 @@ namespace NVcadView
          System.Windows.Shapes.Path path = new System.Windows.Shapes.Path();
          path.Data = pGeom;
          path.Fill = Brushes.Transparent;
-         path.Stroke = Brushes.Black;
-         path.StrokeThickness = 2.5 * itemWidthUnscale;
+         //path.Stroke = Brushes.Black;
+         //path.StrokeThickness = 2.5 * itemWidthUnscale;
          //path.StrokeThickness = 2.0;
+         setSymbology(path, arcItem);
          path.RenderTransform = xformGroup_allButText;
 
          this.Children.Add(path);
@@ -348,11 +351,7 @@ namespace NVcadView
          aLine.Y2 = lineSegment.EndPoint.y;
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
-         //aLine.Stroke = Brushes.Black;
          setSymbology(aLine, lineSegment);
-         aLine.StrokeThickness = 2.5 * itemWidthUnscale;
-         // aLine.Stroke = Stroke_;
-         // aLine.StrokeDashArray = strokeDashArray_;
          aLine.RenderTransform = xformGroup_allButText;
 
          this.Children.Add(aLine);
@@ -360,7 +359,33 @@ namespace NVcadView
 
       private void setSymbology(Shape WpfItem, Graphic graphicItem)
       {
-         WpfItem.Stroke = graphicItem.Feature.Color.getAsBrush();
+         Feature ft = graphicItem.Feature;
+         WpfItem.Stroke = ft.Color.getAsBrush();
+         WpfItem.StrokeThickness = getStrokeThickness(ft);
+         WpfItem.StrokeDashArray = SYMB.Style.cvrtIntToStyle(ft.Style);
+      }
+
+      private Double getStrokeThickness(Feature itm)
+      {
+         const Double MAX_WT = 9.0;
+         //int preWt = (itm.Weight == null) ? 0 : (int)itm.Weight;
+         int preWt = (int) itm.Weight;
+         Double wt = (preWt > MAX_WT) ? MAX_WT : preWt;
+         wt = (wt / 2) + 0.5;
+         wt /= 96.0;
+
+         Double screenThickness = (itm.Thickness == null) ?
+            0.0 : (Double)itm.Thickness;
+         screenThickness /= this.myCadViewPort.ScaleVector.x;
+
+         Double retVal = (wt < screenThickness) ? screenThickness : wt;
+         retVal *= this.myCadViewPort.ScaleVector.x;
+         return retVal;
+      }
+
+      private DoubleCollection getStrokeDashArray(Feature itm)
+      {
+         return null;
       }
 
       //static NVcad2dViewCanvas()
@@ -391,6 +416,7 @@ namespace NVcadView
 
       private void NVcad2dViewCanvas_MouseMove(object sender, MouseEventArgs e)
       {
+         if (null == xformGroup_allButText) return;
          MousePos = xformGroup_allButText.Inverse.Transform(e.GetPosition(this));
          //System.Diagnostics.Debug.Print("Hi {0}  {1}", MousePos.X.ToString(),
          //   MousePos.Y.ToString());

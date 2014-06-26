@@ -67,6 +67,7 @@
     <Compile Include="Foundations\Symbology\Color\ColorAsBrush.cs" />
     <Compile Include="Foundations\Symbology\Feature.cs" />
     <Compile Include="Foundations\Symbology\FeatureList.cs" />
+    <Compile Include="Foundations\Symbology\Style.cs" />
     <Compile Include="Foundations\WorkingUnits\Length.cs" />
     <Compile Include="ICadNotificationTarget.cs" />
     <Compile Include="IcadView.cs" />
