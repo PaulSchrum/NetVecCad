@@ -363,6 +363,7 @@ namespace NVcadView
          WpfItem.Stroke = ft.Color.getAsBrush();
          WpfItem.StrokeThickness = getStrokeThickness(ft);
          WpfItem.StrokeDashArray = SYMB.Style.cvrtIntToStyle(ft.Style);
+         WpfItem.Opacity = 1.0 - (Double) ft.Transparency;
       }
 
       private Double getStrokeThickness(Feature itm)

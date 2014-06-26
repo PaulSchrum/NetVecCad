@@ -171,6 +171,7 @@ namespace NVcad.Models
          ft.Style = 3;  // Dots
          ft.Style = 0;
          ft.DisplayPriority = 10;
+         ft.Transparency = 0.75;
          this.FeatureList.AddFeature(ft);
 
       }
