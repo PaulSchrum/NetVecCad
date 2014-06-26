@@ -12,9 +12,11 @@ namespace NVcad.CadObjects
 {
    public class LineSegment : Path
    {
-      protected LineSegment() { }
+      protected LineSegment() : base()
+      { }
 
       public LineSegment(Double X1, Double Y1, Double X2, Double Y2)
+         : this()
       {
          this.Origin = new Point(X1, Y1);
          this.EndPoint = new Point(X2, Y2);

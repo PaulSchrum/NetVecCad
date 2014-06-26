@@ -8,5 +8,6 @@ namespace NVcad.CadObjects
 {
    public abstract class Geometric : Graphic
    {
+      public Geometric() : base() { }
    }
 }

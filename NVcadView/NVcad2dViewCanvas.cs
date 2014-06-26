@@ -327,13 +327,19 @@ namespace NVcadView
          aLine.Y2 = lineSegment.EndPoint.y;
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
-         aLine.Stroke = Brushes.Black;
+         //aLine.Stroke = Brushes.Black;
+         setSymbology(aLine, lineSegment);
          aLine.StrokeThickness = 2.5 * itemWidthUnscale;
          // aLine.Stroke = Stroke_;
          // aLine.StrokeDashArray = strokeDashArray_;
          aLine.RenderTransform = xformGroup_allButText;
 
          this.Children.Add(aLine);
+      }
+
+      private void setSymbology(Shape WpfItem, Graphic graphicItem)
+      {
+         WpfItem.Stroke = graphicItem.Feature.Color.getAsBrush();
       }
 
       //static NVcad2dViewCanvas()

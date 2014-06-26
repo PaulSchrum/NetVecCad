@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPFmedia=System.Windows.Media;
 
 using NVcad.Foundations.Coordinates;
 using NVcad.CadObjects;
@@ -11,6 +12,7 @@ using NVcad.Foundations.WorkingUnits;
 using System.ComponentModel;
 using NVcad.Foundations.Angles;
 using NVcad.Foundations.Symbology;
+using NVcad.Foundations.Symbology.Color;
 
 namespace NVcad.Models
 {
@@ -117,13 +119,35 @@ namespace NVcad.Models
          this.AddGraphic(new Text("1.6, -0.6", new Point(1.6, -0.6), 0.25));
          this.AddGraphic(new Text("-2, +0.9", new Point(-2, 0.9), 0.45));
          var rotText = new Text("Rotated", new Point(-1, -1), 0.3);
-         rotText.Rotation = Angle.radiansFromDegree(-11);
+         rotText.Rotation = Angle.radiansFromDegree(-31);
          this.AddGraphic(rotText);
 
          var anArc = new Arc(new Point(-1.4, 1.5),
             Azimuth.ctorAzimuthFromDegree(20.0),
             Deflection.ctorDeflectionFromAngle(350.0, 1), 0.25);
          this.AddGraphic(anArc);
+         setUpFeaturesForTestingModel();
+         allGrahics[0].Feature = this.FeatureList.Children["Default"];
+         allGrahics[1].Feature = this.FeatureList.Children["RedThick"];
+         allGrahics[2].Feature = this.FeatureList.Children["BlueDashed"];
+      }
+
+      private void setUpFeaturesForTestingModel()
+      {
+         Feature ft = new Feature();
+         ft.Name = "RedThick";
+         ft.Color = (ColorAsBrush)WPFmedia.Brushes.Red;
+         ft.Weight = 4;
+         ft.Style = 0;  // Continuous
+         this.FeatureList.AddFeature(ft);
+
+         ft = new Feature();
+         ft.Name = "BlueDashed";
+         ft.Color = (ColorAsBrush)WPFmedia.Brushes.Blue;
+         ft.Weight = 1;
+         ft.Style = 1;  // Dashed
+         this.FeatureList.AddFeature(ft);
+
       }
 
       public event PropertyChangedEventHandler PropertyChanged;

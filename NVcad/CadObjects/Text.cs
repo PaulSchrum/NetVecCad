@@ -19,7 +19,7 @@ namespace NVcad.CadObjects
          set { base.rotation_ = value; }
       }
 
-      protected Text() 
+      protected Text() : base() 
       {
          base.BoundingBox = new BoundingBox();
          base.rotation_ = new Angle(0.0);

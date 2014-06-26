@@ -9,6 +9,8 @@ namespace NVcad.CadObjects
 {
    public abstract class Path : Geometric
    {
+      public Path() : base() { }
+
       public Point EndPoint { get; set; }
    }
 }

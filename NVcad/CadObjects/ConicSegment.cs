@@ -11,6 +11,8 @@ namespace NVcad.CadObjects
 {
    public abstract class ConicSegment : Path
    {
+      public ConicSegment() : base() { }
+
       protected Double eccentricity_;
       public virtual Double Eccentricity 
       {

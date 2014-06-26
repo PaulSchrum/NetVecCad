@@ -11,7 +11,7 @@ namespace NVcad.CadObjects
 {
    public class Arc : ConicSegment
    {
-      protected Arc() 
+      protected Arc() : base()
       {
       }
 

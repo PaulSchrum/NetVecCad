@@ -11,6 +11,11 @@ namespace NVcad.CadObjects
 {
    public abstract class Graphic : CadObject, IBoundingBoxed
    {
+      public Graphic() : base()
+      {
+         Feature = Feature.Factory_NewFeature();
+      }
+
       public Feature Feature { get; set; }
       public Feature FeatureOverride { get; set; }
       public Point Origin { get; set; }

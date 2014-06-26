@@ -63,7 +63,8 @@
     <Compile Include="Foundations\Coordinates\StationOffsetElevation.cs" />
     <Compile Include="Foundations\Coordinates\Vector.cs" />
     <Compile Include="Foundations\Degree.cs" />
-    <Compile Include="Foundations\Symbology\Color.cs" />
+    <Compile Include="Foundations\Symbology\Color\Color.cs" />
+    <Compile Include="Foundations\Symbology\Color\ColorAsBrush.cs" />
     <Compile Include="Foundations\Symbology\Feature.cs" />
     <Compile Include="Foundations\Symbology\FeatureList.cs" />
     <Compile Include="Foundations\WorkingUnits\Length.cs" />

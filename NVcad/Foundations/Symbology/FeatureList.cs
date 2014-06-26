@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using NVcad.Foundations.Symbology.Color;
+
 namespace NVcad.Foundations.Symbology
 {
    public class FeatureList
@@ -28,8 +30,8 @@ namespace NVcad.Foundations.Symbology
 
       private void setDefaultFeature()
       {
-         DefaultFeature = new Feature();
-         DefaultFeature.Name = "Default";
+         DefaultFeature = Feature.Factory_NewFeature();
+         //DefaultFeature.Name = "Default";
          Children.Add(DefaultFeature.Name, DefaultFeature);
       }
 
