@@ -89,7 +89,12 @@ namespace NVcad.CadObjects
             where ((this.BoundingBox.overlapsWith(visView.Value.BoundingBox)) && 
                (visView.Key != this.Name))
             select visView.Value;
-         return visibleGraphicItems.Union(visibleViews);
+         var allOfEm = visibleGraphicItems.Union(visibleViews);
+         var sortedByDisplayPriority = from item in allOfEm.AsParallel()
+                                       orderby item.Feature.DisplayPriority
+                                       select item;
+
+         return sortedByDisplayPriority;
       }
 
       public void ScaleAbout(Point scalePt, Double scaleFactor)

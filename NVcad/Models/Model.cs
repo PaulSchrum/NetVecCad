@@ -105,7 +105,7 @@ namespace NVcad.Models
          setUpFeaturesForTestingModel();
          allGrahics = new List<Graphic>();
          this.AddGraphic(new LineSegment(1.0, 8.5, 13.2, 0.8));
-         this.AddGraphic(new LineSegment(1.0, 2.5, 3.2, 0.8));
+         this.AddGraphic(new LineSegment(1.0, 2.5, 13.2, 9.5));
          this.AddGraphic(new LineSegment(0.0, 0.0, 0.5, 0.25));
          this.AddGraphic(new LineSegment(2.0, 1.0, 1.0, 1.0));
 
@@ -135,7 +135,7 @@ namespace NVcad.Models
 
          var anArc = new Arc(new Point(-1.4, 1.5),
             Azimuth.ctorAzimuthFromDegree(20.0),
-            Deflection.ctorDeflectionFromAngle(350.0, 1), 0.25);
+            Deflection.ctorDeflectionFromAngle(310.0, 1), 0.25);
          anArc.Feature = this.FeatureList.Children["BlueDashed"];
          this.AddGraphic(anArc);
          allGrahics[0].Feature = this.FeatureList.Children["GreenDot"];
@@ -149,8 +149,10 @@ namespace NVcad.Models
          ft.Name = "RedThick";
          ft.Color = (ColorAsBrush)WPFmedia.Brushes.Red;
          ft.Weight = 9;
-         ft.Thickness = 1/12.0;
+         ft.Thickness = 1;
          ft.Style = 2;  // Medium Dashed
+         ft.Style = 0;
+         //ft.DisplayPriority = 90;  // uncomment and watch plot order change
          this.FeatureList.AddFeature(ft);
 
          ft = new Feature();
@@ -158,13 +160,17 @@ namespace NVcad.Models
          ft.Color = (ColorAsBrush)WPFmedia.Brushes.Blue;
          ft.Weight = 1;
          ft.Style = 1;  // Long Dashed
+         ft.DisplayPriority = 10;
          this.FeatureList.AddFeature(ft);
 
          ft = new Feature();
          ft.Name = "GreenDot";
          ft.Color = (ColorAsBrush)WPFmedia.Brushes.Green;
          ft.Weight = 1;
+         ft.Thickness = 2;
          ft.Style = 3;  // Dots
+         ft.Style = 0;
+         ft.DisplayPriority = 10;
          this.FeatureList.AddFeature(ft);
 
       }
