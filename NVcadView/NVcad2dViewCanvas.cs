@@ -22,6 +22,7 @@ using Xceed.Wpf.Toolkit.Primitives;
 using NVcadView;
 using System.ComponentModel;
 using System.Media;
+using System.Windows.Threading;
 
 namespace NVcadView
 {
@@ -270,20 +271,40 @@ namespace NVcadView
          var xfrmGrp = new TransformGroup();
          if (textItem.Rotation.getAsDegreesDouble() != 0.0)
          {
-            var rotAboutPt = xformGroup_text1.Transform(textItem.Origin);
+            aTextBox.RenderTransformOrigin = new Point(0,0);
+            var rotAboutPt = xformGroup_allButText.Transform(textItem.Origin);
             xfrmGrp.Children.Add(
                new RotateTransform(
-                  -1*textItem.Rotation.getAsDegreesDouble(),
-                  rotAboutPt.X, rotAboutPt.Y
+                  -1*textItem.Rotation.getAsDegreesDouble()
+                  //,
+                  //scrnPt.X, scrnPt.Y
                   )
                );
+            //tmpTxtBx.Add(aTextBox);
+            //tmr.Tick += new EventHandler(dspTmr);
+            //tmr.Interval = new TimeSpan(10000000/90);
+            //tmr.Start();
          }
-         //aTextBox.RenderTransform = xfrmGrp;
+         aTextBox.RenderTransform = xfrmGrp;
          Canvas.SetLeft(aTextBox, scrnPt.X );/// this.myCadViewPort.ScaleVector.x);
          Canvas.SetTop(aTextBox, scrnPt.Y);/// this.myCadViewPort.ScaleVector.y);
 
          this.Children.Add(aTextBox);
       }
+
+      //private List<TextBox> tmpTxtBx = new List<TextBox>();
+      //DispatcherTimer tmr = new DispatcherTimer();
+      //private void dspTmr(object sender, EventArgs e)
+      //{
+      //   foreach (var tx in tmpTxtBx)
+      //   {
+      //      TransformGroup grp = new TransformGroup();
+      //      grp.Children.Add(tx.RenderTransform);
+      //      grp.Children.Add(new RotateTransform(1.0,
+      //         tx.RenderTransformOrigin.X, tx.RenderTransformOrigin.Y));
+      //      tx.RenderTransform = grp;
+      //   }
+      //}
 
       protected void DrawGraphicItem(NVCO.Arc arcItem)
       {

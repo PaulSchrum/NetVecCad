@@ -118,9 +118,19 @@ namespace NVcad.Models
          this.AddGraphic(new LineSegment(0.1, 0.0, 1.6, -1.6));
          this.AddGraphic(new Text("1.6, -0.6", new Point(1.6, -0.6), 0.25));
          this.AddGraphic(new Text("-2, +0.9", new Point(-2, 0.9), 0.45));
-         var rotText = new Text("Rotated", new Point(-1, -1), 0.3);
-         rotText.Rotation = Angle.radiansFromDegree(-31);
-         this.AddGraphic(rotText);
+
+         var rotexPt = new Point(-1, -1);
+         //var rotText = new Text("Rotated 1", rotexPt, 0.3);
+         //rotText.Rotation = Angle.radiansFromDegree(1);
+         //this.AddGraphic(rotText);
+
+         //var rotText2 = new Text("Rotated 5", rotexPt, 0.3);
+         //rotText2.Rotation = Angle.radiansFromDegree(5);
+         //this.AddGraphic(rotText2);
+
+         var rotText3 = new Text("Rotated 340", rotexPt, 0.3);
+         rotText3.Rotation = Angle.radiansFromDegree(340);
+         this.AddGraphic(rotText3);
 
          var anArc = new Arc(new Point(-1.4, 1.5),
             Azimuth.ctorAzimuthFromDegree(20.0),
