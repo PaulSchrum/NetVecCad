@@ -120,7 +120,7 @@ namespace NVcad.Models
          this.AddGraphic(new Text("1.6, -0.6", new Point(1.6, -0.6), 0.25));
          this.AddGraphic(new Text("-2, +0.9", new Point(-2, 0.9), 0.45));
 
-         var rotexPt = new Point(-1, -1);
+         var rotexPt = new Point(-1.1, -0.6);
          //var rotText = new Text("Rotated 1", rotexPt, 0.3);
          //rotText.Rotation = Angle.radiansFromDegree(1);
          //this.AddGraphic(rotText);
@@ -131,6 +131,7 @@ namespace NVcad.Models
 
          var rotText3 = new Text("Rotated 340", rotexPt, 0.3);
          rotText3.Rotation = Angle.radiansFromDegree(340);
+         rotText3.Feature = this.FeatureList.Children["GreenDot"];
          this.AddGraphic(rotText3);
 
          var anArc = new Arc(new Point(-1.4, 1.5),
@@ -138,6 +139,7 @@ namespace NVcad.Models
             Deflection.ctorDeflectionFromAngle(310.0, 1), 0.25);
          anArc.Feature = this.FeatureList.Children["BlueDashed"];
          this.AddGraphic(anArc);
+         
          allGrahics[0].Feature = this.FeatureList.Children["GreenDot"];
          allGrahics[1].Feature = this.FeatureList.Children["RedThick"];
          allGrahics[2].Feature = this.FeatureList.Children["BlueDashed"];

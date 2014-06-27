@@ -269,6 +269,7 @@ namespace NVcadView
             aTextBox.Padding = new Thickness(0,0,0,0);
          else
             aTextBox.Padding = new Thickness(-6, -6, -6, -6);
+         setSymbologyText(aTextBox, textItem);
          aTextBox.Text = textItem.Content;
          var xfrmGrp = new TransformGroup();
          if (textItem.Rotation.getAsDegreesDouble() != 0.0)
@@ -336,7 +337,7 @@ namespace NVcadView
          //path.Stroke = Brushes.Black;
          //path.StrokeThickness = 2.5 * itemWidthUnscale;
          //path.StrokeThickness = 2.0;
-         setSymbology(path, arcItem);
+         setSymbologyNonText(path, arcItem);
          path.RenderTransform = xformGroup_allButText;
 
          this.Children.Add(path);
@@ -351,19 +352,26 @@ namespace NVcadView
          aLine.Y2 = lineSegment.EndPoint.y;
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
-         setSymbology(aLine, lineSegment);
+         setSymbologyNonText(aLine, lineSegment);
          aLine.RenderTransform = xformGroup_allButText;
 
          this.Children.Add(aLine);
       }
 
-      private void setSymbology(Shape WpfItem, Graphic graphicItem)
+      private void setSymbologyNonText(Shape WpfItem, Graphic graphicItem)
       {
          Feature ft = graphicItem.Feature;
          WpfItem.Stroke = ft.Color.getAsBrush();
          WpfItem.StrokeThickness = getStrokeThickness(ft);
          WpfItem.StrokeDashArray = SYMB.Style.cvrtIntToStyle(ft.Style);
          WpfItem.Opacity = 1.0 - (Double) ft.Transparency;
+      }
+
+      private void setSymbologyText(TextBox aTbx, NVCO.Text textItem)
+      {
+         Feature ft = textItem.Feature;
+         aTbx.Foreground = ft.Color.getAsBrush();
+         aTbx.Opacity = 1.0 - (Double)ft.Transparency; 
       }
 
       private Double getStrokeThickness(Feature itm)
