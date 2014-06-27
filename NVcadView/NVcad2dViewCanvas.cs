@@ -102,7 +102,7 @@ namespace NVcadView
 
       private NVCFND.Point GetWorldPoint(Point screenPt)
       {
-         var xfPoint = xformGroup_allButText.Inverse.Transform(screenPt);
+         var xfPoint = xformGroup_all.Inverse.Transform(screenPt);
          return
             (NVCFND.Point)xfPoint;
       }
@@ -111,10 +111,7 @@ namespace NVcadView
       {
          this.myCadViewPort.ScaleVector.scale(
             scale, scale, null);
-         this.xformGroup_allButText.Children.Add(
-               new ScaleTransform(scale, scale)
-            );
-         this.xformGroup_text1.Children.Add(
+         this.xformGroup_all.Children.Add(
                new ScaleTransform(scale, scale)
             );
          this.refresh();
@@ -138,10 +135,12 @@ namespace NVcadView
             myCadViewPort.parentModel.WorldMouse.PointX = mousePos_.X;
             myCadViewPort.parentModel.WorldMouse.PointY = mousePos_.Y;
          }
+#pragma warning disable 0169
          catch(NullReferenceException e)
          {
             return;
          }
+#pragma warning restore 0169
       }
 
       private Point lastPos { get; set; }
@@ -163,47 +162,37 @@ namespace NVcadView
       }
 
       Point canvasCenter;
-      Double itemWidthUnscale = 0;
-      TransformGroup xformGroup_allButText;
-      TransformGroup xformGroup_text1;
+      TransformGroup xformGroup_all;
       internal void establishTransforms()
       {  // Code Documentation Tag 20140603_06
          if (this.ActualWidth <= 0.0) return;
          this.myCadViewPort.SetHeightAndWidth(this.ActualHeight, this.ActualWidth, false);
          canvasCenter.X = this.ActualWidth / 2.0;
          canvasCenter.Y = this.ActualHeight / 2.0;
-         itemWidthUnscale = 1.0 / 96.0;
 
          // Code Documentation Tag 20140603_07
-         xformGroup_allButText = new TransformGroup();
-         xformGroup_allButText.Children.Add(
+         xformGroup_all = new TransformGroup();
+         xformGroup_all.Children.Add(
             new ScaleTransform(1, -1)
             );
          var w = this.ActualWidth;
          var h = this.ActualHeight;
-         xformGroup_allButText.Children.Add(
+         xformGroup_all.Children.Add(
             new TranslateTransform(canvasCenter.X, canvasCenter.Y));
-         xformGroup_allButText.Children.Add(
+         xformGroup_all.Children.Add(
             new ScaleTransform(
                96.0 / this.myCadViewPort.ScaleVector.x, 
                96.0 / this.myCadViewPort.ScaleVector.y, 
                canvasCenter.X, canvasCenter.Y)
             );
-         xformGroup_allButText.Children.Add(
+         xformGroup_all.Children.Add(
             new TranslateTransform(
                this.myCadViewPort.Origin.x * -96.0 / this.myCadViewPort.ScaleVector.x,
                this.myCadViewPort.Origin.y * 96.0 / this.myCadViewPort.ScaleVector.y)
             );
-
-         xformGroup_text1 = new TransformGroup();
-         xformGroup_text1.Children.Add(
-            new TranslateTransform(canvasCenter.X,
-               1 * canvasCenter.Y));
-         xformGroup_text1.Children.Add(
-            new ScaleTransform(
-               1.0 / this.myCadViewPort.ScaleVector.x, 
-               1.0 / this.myCadViewPort.ScaleVector.y, 
-               canvasCenter.X, canvasCenter.Y)
+         xformGroup_all.Children.Add(
+            new RotateTransform(
+               -this.myCadViewPort.Rotation.getAsDegreesDouble())
             );
       }
 
@@ -215,10 +204,7 @@ namespace NVcadView
             dx: dx,
             dy: dy,
             dz: null);
-         this.xformGroup_allButText.Children.Add(
-               new TranslateTransform(moveDelta.X, moveDelta.Y)
-            );
-         this.xformGroup_text1.Children.Add(
+         this.xformGroup_all.Children.Add(
                new TranslateTransform(moveDelta.X, moveDelta.Y)
             );
          this.refresh();
@@ -255,7 +241,7 @@ namespace NVcadView
 
       protected void DrawGraphicItem(NVCO.Text textItem)
       {
-         var scrnPt = xformGroup_allButText.Transform(textItem.Origin);
+         var scrnPt = xformGroup_all.Transform(textItem.Origin);
 
          var aTextBox = new TextBox();
          aTextBox.FontFamily = new FontFamily("Arial");
@@ -271,22 +257,24 @@ namespace NVcadView
             aTextBox.Padding = new Thickness(-6, -6, -6, -6);
          setSymbologyText(aTextBox, textItem);
          aTextBox.Text = textItem.Content;
+         aTextBox.RenderTransformOrigin = new Point(0, 0);
+         var rotAboutPt = xformGroup_all.Transform(textItem.Origin);
          var xfrmGrp = new TransformGroup();
-         if (textItem.Rotation.getAsDegreesDouble() != 0.0)
+         if (this.myCadViewPort.Rotation.getAsDegreesDouble() != 0.0)
          {
-            aTextBox.RenderTransformOrigin = new Point(0,0);
-            var rotAboutPt = xformGroup_allButText.Transform(textItem.Origin);
             xfrmGrp.Children.Add(
                new RotateTransform(
-                  -1*textItem.Rotation.getAsDegreesDouble()
-                  //,
-                  //scrnPt.X, scrnPt.Y
+                  -this.myCadViewPort.Rotation.getAsDegreesDouble()
                   )
                );
-            //tmpTxtBx.Add(aTextBox);
-            //tmr.Tick += new EventHandler(dspTmr);
-            //tmr.Interval = new TimeSpan(10000000/90);
-            //tmr.Start();
+         }
+         if (textItem.Rotation.getAsDegreesDouble() != 0.0)
+         {
+            xfrmGrp.Children.Add(
+               new RotateTransform(
+                  -1 * textItem.Rotation.getAsDegreesDouble()
+                  )
+               );
          }
          aTextBox.RenderTransform = xfrmGrp;
          Canvas.SetLeft(aTextBox, scrnPt.X );/// this.myCadViewPort.ScaleVector.x);
@@ -294,20 +282,6 @@ namespace NVcadView
 
          this.Children.Add(aTextBox);
       }
-
-      //private List<TextBox> tmpTxtBx = new List<TextBox>();
-      //DispatcherTimer tmr = new DispatcherTimer();
-      //private void dspTmr(object sender, EventArgs e)
-      //{
-      //   foreach (var tx in tmpTxtBx)
-      //   {
-      //      TransformGroup grp = new TransformGroup();
-      //      grp.Children.Add(tx.RenderTransform);
-      //      grp.Children.Add(new RotateTransform(1.0,
-      //         tx.RenderTransformOrigin.X, tx.RenderTransformOrigin.Y));
-      //      tx.RenderTransform = grp;
-      //   }
-      //}
 
       protected void DrawGraphicItem(NVCO.Arc arcItem)
       {
@@ -338,7 +312,7 @@ namespace NVcadView
          //path.StrokeThickness = 2.5 * itemWidthUnscale;
          //path.StrokeThickness = 2.0;
          setSymbologyNonText(path, arcItem);
-         path.RenderTransform = xformGroup_allButText;
+         path.RenderTransform = xformGroup_all;
 
          this.Children.Add(path);
       }
@@ -353,7 +327,7 @@ namespace NVcadView
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
          setSymbologyNonText(aLine, lineSegment);
-         aLine.RenderTransform = xformGroup_allButText;
+         aLine.RenderTransform = xformGroup_all;
 
          this.Children.Add(aLine);
       }
@@ -425,8 +399,8 @@ namespace NVcadView
 
       private void NVcad2dViewCanvas_MouseMove(object sender, MouseEventArgs e)
       {
-         if (null == xformGroup_allButText) return;
-         MousePos = xformGroup_allButText.Inverse.Transform(e.GetPosition(this));
+         if (null == xformGroup_all) return;
+         MousePos = xformGroup_all.Inverse.Transform(e.GetPosition(this));
          //System.Diagnostics.Debug.Print("Hi {0}  {1}", MousePos.X.ToString(),
          //   MousePos.Y.ToString());
 
