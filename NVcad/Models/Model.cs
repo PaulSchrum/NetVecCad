@@ -45,7 +45,7 @@ namespace NVcad.Models
          var defaultViewPort = new CadViewPort(defaultViewPortName, this);
          defaultViewPort.Origin.x = 0.0;
          defaultViewPort.Origin.y = 0.0;
-         defaultViewPort.Rotation =  Angle.radiansFromDegree(-90);
+         //defaultViewPort.Rotation =  Angle.radiansFromDegree(-90);
          this.AddViewPort(defaultViewPortName, defaultViewPort);
 
          // Code Documentation Tag 20140603_03
@@ -174,7 +174,7 @@ namespace NVcad.Models
          ft.Style = 3;  // Dots
          ft.Style = 0;
          ft.DisplayPriority = 10;
-         ft.Transparency = 0.75;
+         ft.Transparency = 0.25;
          this.FeatureList.AddFeature(ft);
 
       }

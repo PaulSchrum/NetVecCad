@@ -81,18 +81,19 @@ namespace NVcad.CadObjects
       public IEnumerable<Graphic> getVisibleGraphicElements()
       {
          var visibleGraphicItems = 
-            from grphic in parentModel.allGrahics
+            from grphic in parentModel.allGrahics.AsParallel()
             where this.BoundingBox.overlapsWith(grphic.BoundingBox)
             select grphic;
-         var visibleViews = 
-            from visView in parentModel.allViewPorts
-            where ((this.BoundingBox.overlapsWith(visView.Value.BoundingBox)) && 
-               (visView.Key != this.Name))
-            select visView.Value;
-         var allOfEm = visibleGraphicItems.Union(visibleViews);
-         var sortedByDisplayPriority = from item in allOfEm.AsParallel()
-                                       orderby item.Feature.DisplayPriority
-                                       select item;
+         //var visibleViews = 
+         //   from visView in parentModel.allViewPorts
+         //   where ((this.BoundingBox.overlapsWith(visView.Value.BoundingBox)) && 
+         //      (visView.Key != this.Name))
+         //   select visView.Value;
+         //var allOfEm = visibleGraphicItems.Union(visibleViews);
+         var sortedByDisplayPriority = 
+            from item in visibleGraphicItems.AsParallel()
+            orderby item.Feature.DisplayPriority
+            select item;
 
          return sortedByDisplayPriority;
       }
@@ -117,8 +118,8 @@ namespace NVcad.CadObjects
       {
          if (null == this.BoundingBox) this.BoundingBox = new BoundingBox();
          this.BoundingBox.setFrom_2dOnly(this.Origin,
-            this.Width * this.ScaleVector.x,
-            this.Height * this.ScaleVector.y,
+            this.Width / (this.ScaleVector.x * 96),
+            this.Height / (this.ScaleVector.y * 96),
             this.Rotation);
       }
 
@@ -148,21 +149,25 @@ namespace NVcad.CadObjects
 
       internal void FitView()
       {
-         Vector screenVec = new Vector();
-         screenVec.x = pairedUIview.getWidth();
-         screenVec.y = pairedUIview.getHeight();
-         var scaleFac = 
-            this.BoundingBox.getAsVectorLLtoUR().
-            getScaleToMatch_maximized(
-               this.parentModel.getBoundingBox().getAsVectorLLtoUR());
+         Vector screenSizeVec = new Vector();
+         screenSizeVec.x = pairedUIview.getWidth() / 96;
+         screenSizeVec.y = pairedUIview.getHeight() / 96;
 
-         screenVec.scale(scaleFac, scaleFac, scaleFac);
-         // I have to divide the scale by 6.  I do not understand why.
-         this.scale_.x = screenVec.x / 6;
-         this.scale_.y = screenVec.y / 6;
-         this.scale_.z = screenVec.z / 6;
+         Vector possibleScales = new Vector();
+         Vector parentBBvec = this.parentModel.getBoundingBox().getAsVectorLLtoUR();
+         possibleScales.x = parentBBvec.x / screenSizeVec.x;
+         possibleScales.y = parentBBvec.y / screenSizeVec.y;
+
+         Double scaleToUse = possibleScales.getAbsMax();
+
+         Double verticalExaggeration = this.scale_.y /
+            this.scale_.x;
+         this.scale_.x = scaleToUse;
+         this.scale_.y = this.scale_.x * verticalExaggeration;
+         //this.scale_.z = screenVec.x;
 
          this.Origin = this.parentModel.getBoundingBox().getCenterPoint();
+         this.updateBoundingBox();
 
          pairedUIview.ViewGeometryChanged();
       }
