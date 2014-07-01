@@ -46,6 +46,8 @@ namespace NVcad.Models
          defaultViewPort.Origin.x = 0.0;
          defaultViewPort.Origin.y = 0.0;
          //defaultViewPort.Rotation =  Angle.radiansFromDegree(-90);
+         // technical debt: bounding boxes for rotated view are still broken
+         //       it shows up, for example, doing a fit view on this dataset.
          this.AddViewPort(defaultViewPortName, defaultViewPort);
 
          // Code Documentation Tag 20140603_03
