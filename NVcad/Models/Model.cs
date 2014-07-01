@@ -62,6 +62,7 @@ namespace NVcad.Models
          if (newGraphic is CadViewPort)
          { throw new InvalidGraphicTypeException(newGraphic); }
 
+         newGraphic.myIndex = allGrahics.Count;
          this.BoundingBox.expandByBox(newGraphic.BoundingBox);
          allGrahics.Add(newGraphic);
       }

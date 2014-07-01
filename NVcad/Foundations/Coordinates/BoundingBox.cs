@@ -28,6 +28,12 @@ namespace NVcad.Foundations.Coordinates
          private set{}
       }
 
+      public Vector widthHeight
+      {
+         get { return this.getAsVectorLLtoUR(); }
+         private set { }
+      }
+
       internal BoundingBox() { isInitialized = false; }
 
       public BoundingBox(Double LLx, Double LLy, Double URx, Double URy)
@@ -188,13 +194,14 @@ namespace NVcad.Foundations.Coordinates
 
       public bool overlapsWith(BoundingBox other)
       {
-         if (this.upperRightPt.x < other.lowerLeftPt.x)
+         var MaxUR = Math.Max(this.upperRightPt.x, other.upperRightPt.x);
+         var MinLL = Math.Min(this.lowerLeftPt.x, other.lowerLeftPt.x);
+         if (Math.Abs(MaxUR - MinLL) < 0.00001)
             return false;
-         if (this.lowerLeftPt.x > other.upperRightPt.x)
-            return false;
-         if (this.upperRightPt.y < other.lowerLeftPt.y)
-            return false;
-         if (this.lowerLeftPt.y > other.upperRightPt.y)
+
+         MaxUR = Math.Max(this.upperRightPt.y, other.upperRightPt.y);
+         MinLL = Math.Min(this.lowerLeftPt.y, other.lowerLeftPt.y);
+         if (Math.Abs(MaxUR - MinLL) < 0.00001)
             return false;
 
          return true;

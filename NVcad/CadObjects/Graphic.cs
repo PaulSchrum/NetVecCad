@@ -19,6 +19,7 @@ namespace NVcad.CadObjects
       public Feature Feature { get; set; }
       public Feature FeatureOverride { get; set; }
       public Point Origin { get; set; }
+      public long myIndex { get; set; }
 
       protected Angle rotation_;
       public virtual Angle Rotation

@@ -80,6 +80,25 @@ namespace NVcad.CadObjects
 
       public IEnumerable<Graphic> getVisibleGraphicElements()
       {
+         // Diagnostic code for trouble-shooting
+         //bool overlap = false;
+         //var outOfBb = new List<Graphic>();
+         //var inBB = new List<Graphic>();
+         //foreach (var item in parentModel.allGrahics)
+         //{
+         //   overlap = this.BoundingBox.overlapsWith(item.BoundingBox);
+         //   if (false == overlap)
+         //   {
+         //      outOfBb.Add(item);
+         //      overlap = this.BoundingBox.overlapsWith(item.BoundingBox);
+         //   }
+         //   else
+         //      inBB.Add(item);
+         //}
+         //outOfBb.Clear();
+         //inBB.Clear();
+         // end "Diagnostic code for trouble-shooting"
+
          var visibleGraphicItems = 
             from grphic in parentModel.allGrahics.AsParallel()
             where this.BoundingBox.overlapsWith(grphic.BoundingBox)
@@ -130,7 +149,7 @@ namespace NVcad.CadObjects
 
       public void SetHeightAndWidth(Double height, Double width, Boolean triggerRedraw)
       {
-         this.ViewAspect = new Vector(height, width, null);
+         this.ViewAspect = new Vector(width, height, null);
          updateBoundingBox();
          if(true == triggerRedraw)
             this.pairedUIview.ViewContentsChanged();
@@ -167,8 +186,6 @@ namespace NVcad.CadObjects
          //this.scale_.z = screenVec.x;
 
          this.Origin = this.parentModel.getBoundingBox().getCenterPoint();
-         this.updateBoundingBox();
-
          pairedUIview.ViewGeometryChanged();
       }
    }
