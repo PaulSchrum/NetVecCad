@@ -54,5 +54,20 @@ namespace NVcad.Models
 
          return fList;
       }
+
+      public List<Style> GetStyleLibrary()
+      {
+         if (null == dxf) throw new Exception("Dxf file has not been set.");
+         List<Style> styleList = new List<Style>();
+
+         foreach (var lineType in dxf.LineTypes)
+         {
+            Style aStyle = new Style();
+            //aStyle = Style.cvrtIntToStyle(lineType.)
+            styleList.Add(aStyle);
+         }
+
+         return styleList;
+      }
    }
 }

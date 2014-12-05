@@ -9,7 +9,7 @@ namespace NVcad.Foundations.Symbology
 {
    public class Style
    {
-      protected DoubleCollection MyDC { get; set; }
+      public DoubleCollection StyleDoubleValues { get; protected set; }
 
       private static Style cvrt_IntToStyle(int i)
       {
@@ -19,13 +19,13 @@ namespace NVcad.Foundations.Symbology
             case 0:
                break;
             case 1:
-               aStyle.MyDC = new DoubleCollection() { 12, 4 };
+               aStyle.StyleDoubleValues = new DoubleCollection() { 12, 4 };
                break;
             case 2:
-               aStyle.MyDC = new DoubleCollection() { 7, 4 };
+               aStyle.StyleDoubleValues = new DoubleCollection() { 7, 4 };
                break;
             case 3:
-               aStyle.MyDC = new DoubleCollection() { 2, 2 };
+               aStyle.StyleDoubleValues = new DoubleCollection() { 2, 2 };
                break;
             default:
                break;
@@ -35,13 +35,13 @@ namespace NVcad.Foundations.Symbology
       
       public static DoubleCollection cvrtIntToStyle(int i)
       {
-         return (cvrt_IntToStyle(i)).MyDC;
+         return (cvrt_IntToStyle(i)).StyleDoubleValues;
       }
 
       public static DoubleCollection cvrtIntToStyle(int? iNl)
       {
          int i = (int) iNl;
-         return (cvrt_IntToStyle(i)).MyDC;
+         return (cvrt_IntToStyle(i)).StyleDoubleValues;
       }
 
    }

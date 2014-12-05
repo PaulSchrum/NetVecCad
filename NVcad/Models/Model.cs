@@ -56,8 +56,9 @@ namespace NVcad.Models
 
       public void LoadDXFFile(String fullFileName)
       {
-         DxfHelperRead readHelper = new DxfHelperRead(fullFileName);
-         this.FeatureList = readHelper.GetFeatureList();
+         DxfHelperRead readerHelper = new DxfHelperRead(fullFileName);
+         this.FeatureList = readerHelper.GetFeatureList();
+         var styleList = readerHelper.GetStyleLibrary();
       }
 
       public BoundingBox getBoundingBox()
