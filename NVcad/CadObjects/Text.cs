@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NVcad.Foundations.Coordinates;
+using System.Windows.Controls;
+using System.Globalization;
 
 namespace NVcad.CadObjects
 {
@@ -37,6 +39,22 @@ namespace NVcad.CadObjects
          : this(someContent, aPoint)
       {
          Height = height;
+      }
+
+      public override ToolTip GetToolTip()
+      {
+         var result = base.GetToolTip();
+         StringBuilder sb = new StringBuilder("Type: Text\n");
+         sb.Append("Feature: ");
+         sb.Append(this.Feature.Name);
+         sb.Append("\n");
+         sb.Append("Content: ");
+         sb.Append(this.Content);
+         sb.Append("\n");
+         sb.Append("Length: ");
+         sb.Append(this.Content.Length.ToString());
+         result.Content = sb.ToString();
+         return result;
       }
 
    }

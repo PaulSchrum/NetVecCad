@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
+using System.Windows.Controls;
 
 namespace NVcad.CadObjects
 {
@@ -72,6 +74,25 @@ namespace NVcad.CadObjects
       {
          get {  return new Vector(1, 1, null); }
          set { }
+      }
+
+      public override ToolTip GetToolTip()
+      {
+         var result = base.GetToolTip();
+         StringBuilder sb = new StringBuilder("Type: Arc\n");
+         sb.Append("Feature: ");
+         sb.Append(this.Feature.Name);
+         sb.Append("\n");
+         sb.Append("Length: ");
+         sb.Append(this.Length.ToString("F4", CultureInfo.InvariantCulture));
+         sb.Append("\n");
+         sb.Append("Radius: ");
+         sb.Append(this.Radius.ToString("F4", CultureInfo.InvariantCulture));
+         sb.Append("\n");
+         sb.Append("Deflection: ");
+         sb.Append(this.Deflection.ToString());
+         result.Content = sb.ToString();
+         return result;
       }
 
       protected override void computeBoundingBox()

@@ -160,7 +160,10 @@ namespace NVcad.Foundations.Angles
 
       public override string ToString()
       {
-         return this.getAsDegreesDouble().ToString();
+         var str = this.getAsDegreesDouble().ToString() + "°";
+         if (this.deflectionDirection > 0) str = str + " RT";
+         else str = str + " LT";
+         return str;
       }
    }
 }

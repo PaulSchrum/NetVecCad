@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NVcad.Foundations.Coordinates;
 using NVcad.Foundations;
 using NVcad.Foundations.Symbology;
+using System.Windows.Controls;
 
 namespace NVcad.CadObjects
 {
@@ -39,6 +40,13 @@ namespace NVcad.CadObjects
       {
          get { return scale_; }
          set { scale_ = value; }
+      }
+
+      public virtual ToolTip GetToolTip()
+      {
+         var result = new ToolTip();
+         result.Content = "Graphic Item";
+         return result;
       }
 
       //protected Double xscale_;

@@ -257,6 +257,7 @@ namespace NVcadView
             aTextBox.Padding = new Thickness(-6, -6, -6, -6);
          setSymbologyText(aTextBox, textItem);
          aTextBox.Text = textItem.Content;
+         aTextBox.ToolTip = textItem.GetToolTip();
          aTextBox.RenderTransformOrigin = new Point(0, 0);
          var rotAboutPt = xformGroup_all.Transform(textItem.Origin);
          var xfrmGrp = new TransformGroup();
@@ -312,6 +313,7 @@ namespace NVcadView
          //path.StrokeThickness = 2.5 * itemWidthUnscale;
          //path.StrokeThickness = 2.0;
          setSymbologyNonText(path, arcItem);
+         path.ToolTip = arcItem.GetToolTip();
          path.RenderTransform = xformGroup_all;
 
          this.Children.Add(path);
@@ -327,6 +329,7 @@ namespace NVcadView
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
          setSymbologyNonText(aLine, lineSegment);
+         aLine.ToolTip = lineSegment.GetToolTip();
          aLine.RenderTransform = xformGroup_all;
 
          this.Children.Add(aLine);

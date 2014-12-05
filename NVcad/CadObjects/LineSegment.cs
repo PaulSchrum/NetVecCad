@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Controls;
 using NVcad.Foundations;
 using NVcad.Foundations.Coordinates;
 
@@ -40,6 +41,19 @@ namespace NVcad.CadObjects
          {  return new Vector(1, 1, 1); }
          set
          { }
+      }
+
+      public override ToolTip GetToolTip()
+      {
+         var result = base.GetToolTip();
+         StringBuilder sb = new StringBuilder("Type: LineSegment\n");
+         sb.Append("Feature: ");
+         sb.Append(this.Feature.Name);
+         sb.Append("\n");
+         sb.Append("Length: ");
+         sb.Append(this.Length.ToString("F4", CultureInfo.InvariantCulture));
+         result.Content = sb.ToString();
+         return result;
       }
 
    }
