@@ -136,7 +136,7 @@ namespace NVcadView
             myCadViewPort.parentModel.WorldMouse.PointY = mousePos_.Y;
          }
 #pragma warning disable 0169
-         catch(NullReferenceException e)
+         catch(NullReferenceException)
          {
             return;
          }

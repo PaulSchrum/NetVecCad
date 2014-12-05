@@ -7,7 +7,9 @@ using NVcad.Foundations.Coordinates;
 using NVcad.Foundations;
 using NVcad.Foundations.Symbology;
 using System.Windows.Controls;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("UnitTestNVcad")]
 namespace NVcad.CadObjects
 {
    public abstract class Graphic : CadObject, IBoundingBoxed

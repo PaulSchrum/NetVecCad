@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Windows.Controls;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("UnitTestNVcad")]
 namespace NVcad.CadObjects
 {
    public class Arc : ConicSegment
@@ -36,15 +38,44 @@ namespace NVcad.CadObjects
       public Arc(Point StartPt, Azimuth incomingDir, Deflection defl,
          Double radius) : this()
       {
+         populateThis(StartPt, incomingDir, defl, radius);
+      }
+
+      public Arc(Point centerPt, Azimuth incomingDir, Azimuth outgoingDir, Double radius)
+      {
+         int modifier = (outgoingDir - incomingDir) > 0 ? 1 : -1;
+         Azimuth BegRadiusDirection = incomingDir +
+            new Deflection(Math.PI / 2.0, -1 * modifier);
+         BeginRadiusVector = new Vector(
+            direction: BegRadiusDirection, 
+            length: radius);
+         Point startPt = centerPt + BeginRadiusVector;
+         Deflection def = outgoingDir - incomingDir;
+         populateThis(startPt, incomingDir, def, radius);
+      }
+
+      public Arc(netDxf.Entities.Arc dxfArc)
+         : this
+         ( (Point) dxfArc.Center
+         , dxfArc.StartAngle.AsAzimuth()
+         , dxfArc.EndAngle.AsAzimuth()
+         , dxfArc.Radius)
+      {
+
+      }
+
+      private void populateThis(Point StartPt, Azimuth incomingDir, Deflection defl,
+         Double radius)
+      {
          Eccentricity = 0.0;
          Origin = StartPt;
          Deflection = defl;
 
-         Azimuth BegRadiusDirection = incomingDir + 
-            new Deflection(Math.PI / 2.0, -1 * Deflection.deflectionDirection); 
+         Azimuth BegRadiusDirection = incomingDir +
+            new Deflection(Math.PI / 2.0, -1 * Deflection.deflectionDirection);
 
          BeginRadiusVector = new Vector(
-            direction: BegRadiusDirection, 
+            direction: BegRadiusDirection,
             length: radius);
          CenterPt = StartPt - BeginRadiusVector;
          BeginPointAngle = Deflection / 2;

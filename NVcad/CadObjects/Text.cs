@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using NVcad.Foundations.Coordinates;
 using System.Windows.Controls;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("UnitTestNVcad")]
 namespace NVcad.CadObjects
 {
    public class Text : Graphic

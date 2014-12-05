@@ -13,7 +13,9 @@ using System.ComponentModel;
 using NVcad.Foundations.Angles;
 using NVcad.Foundations.Symbology;
 using NVcad.Foundations.Symbology.Color;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("UnitTestNVcad")]
 namespace NVcad.Models
 {
    public class Model : IBoundingBoxed, INotifyPropertyChanged
@@ -59,6 +61,8 @@ namespace NVcad.Models
          DxfHelperRead readerHelper = new DxfHelperRead(fullFileName);
          this.FeatureList = readerHelper.GetFeatureList();
          var styleList = readerHelper.GetStyleLibrary();
+         this.allViewPorts = readerHelper.GetViewPorts();
+         this.allGrahics = readerHelper.GetGraphics();
       }
 
       public BoundingBox getBoundingBox()

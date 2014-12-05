@@ -10,6 +10,7 @@ using System.Media;
 using NVcad.Foundations.Symbology;
 using NVcad.Models;
 using System.IO;
+using System.Linq;
 
 namespace UnitTestNVcad
 {
@@ -834,6 +835,18 @@ namespace UnitTestNVcad
 
          Assert.AreEqual(expected: 59,
             actual: numberOfFeatures);
+      }
+
+      [TestMethod]
+      public void DXF_readingNCDOTfile_has295Arcs()
+      {
+         createABlankModel();
+         aModel.LoadDXFFile(dxfFileName_NCDOT_Dsn);
+         var graphicElements = aModel.allGrahics;
+         int numberOfArcs = graphicElements.Where(element => element is Arc).Count();
+
+         Assert.AreEqual(expected: 295,
+            actual: numberOfArcs);
       }
 
    }

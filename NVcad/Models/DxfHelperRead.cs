@@ -69,5 +69,27 @@ namespace NVcad.Models
 
          return styleList;
       }
+
+
+
+      internal Dictionary<string, CadViewPort> GetViewPorts()
+      {
+         return new Dictionary<string, CadViewPort>();
+         //throw new NotImplementedException();
+      }
+
+      internal List<Graphic> GetGraphics()
+      {
+         if (null == dxf) throw new Exception("Dxf file has not been set.");
+         List<Graphic> graphicsList = new List<Graphic>();
+
+         foreach (var dxfArc in dxf.Arcs)
+         {
+            Arc arc = new Arc(dxfArc);
+            graphicsList.Add(arc);
+         }
+
+         return graphicsList;
+      }
    }
 }

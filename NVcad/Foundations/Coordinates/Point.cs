@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using netDxf;
 
 namespace NVcad.Foundations.Coordinates
 {
@@ -135,6 +136,11 @@ namespace NVcad.Foundations.Coordinates
       public static explicit operator Point(System.Windows.Point pt)
       {
          return new Point(pt.X, pt.Y, null);
+      }
+
+      public static explicit operator Point(Vector3 dxfPoint)
+      {
+         return new Point(dxfPoint.X, dxfPoint.Y, dxfPoint.Z);
       }
    }
 }
