@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netDxf">
+      <HintPath>..\packages\netDXF.0.6.1\lib\netDxf.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -71,6 +74,7 @@
     <Compile Include="Foundations\WorkingUnits\Length.cs" />
     <Compile Include="ICadNotificationTarget.cs" />
     <Compile Include="IcadView.cs" />
+    <Compile Include="Models\DxfHelperRead.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\WorldMouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CadObjects\CadObjectsDiagram.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

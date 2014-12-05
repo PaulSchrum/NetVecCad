@@ -54,6 +54,12 @@ namespace NVcad.Models
          aNotificationTarget.ViewPortAdded(defaultViewPort);
       }
 
+      public void LoadDXFFile(String fullFileName)
+      {
+         DxfHelperRead readHelper = new DxfHelperRead(fullFileName);
+         this.FeatureList = readHelper.GetFeatureList();
+      }
+
       public BoundingBox getBoundingBox()
       {
          return BoundingBox;

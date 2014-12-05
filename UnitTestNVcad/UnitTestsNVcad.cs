@@ -8,6 +8,8 @@ using NVcad.Foundations.WorkingUnits;
 using NVcad.CadObjects;
 using System.Media;
 using NVcad.Foundations.Symbology;
+using NVcad.Models;
+using System.IO;
 
 namespace UnitTestNVcad
 {
@@ -808,6 +810,30 @@ namespace UnitTestNVcad
             actual: actual);
          Assert.AreEqual(expected: precount,
             actual: fl.Children.Count);
+      }
+
+      private void createABlankModel()
+      {
+         if(null == aModel)
+         {
+            aModel = new Model();
+            dxfFileName_NCDOT_Dsn = @"..\..\..\TestDataSets\NCDOT_B4656\B4656_RDY_DSN.dxf";
+         }
+      }
+
+      private Model aModel { get; set; }
+      private String dxfFileName_NCDOT_Dsn { get; set; }
+      private String pathTest { get; set; }
+
+      [TestMethod]
+      public void DXF_readingNCDOTfile_has59Features()
+      {
+         createABlankModel();
+         aModel.LoadDXFFile(dxfFileName_NCDOT_Dsn);
+         var numberOfFeatures = aModel.FeatureList.Children.Count;
+
+         Assert.AreEqual(expected: 59,
+            actual: numberOfFeatures);
       }
 
    }

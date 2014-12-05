@@ -26,6 +26,17 @@ namespace NVcad.Foundations.Symbology.Color
          value = newBrush;
       }
 
+      public ColorAsBrush(byte Red, byte Green, byte Blue)
+         : this()
+      {
+         StringBuilder newColor = new StringBuilder("#");
+         newColor.Append(Red.ToString("X2"));
+         newColor.Append(Green.ToString("X2"));
+         newColor.Append(Blue.ToString("X2"));
+
+         value = (SolidColorBrush) (new BrushConverter().ConvertFrom(newColor.ToString()));
+      }
+
       public override SolidColorBrush getAsBrush()
       {
          return value;
