@@ -38,18 +38,21 @@ namespace NVcad.CadObjects
       }
 
       protected Vector scale_;
+      private string p1;
+      private Point point;
+      private double p2;
       public virtual Vector ScaleVector
       {
          get { return scale_; }
          set { scale_ = value; }
       }
 
-      public virtual ToolTip GetToolTip()
-      {
-         var result = new ToolTip();
-         result.Content = "Graphic Item";
-         return result;
-      }
+      //public virtual ToolTip GetToolTip()
+      //{
+      //   var result = new ToolTip();
+      //   result.Content = "Graphic Item";
+      //   return result;
+      //}
 
       //protected Double xscale_;
       //public virtual Double xScale

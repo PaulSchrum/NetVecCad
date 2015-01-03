@@ -20,6 +20,45 @@ namespace UnitTestNVcad
       private Double delta = 0.0000001;
 
       [TestMethod]
+      public void Double_Convert180Degrees_toRadians_EqualsPI()
+      {
+         var actual = (180.0).ToRadians();
+         Assert.AreEqual
+            (expected: Math.PI
+            , actual: actual
+            , delta: 0.00000001
+            );
+      }
+
+      [TestMethod]
+      public void Double_ConvertPIRadians_toDegrees_Equals180()
+      {
+         var actual = (Math.PI).ToDegrees();
+         Assert.AreEqual
+            (expected: 180.0
+            , actual: actual
+            , delta: 0.00000001
+            );
+      }
+
+      [TestMethod]
+      public void Double_259_123456789012_AsPartsIsCorrect()
+      {
+         Double initialValue = 259.123456789012;
+         var result = initialValue.AsParts();
+         Assert.AreEqual
+            (expected: 2
+            , actual: result.Count);
+         Assert.AreEqual
+            (expected: 259.0
+            , actual: result["Integer Part"]);
+         Assert.AreEqual
+            (expected: 0.123456789012
+            , actual: result["Fractional Part"]
+            , delta:   0.000000000001);
+      }
+
+      [TestMethod]
       public void Degree_sin90_returns1p0()
       {
          Degree deg = 90.0;
@@ -55,6 +94,24 @@ namespace UnitTestNVcad
          Azimuth newAz = az + defl;
          Double actualDbl = newAz.getAsDegreesDouble();
          Assert.AreEqual(expected: expectedDbl, actual: actualDbl, delta: delta);
+      }
+
+      [TestMethod]
+      public void AzimuthSubtraction_Az340MinusAz268_equalsDeflectionPos72()
+      {
+         Azimuth incomingDir = Azimuth.ctorAzimuthFromDegree(268);
+         var str = incomingDir.ToString();
+         Assert.AreEqual(268.0, incomingDir.getAsDegreesDouble(), 0.0000001);
+         Azimuth outgoingDir = Azimuth.ctorAzimuthFromDegree(340);
+         Assert.AreEqual(340.0, outgoingDir.getAsDegreesDouble(), 0.0000001);
+         Deflection def = outgoingDir - incomingDir;
+         Assert.AreEqual
+            (expected: 72.0
+            , actual: def.getAsDegreesDouble()
+            , delta: 0.00001);
+         Assert.AreEqual
+            (expected: 1
+            , actual: def.deflectionDirection);
       }
 
       [TestMethod]
@@ -455,7 +512,7 @@ namespace UnitTestNVcad
       [TestMethod]
       public void Deflection_positiveGreaterThan180_getAsRadians()
       {
-         Double expectedValue = 5.41052068118;
+         Double expectedValue = 5.41052068118; 
          Deflection defl = new Deflection(5.41052068118, 1);
          Double actualValue = defl.getAsRadians();
          Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
@@ -581,6 +638,17 @@ namespace UnitTestNVcad
       {
          var bbLeftLow = new BoundingBox(100, 100, 150, 150);
          var bbRightHigh = new BoundingBox(151, 151, 250, 250);
+         Assert.AreEqual(expected: false,
+            actual: bbLeftLow.overlapsWith(bbRightHigh));
+         Assert.AreEqual(expected: false,
+            actual: bbRightHigh.overlapsWith(bbLeftLow));
+      }
+
+      [TestCategory("BoundingBox"), TestMethod()]
+      public void BoundingBox_NoOverlapOther_returnsFalse_case2()
+      {
+         var bbLeftLow = new BoundingBox(151, 151, 250, 250);
+         var bbRightHigh = new BoundingBox(251, 51, 350, 150);
          Assert.AreEqual(expected: false,
             actual: bbLeftLow.overlapsWith(bbRightHigh));
          Assert.AreEqual(expected: false,

@@ -7,6 +7,11 @@ using NVcad.Foundations.Coordinates;
 
 namespace NVcad.Foundations.Angles
 {
+   /// <summary>
+   /// Special type of Angle indicating direction on a compass.
+   /// Due north is 0 degrees; Due east is 90 degrees.
+   /// Values must fall between 0 degrees and 359.9999999999999 degrees.
+   /// </summary>
    sealed public class Azimuth : Angle
    {
       public Azimuth() { }
@@ -26,40 +31,47 @@ namespace NVcad.Foundations.Angles
          this.angle__ = Math.Atan2(endPt.y - beginPt.y, endPt.x - beginPt.x);
       }
 
-      public new double angle_ { get { return getAsAzimuth(); } set { base.normalize(value); } }
+      public new double angle_ { get { return getAsAzimuth(); } set { this.normalizeAndSetAngle(value); } }
 
       public Azimuth reverse()
       {
          return new Azimuth(this.angle__ + Math.PI);
       }
       
+      private void normalizeAndSetAngle(Double val)
+      {
+         Double AngleAsTurns = val / (Math.PI * 2.0);
+         var fractionalPart = AngleAsTurns.AsParts()["Fractional Part"];
+         if(val < 0.0)
+         {
+            fractionalPart = (-1.0 * fractionalPart) + 1.0;
+         }
+         this.angle__ = fractionalPart * Math.PI * 2.0;
+      }
+
       private double getAsAzimuth()
       {
          double retVal;
 
-         retVal = (-1.0 * base.angle_) + (Math.PI / 2.0);
+         retVal = this.getAsDegreesDouble();
 
          return retVal;
       }
 
       public override double getAsDegreesDouble()
       {
-         double retValueDbl = getAsAzimuth() * 180 / Math.PI;
-         return retValueDbl >= 0.0 ? retValueDbl : retValueDbl + 360.0;
+         return angle__.ToDegrees();
       }
 
       public override Degree getAsDegrees()
       {
-         Degree retValueDeg = getAsAzimuth() * 180 / Math.PI;
-         return retValueDeg >= 0.0 ? retValueDeg : retValueDeg + 360.0;
+         Degree retValueDeg = angle_.ToDegrees();
+         return retValueDeg;
       }
 
       public override void setFromDegreesDouble(double degrees)
       {
-         //double adjustedDegrees = ((degrees / -180.0)+ 1) *180.0;
-         double radians = degrees * Math.PI / 180.0;
-         angle_ = Math.Atan2(Math.Cos(radians), Math.Sin(radians));  // This is flipped intentionally
-
+         angle_ = degrees.ToRadians();
       }
 
       public override void setFromDegreesMinutesSeconds(int degrees, int minutes, double seconds)
@@ -68,6 +80,14 @@ namespace NVcad.Foundations.Angles
                (double)degrees + (double)minutes / 60.0 + seconds / 3600.0
                         );
       }
+
+      public override void setFromXY(double x, double y)
+      {
+         double dbl = Math.Atan2(x, y);
+         angle_ = dbl;
+      }
+
+
 
       public static int getQuadrant(double angleDegrees)
       {
@@ -110,7 +130,7 @@ namespace NVcad.Foundations.Angles
 
       public static double operator -(Azimuth Az1, Azimuth Az2)
       {
-         Double returnDeflection = (Az1.angle_ - Az2.angle_);
+         Double returnDeflection = (Az1.angle__ - Az2.angle__);
          return Angle.normalizeToPlusOrMinus2PiStatic(returnDeflection);
       }
 
@@ -140,7 +160,7 @@ namespace NVcad.Foundations.Angles
 
       public override String ToString()
       {
-         return String.Format("{0:0.0000}°", this.getAsDegreesDouble());
+         return String.Format("{0:0.0000}°", getAsDegreesDouble());
       }
    }
 

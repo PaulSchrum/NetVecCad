@@ -41,8 +41,10 @@ namespace NVcad.CadObjects
          populateThis(StartPt, incomingDir, defl, radius);
       }
 
-      public Arc(Point centerPt, Azimuth incomingDir, Azimuth outgoingDir, Double radius)
+      public Arc(Point centerPt, Double incomingDir_, Double outgoingDir_, Double radius)
       {
+         Azimuth incomingDir = Azimuth.ctorAzimuthFromDegree(incomingDir_);
+         Azimuth outgoingDir = Azimuth.ctorAzimuthFromDegree(outgoingDir_);
          int modifier = (outgoingDir - incomingDir) > 0 ? 1 : -1;
          Azimuth BegRadiusDirection = incomingDir +
             new Deflection(Math.PI / 2.0, -1 * modifier);
@@ -57,8 +59,8 @@ namespace NVcad.CadObjects
       public Arc(netDxf.Entities.Arc dxfArc)
          : this
          ( (Point) dxfArc.Center
-         , dxfArc.StartAngle.AsAzimuth()
-         , dxfArc.EndAngle.AsAzimuth()
+         , dxfArc.StartAngle
+         , dxfArc.EndAngle
          , dxfArc.Radius)
       {
 
@@ -107,24 +109,24 @@ namespace NVcad.CadObjects
          set { }
       }
 
-      public override ToolTip GetToolTip()
-      {
-         var result = base.GetToolTip();
-         StringBuilder sb = new StringBuilder("Type: Arc\n");
-         sb.Append("Feature: ");
-         sb.Append(this.Feature.Name);
-         sb.Append("\n");
-         sb.Append("Length: ");
-         sb.Append(this.Length.ToString("F4", CultureInfo.InvariantCulture));
-         sb.Append("\n");
-         sb.Append("Radius: ");
-         sb.Append(this.Radius.ToString("F4", CultureInfo.InvariantCulture));
-         sb.Append("\n");
-         sb.Append("Deflection: ");
-         sb.Append(this.Deflection.ToString());
-         result.Content = sb.ToString();
-         return result;
-      }
+      //public override ToolTip GetToolTip()
+      //{
+      //   var result = base.GetToolTip();
+      //   StringBuilder sb = new StringBuilder("Type: Arc\n");
+      //   sb.Append("Feature: ");
+      //   sb.Append(this.Feature.Name);
+      //   sb.Append("\n");
+      //   sb.Append("Length: ");
+      //   sb.Append(this.Length.ToString("F4", CultureInfo.InvariantCulture));
+      //   sb.Append("\n");
+      //   sb.Append("Radius: ");
+      //   sb.Append(this.Radius.ToString("F4", CultureInfo.InvariantCulture));
+      //   sb.Append("\n");
+      //   sb.Append("Deflection: ");
+      //   sb.Append(this.Deflection.ToString());
+      //   result.Content = sb.ToString();
+      //   return result;
+      //}
 
       protected override void computeBoundingBox()
       {

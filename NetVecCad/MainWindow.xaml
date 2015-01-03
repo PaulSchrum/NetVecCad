@@ -5,9 +5,9 @@
         xmlns:nvcView="clr-namespace:NVcadView;assembly=NVcadView"
         xmlns:local="clr-namespace:NVcadModerator;assembly=NVcadModerator"
         x:Class="NetVecCad.MainWindow"
-        Title="NetVecCad" Height="620" Width="800" 
+        Title="NetVecCad" Height="800" Width="1000" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled" 
-        ContentRendered="Window_ContentRendered">
+        ContentRendered="Window_ContentRendered" Left="10" Top="10">
     <Grid x:Name="TopGrid" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Grid.DataContext>
             <local:Moderator/>
@@ -28,7 +28,11 @@
         </Grid.ColumnDefinitions>
         <Menu IsMainMenu="True" 
               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
-            <MenuItem Header="_File"/>
+            <MenuItem Header="_File">
+                <MenuItem Header="Load from _DXF ..." 
+                          Click="MenuItem_FileLoadFromDXF_Click"
+                              ></MenuItem>
+            </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="_Fit"
                           Click="MenuItem_ViewFit_Click"></MenuItem>

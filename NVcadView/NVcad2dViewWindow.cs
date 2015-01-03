@@ -68,8 +68,8 @@ namespace NVcadView
 
       public void initializeCustomSettings(CadViewPort newViewPort)
       {
-         this.Height = 300;
-         this.Width = 600;
+         this.Height = 700;
+         this.Width = 900;
          this.Left = 10;
          this.Top = 10;
          this.Caption = "NVCad 视图窗口";

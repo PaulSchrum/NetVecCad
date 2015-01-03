@@ -245,8 +245,10 @@ namespace NVcadView
 
          var aTextBox = new TextBox();
          aTextBox.FontFamily = new FontFamily("Arial");
-         aTextBox.FontSize = textItem.Height * 72 / 
+         Double candidateFontSize = textItem.Height * 72 /
             this.myCadViewPort.ScaleVector.y;
+         if (candidateFontSize < 3) candidateFontSize = 3;
+         aTextBox.FontSize = candidateFontSize;
          aTextBox.BorderBrush = Brushes.Transparent;
          aTextBox.Background = Brushes.Transparent;
          aTextBox.Margin = new Thickness(0, 0, 0, 0);
@@ -257,7 +259,7 @@ namespace NVcadView
             aTextBox.Padding = new Thickness(-6, -6, -6, -6);
          setSymbologyText(aTextBox, textItem);
          aTextBox.Text = textItem.Content;
-         aTextBox.ToolTip = textItem.GetToolTip();
+         //aTextBox.ToolTip = textItem.GetToolTip();
          aTextBox.RenderTransformOrigin = new Point(0, 0);
          var rotAboutPt = xformGroup_all.Transform(textItem.Origin);
          var xfrmGrp = new TransformGroup();
@@ -313,7 +315,7 @@ namespace NVcadView
          //path.StrokeThickness = 2.5 * itemWidthUnscale;
          //path.StrokeThickness = 2.0;
          setSymbologyNonText(path, arcItem);
-         path.ToolTip = arcItem.GetToolTip();
+         //path.ToolTip = arcItem.GetToolTip();
          path.RenderTransform = xformGroup_all;
 
          this.Children.Add(path);
@@ -329,7 +331,7 @@ namespace NVcadView
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
          setSymbologyNonText(aLine, lineSegment);
-         aLine.ToolTip = lineSegment.GetToolTip();
+         //aLine.ToolTip = lineSegment.GetToolTip();
          aLine.RenderTransform = xformGroup_all;
 
          this.Children.Add(aLine);

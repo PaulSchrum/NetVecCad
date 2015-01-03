@@ -48,6 +48,11 @@ namespace NVcad.Foundations
          return newAngle;
       }
 
+      public static Angle FromTurns(Double turns)
+      {
+         return new Angle(2.0 * Math.PI * turns);
+      }
+
       public Angle(Double valueAsRadians)
       {
          angle__ = valueAsRadians;
@@ -109,11 +114,10 @@ namespace NVcad.Foundations
          throw new NotImplementedException();
       }
 
-      public void setFromXY(double x, double y)
+      public virtual void setFromXY(double x, double y)
       {
          double dbl = Math.Atan2(y, x);
          angle_ = dbl;
-         //angle_ = Math.Atan2(y, x);
       }
 
       protected double fp(double val)

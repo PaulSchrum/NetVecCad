@@ -67,6 +67,13 @@ namespace NetVecCad
          this.activeModerator.FitView();
       }
 
+      private void MenuItem_FileLoadFromDXF_Click(object sender, RoutedEventArgs e)
+      {
+         activeModerator.Model.LoadDXFFile(
+            @"C:\SourceModules\NetVecCad\TestDataSets\NCDOT_B4656\B4656_RDY_DSN.dxf");
+         
+      }
+
 
    }
 }

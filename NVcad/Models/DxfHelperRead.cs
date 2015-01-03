@@ -89,6 +89,24 @@ namespace NVcad.Models
             graphicsList.Add(arc);
          }
 
+         foreach (var dxfLine in dxf.Lines)
+         {
+            LineSegment lineSegment = new LineSegment(dxfLine);
+            graphicsList.Add(lineSegment);
+         }
+
+         //foreach (var dxfTxt in dxf.Texts)
+         //{
+         //   NVcad.CadObjects.Text txt = new NVcad.CadObjects.Text(dxfTxt);
+         //   graphicsList.Add(txt);
+         //}
+
+         //foreach (var dxfTxt in dxf.MTexts)
+         //{
+         //   NVcad.CadObjects.Text txt = new NVcad.CadObjects.Text(dxfTxt);
+         //   graphicsList.Add(txt);
+         //}
+
          return graphicsList;
       }
    }

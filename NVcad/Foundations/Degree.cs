@@ -131,6 +131,29 @@ namespace NVcad.Foundations
       {
          return new Degree(val);
       }
+
+      public static Dictionary<String, Double> AsParts(this Double val)
+      {
+         var str = val.ToString().Split('.');
+         Dictionary<String, Double> result = new Dictionary<string, Double>(2);
+         result.Add("Integer Part", Convert.ToDouble(str[0]));
+         if (str[1].Length > 18)
+            result.Add("Fractional Part", Convert.ToDouble("0." + str[1].Substring(0, 18)));
+         else
+            result.Add("Fractional Part", Convert.ToDouble("0." + str[1]));
+         return result;
+      }
+
+      public static Double ToRadians(this Double valDegrees)
+      {
+         return valDegrees * Math.PI / 180.0;
+      }
+
+      public static Double ToDegrees(this Double valRadians)
+      {
+         return valRadians / Math.PI * 180.0;
+      }
+
    }
 
 }

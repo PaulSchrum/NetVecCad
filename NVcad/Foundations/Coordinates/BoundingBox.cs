@@ -34,6 +34,30 @@ namespace NVcad.Foundations.Coordinates
          private set { }
       }
 
+      public Double Top
+      {
+         get { return this.upperRightPt.y; }
+         set { this.upperRightPt.y = value; }
+      }
+
+      public Double Bottom
+      {
+         get { return this.lowerLeftPt.y; }
+         set { this.lowerLeftPt.y = value; }
+      }
+
+      public Double Left
+      {
+         get { return this.lowerLeftPt.x; }
+         set { this.lowerLeftPt.x = value; }
+      }
+
+      public Double Right
+      {
+         get { return this.upperRightPt.x; }
+         set { this.upperRightPt.x = value; }
+      }
+
       internal BoundingBox() { isInitialized = false; }
 
       public BoundingBox(Double LLx, Double LLy, Double URx, Double URy)
@@ -192,19 +216,29 @@ namespace NVcad.Foundations.Coordinates
             (this.upperRightPt.z + this.lowerLeftPt.z) / 2);
       }
 
+      public bool dontOverlap(BoundingBox other)
+      {  // adapted from http://gamedev.stackexchange.com/questions/586/what-is-the-fastest-way-to-work-out-2d-bounding-box-intersection  answer by Wallacoloo
+         bool dontOverlap = other.Left > this.Right;
+         dontOverlap |= other.Right < this.Left;
+         dontOverlap |= other.Top < this.Bottom;
+         dontOverlap |= other.Bottom > this.Top;
+         return dontOverlap;
+      }
+
       public bool overlapsWith(BoundingBox other)
       {
-         var MaxUR = Math.Max(this.upperRightPt.x, other.upperRightPt.x);
-         var MinLL = Math.Min(this.lowerLeftPt.x, other.lowerLeftPt.x);
-         if (Math.Abs(MaxUR - MinLL) < 0.00001)
-            return false;
+         return !dontOverlap(other);
+         //var MaxUR = Math.Max(this.upperRightPt.x, other.upperRightPt.x);
+         //var MinLL = Math.Min(this.lowerLeftPt.x, other.lowerLeftPt.x);
+         //if (Math.Abs(MaxUR - MinLL) < 0.00001)
+         //   return false;
 
-         MaxUR = Math.Max(this.upperRightPt.y, other.upperRightPt.y);
-         MinLL = Math.Min(this.lowerLeftPt.y, other.lowerLeftPt.y);
-         if (Math.Abs(MaxUR - MinLL) < 0.00001)
-            return false;
+         //MaxUR = Math.Max(this.upperRightPt.y, other.upperRightPt.y);
+         //MinLL = Math.Min(this.lowerLeftPt.y, other.lowerLeftPt.y);
+         //if (Math.Abs(MaxUR - MinLL) < 0.00001)
+         //   return false;
 
-         return true;
+         //return true;
       }
 
       internal void Slide(Double dx, Double dy, Double? dz)

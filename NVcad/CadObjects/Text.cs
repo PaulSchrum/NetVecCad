@@ -43,21 +43,39 @@ namespace NVcad.CadObjects
          Height = height;
       }
 
-      public override ToolTip GetToolTip()
+      public Text(netDxf.Entities.Text dxfText) : 
+         this
+         ( dxfText.Value
+         , (Point) dxfText.Position
+         , dxfText.Height)
       {
-         var result = base.GetToolTip();
-         StringBuilder sb = new StringBuilder("Type: Text\n");
-         sb.Append("Feature: ");
-         sb.Append(this.Feature.Name);
-         sb.Append("\n");
-         sb.Append("Content: ");
-         sb.Append(this.Content);
-         sb.Append("\n");
-         sb.Append("Length: ");
-         sb.Append(this.Content.Length.ToString());
-         result.Content = sb.ToString();
-         return result;
+         this.Rotation = dxfText.Rotation;
       }
+
+      public Text(netDxf.Entities.MText dxfMTxt) :
+         this
+         ( dxfMTxt.Value
+         , (Point) dxfMTxt.Position
+         , dxfMTxt.Height)
+      {
+         this.Rotation = dxfMTxt.Rotation;
+      }
+
+      //public override ToolTip GetToolTip()
+      //{
+      //   var result = base.GetToolTip();
+      //   StringBuilder sb = new StringBuilder("Type: Text\n");
+      //   sb.Append("Feature: ");
+      //   sb.Append(this.Feature.Name);
+      //   sb.Append("\n");
+      //   sb.Append("Content: ");
+      //   sb.Append(this.Content);
+      //   sb.Append("\n");
+      //   sb.Append("Length: ");
+      //   sb.Append(this.Content.Length.ToString());
+      //   result.Content = sb.ToString();
+      //   return result;
+      //}
 
    }
 

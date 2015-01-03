@@ -63,6 +63,7 @@ namespace NVcad.Models
          var styleList = readerHelper.GetStyleLibrary();
          this.allViewPorts = readerHelper.GetViewPorts();
          this.allGrahics = readerHelper.GetGraphics();
+         this.allGrahics.ForEach(element => this.BoundingBox.expandByBox(element.BoundingBox));
       }
 
       public BoundingBox getBoundingBox()
@@ -112,7 +113,8 @@ namespace NVcad.Models
          {
             aView = allViewPorts.FirstOrDefault().Value;
          }
-         aView.FitView();
+         if(null != aView)
+            aView.FitView();
       }
 
       public void setUpTestingModel_20140422()
