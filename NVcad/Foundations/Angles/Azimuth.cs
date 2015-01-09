@@ -33,6 +33,13 @@ namespace NVcad.Foundations.Angles
 
       public new double angle_ { get { return getAsAzimuth(); } set { this.normalizeAndSetAngle(value); } }
 
+      public static Azimuth NewFromDoubleAsDegrees(Double az)
+      {
+         Azimuth returnAz = new Azimuth();
+         returnAz.setFromDegreesDouble(az);
+         return returnAz;
+      }
+
       public Azimuth reverse()
       {
          return new Azimuth(this.angle__ + Math.PI);
@@ -152,10 +159,20 @@ namespace NVcad.Foundations.Angles
          return retAz;
       }
 
+      /// <summary>
+      /// Always assumes that the desired answer is the internal solution.
+      /// If the external solution is desired, 
+      /// call deflection.ForceToExternalSolution()
+      /// immediately after calling minus().
+      /// </summary>
+      /// <param name="Az2"></param>
+      /// <returns></returns>
       public Deflection minus(Azimuth Az2)
       {
-         Double returnDeflection = (this.angle_ - Az2.angle_);
-         return new Deflection(Angle.normalizeToPlusOrMinus2PiStatic(returnDeflection));
+         Deflection returnDeflection = 
+            new Deflection(this, Az2, true);
+
+         return returnDeflection;
       }
 
       public override String ToString()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using NVcad.Foundations.Angles;
@@ -132,6 +133,7 @@ namespace NVcad.Foundations
          return new Degree(val);
       }
 
+      [Obsolete("Prefer Math.Truncate for IP and Double.FP for Fractional Part.")]
       public static Dictionary<String, Double> AsParts(this Double val)
       {
          var str = val.ToString().Split('.');
@@ -142,6 +144,12 @@ namespace NVcad.Foundations
          else
             result.Add("Fractional Part", Convert.ToDouble("0." + str[1]));
          return result;
+      }
+
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public static Double FP(this Double val)
+      {
+         return val - Math.Truncate(val);
       }
 
       public static Double ToRadians(this Double valDegrees)

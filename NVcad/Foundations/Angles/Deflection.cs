@@ -20,15 +20,18 @@ namespace NVcad.Foundations.Angles
          }
       }
 
-      private bool isLessThanEqual_180degrees { get; set; }
+      private bool isInternalSolution { get; set; }  // start here.  make tests get 
+      // a tuple of internal and external solutions for each subtraction
+      // also add method to force external solution and another one
+      // to force internal solution
 
       public Deflection() { }
 
-      public Deflection(Azimuth BeginAzimuth, Azimuth EndAzimuth, bool assumeDeflectionIsLessThan180Degrees)
+      public Deflection(Azimuth BeginAzimuth, Azimuth EndAzimuth, bool assumeInternalSolution)
       {
-         isLessThanEqual_180degrees = assumeDeflectionIsLessThan180Degrees;
+         isInternalSolution = assumeInternalSolution;
 
-         if (false == isLessThanEqual_180degrees)
+         if (false == isInternalSolution)
             this.angle_ = BeginAzimuth - EndAzimuth;
          else
             this.angle_ = EndAzimuth - BeginAzimuth;
@@ -64,10 +67,6 @@ namespace NVcad.Foundations.Angles
          angle__ = Math.Abs(anAngle.angle_);
       }
 
-      public Deflection(double deflectionAngleDbl)
-         : this(deflectionAngleDbl, Math.Sign(deflectionAngleDbl))
-      { }
-      
       internal override double angle_
       {
          get
@@ -92,6 +91,20 @@ namespace NVcad.Foundations.Angles
          set { normalize(value); }
       }
 
+      /// <summary>
+      /// Intended for use mainly with Deflections generated from
+      /// subtracting two Azimuths.  The direction gets swapped
+      /// and the value gets subtracted from 360 degrees.
+      /// </summary>
+      public void ForceToExternalSolution()
+      {
+         if (this.isInternalSolution == false) return;
+         var complement = Math.Abs((2 * Math.PI) - this.getAsRadians());
+         base.angle_ = complement;
+         this.deflectionDirection *= -1;
+         this.isInternalSolution = false;
+      }
+
       public override void setFromDegreesDouble(double deg)
       {
          base.setFromDegreesDouble(Math.Abs(deg));
@@ -103,7 +116,7 @@ namespace NVcad.Foundations.Angles
          Double retVal = base.getAsRadians();
          if (this.deflectionDirection < 0)
          {
-            if (this.isLessThanEqual_180degrees == true)
+            if (this.isInternalSolution == true)
             {
                retVal = retVal + 2.0 * Math.PI;
                retVal *= -1.0;
@@ -156,6 +169,11 @@ namespace NVcad.Foundations.Angles
       public static implicit operator Deflection(Degree degrees)
       {
          return new Deflection(degrees.getAsRadians());
+      }
+
+      public static Deflection NewFromDoubleDegrees(Double asDegrees)
+      {
+         return new Deflection(asDegrees.ToRadians());
       }
 
       public override string ToString()

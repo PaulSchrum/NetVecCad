@@ -167,16 +167,17 @@ namespace NVcad.Foundations
          Double ratio = numerator / denominator;
          ratio = Math.Abs(ratio);
          Double fractionPart;
-         fractionPart = 1 + ratio - Math.Round(ratio, MidpointRounding.AwayFromZero);
-         if (sgn < 0.0)
-         {
-            fractionPart = fractionPart - 2;
-            if (fractionPart < 1.0)
-               fractionPart = -1.0 * (fractionPart + 2);
-               //1.0 + ratio - Math.Round(ratio, MidpointRounding.AwayFromZero);
-         }
+         fractionPart = ratio.FP();
 
-         Double returnDouble = sgn * Math.Abs(fractionPart) * Math.Abs(denominator);
+         //if (sgn < 0.0)
+         //{
+         //   fractionPart = fractionPart - 2;
+         //   if (fractionPart < 1.0)
+         //      fractionPart = -1.0 * (fractionPart + 2);
+         //   //1.0 + ratio - Math.Round(ratio, MidpointRounding.AwayFromZero);
+         //}
+
+         Double returnDouble = sgn * fractionPart * Math.Abs(denominator);
          return returnDouble;
       }
 
@@ -232,6 +233,13 @@ namespace NVcad.Foundations
          Angle anAngle = new Angle();
          anAngle.angle__ = Math.Atan2(angleAs_vector.y, angleAs_vector.x);
          return anAngle;
+      }
+
+      public static Angle Abs(Angle signedValue)
+      {
+         var returnAngle = new Angle(signedValue.angle__);
+         returnAngle.angle__ = Math.Abs(returnAngle.angle__);
+         return returnAngle;
       }
    }
 }

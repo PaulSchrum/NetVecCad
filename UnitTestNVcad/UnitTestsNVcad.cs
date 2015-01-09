@@ -42,23 +42,6 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void Double_259_123456789012_AsPartsIsCorrect()
-      {
-         Double initialValue = 259.123456789012;
-         var result = initialValue.AsParts();
-         Assert.AreEqual
-            (expected: 2
-            , actual: result.Count);
-         Assert.AreEqual
-            (expected: 259.0
-            , actual: result["Integer Part"]);
-         Assert.AreEqual
-            (expected: 0.123456789012
-            , actual: result["Fractional Part"]
-            , delta:   0.000000000001);
-      }
-
-      [TestMethod]
       public void Degree_sin90_returns1p0()
       {
          Degree deg = 90.0;
@@ -86,7 +69,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void AzimuthAddition_Az189PlusDeflNeg15_shouldEqual174()
+      public void Azimuth_Addition_Az189PlusDeflNeg15_shouldEqual174()
       {
          Double expectedDbl = 174.0;
          Azimuth az = new Azimuth(); az.setFromDegreesDouble(189.0);
@@ -97,7 +80,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void AzimuthSubtraction_Az340MinusAz268_equalsDeflectionPos72()
+      public void Azimuth_Subtraction_Az340MinusAz268_equalsDeflectionPos72()
       {
          Azimuth incomingDir = Azimuth.ctorAzimuthFromDegree(268);
          var str = incomingDir.ToString();
@@ -171,7 +154,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void ptsAngle_settingTo1_shouldResultIn_equals57_2957795Degrees()
+      public void Angle_settingTo1_shouldResultIn_equals57_2957795Degrees()
       {
          Angle angle = 1.0;
          Double expected = 57.2957795;
@@ -241,7 +224,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void DeflectionRight_divideBy2_isCorrect()
+      public void Deflection_Right_divideBy2_isCorrect()
       {
          Deflection deflA = new Deflection();
          deflA.setFromDegreesDouble(4.0);
@@ -253,7 +236,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void DeflectionLeft_divideBy2_isCorrect()
+      public void Deflection_Left_divideBy2_isCorrect()
       {
          Deflection deflA = new Deflection();
          deflA.setFromDegreesDouble(-4.0);
@@ -265,7 +248,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void Azimuth1_30_addDeflection_Pos2_15_shouldYieldNewAzimuth_3_45()
+      public void Azimuth_1_30_addDeflection_Pos2_15_shouldYieldNewAzimuth_3_45()
       {
          Azimuth anAzimuth = new Azimuth();
          anAzimuth.setFromDegreesMinutesSeconds(1, 30, 0);
@@ -300,31 +283,32 @@ namespace UnitTestNVcad
 
 
       [TestMethod]
-      public void AzimuthArithmatic_subtraction()
+      public void Azimuth_Arithmatic_subtraction()
       {
-         Tuple<Double, Double, Double>[] testCases =  {
-            new Tuple<Double, Double, Double>(20.0, 10.0, -10.0),
-            new Tuple<Double, Double, Double>(340.0, 350.0, 10.0),
-            new Tuple<Double, Double, Double>(20.0, 340.0, -40.0),
-            new Tuple<Double, Double, Double>(340.0, 20.0, 40.0) };
+          AzimuthSubtractionTestingStruct[] testCases =  {
+            new AzimuthSubtractionTestingStruct(20.0, 10.0, -10.0, -350.0),
+            new AzimuthSubtractionTestingStruct(340.0, 350.0, 10.0, 350.0),
+            new AzimuthSubtractionTestingStruct(20.0, 340.0, -40.0, -320.0),
+            new AzimuthSubtractionTestingStruct(340.0, 20.0, 40.0, 320.0) };
 
          foreach(var testCase in testCases)
          {
-            Double Az1Dbl = testCase.Item1; 
-            Double Az2Dbl = testCase.Item2;
-            Double expectedDeflection = testCase.Item3;
-            Azimuth Az1 = new Azimuth(); Az1.setFromDegreesDouble(Az1Dbl);
-            Azimuth Az2 = new Azimuth(); Az2.setFromDegreesDouble(Az2Dbl);
+            var def = testCase.Az1.minus(testCase.Az2);
+            Double actualDeflection = def.getAsDegreesDouble();
 
-            Double actualDeflection = Az2.minus(Az1).getAsDegreesDouble();
+            Assert.AreEqual(expected: testCase.ExpectedInternal, 
+               actual: actualDeflection, delta: 0.00000001);
 
-            Assert.AreEqual(expected: expectedDeflection, actual: actualDeflection, delta: 0.00000001);
+            def.ForceToExternalSolution();
+            actualDeflection = def.getAsDegreesDouble();
+            Assert.AreEqual(expected: testCase.ExpectedExternal,
+               actual: actualDeflection, delta: 0.00000001);
          }
       }
 
 
       [TestMethod]
-      public void AzimuthArithmatic_addition()
+      public void Azimuth_Arithmatic_addition()
       {
          Tuple<Double, Double, Double>[] testCases =  {
             new Tuple<Double, Double, Double>(20.0, 10.0, -10.0),
@@ -350,7 +334,7 @@ namespace UnitTestNVcad
 
 
       [TestMethod]
-      public void ComputeRemainder_ScaledByDenominator()
+      public void Angle_ComputeRemainder_ScaledByDenominator()
       {
          Tuple<Double, Double, Double>[] testCases =  {
             new Tuple<Double, Double, Double>(5.0, 10.0, 5.0),
@@ -439,7 +423,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void angleNormalization_withinPlusOrMinus2Pi_OverPositive2PI()
+      public void Angle_Normalization_withinPlusOrMinus2Pi_OverPositive2PI()
       {
          Double angleNeedingToBeNormalized = 2 * Math.PI * 4.56;
          Double expectedAfterNormalized = 2 * Math.PI * 0.56;
@@ -452,7 +436,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void angleNormalization_withinPlusOrMinus2Pi_UnderNegative2PI()
+      public void Angle_Normalization_withinPlusOrMinus2Pi_UnderNegative2PI()
       {
          Double angleNeedingToBeNormalized = -710.0;
          Double expectedAfterNormalized = -350.0;
@@ -541,7 +525,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void rayGetElevationInRayDomain_IsCorrect()
+      public void Ray_GetElevationInRayDomain_IsCorrect()
       {
          Ray localRay = new Ray();
          localRay.StartPoint = new Point(25.0, 0.0, 25.0);
@@ -555,7 +539,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void rayGetElevationOutsideRayDomain_IsNull()
+      public void Ray_GetElevationOutsideRayDomain_IsNull()
       {
          Ray localRay = new Ray();
          localRay.StartPoint = new Point(25.0, 0.0, 25.0);
@@ -567,7 +551,7 @@ namespace UnitTestNVcad
       }
 
       [TestMethod]
-      public void rayGetElevationWhenRayIsVertical_IsNull()
+      public void Ray_GetElevationWhenRayIsVertical_IsNull()
       {
          Ray localRay = new Ray();
          localRay.StartPoint = new Point(25.0, 0.0, 25.0);
@@ -973,4 +957,25 @@ namespace UnitTestNVcad
 
    }
 
+}
+
+internal struct AzimuthSubtractionTestingStruct
+{
+   public Azimuth Az1;
+   public Azimuth Az2;
+   public Double ExpectedInternal;
+   public Double ExpectedExternal;
+
+   public AzimuthSubtractionTestingStruct
+      ( Double Azimuth1
+      , Double Azimuth2
+      , Double ExpectedInternal
+      , Double ExpectedExternal
+      )
+   {
+      this.Az1 = Azimuth.NewFromDoubleAsDegrees(Azimuth1);
+      this.Az2 = Azimuth.NewFromDoubleAsDegrees(Azimuth2);
+      this.ExpectedInternal = ExpectedInternal;
+      this.ExpectedExternal = ExpectedExternal;
+   }
 }
