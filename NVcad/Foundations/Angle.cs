@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using NVcad.Foundations.Coordinates;
@@ -14,9 +15,15 @@ namespace NVcad.Foundations
       //private Point point1;
       //private Point point2;
 
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      public static Double TwoPI()
+      {
+         return 2 * Math.PI;
+      }
+
       public static Angle WHOLECIRCLE 
       {
-         get { return new Angle(2.0 * Math.PI); } 
+         get { return new Angle(TwoPI()); } 
          private set{}
       }
 

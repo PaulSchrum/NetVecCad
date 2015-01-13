@@ -286,10 +286,11 @@ namespace UnitTestNVcad
       public void Azimuth_Arithmatic_subtraction()
       {
           AzimuthSubtractionTestingStruct[] testCases =  {
-            new AzimuthSubtractionTestingStruct(20.0, 10.0, -10.0, -350.0),
-            new AzimuthSubtractionTestingStruct(340.0, 350.0, 10.0, 350.0),
-            new AzimuthSubtractionTestingStruct(20.0, 340.0, -40.0, -320.0),
-            new AzimuthSubtractionTestingStruct(340.0, 20.0, 40.0, 320.0) };
+            new AzimuthSubtractionTestingStruct(20.0, 10.0, -10.0, 350.0),
+            new AzimuthSubtractionTestingStruct(350.0, 340.0, -10.0, 350.0),
+            new AzimuthSubtractionTestingStruct(5.0, 355.0, -10.0, 350.0),
+            new AzimuthSubtractionTestingStruct(20.0, 340.0, -40.0, 320.0),
+            new AzimuthSubtractionTestingStruct(340.0, 20.0, 40.0, -320.0) };
 
          foreach(var testCase in testCases)
          {
@@ -511,17 +512,6 @@ namespace UnitTestNVcad
          Deflection defl = new Deflection(begAz, endAz, true);
          Double actualValue = defl.getAsRadians();
          Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.0000001);
-      }
-
-      [TestMethod]
-      public void Deflection_negativeGreaterThan180_getAsRadians()
-      {
-         Double expectedValue = -5.88839418748;
-         Azimuth endAz = new Azimuth(new Point(0.0, 0.0, 0.0), new Point(10.0, 50.0, 0.0));
-         Azimuth begAz = new Azimuth(new Point(10.0, 50.0, 0.0), new Point(0.0, 100.0, 0.0));
-         Deflection defl = new Deflection(begAz, endAz, false);
-         Double actualValue = defl.getAsRadians();
-         Assert.AreEqual(expected: expectedValue, actual: actualValue, delta: 0.00001);
       }
 
       [TestMethod]

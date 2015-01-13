@@ -162,6 +162,15 @@ namespace NVcad.Foundations
          return valRadians / Math.PI * 180.0;
       }
 
+      /// <summary>
+      /// Negative Abosolute Value
+      /// </summary>
+      /// <param name="val"></param>
+      /// <returns></returns>
+      public static Double NAbs(this Double val)
+      {
+         return -1.0 * Math.Abs(val);
+      }
    }
 
 }

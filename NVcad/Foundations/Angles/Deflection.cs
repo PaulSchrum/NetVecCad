@@ -10,37 +10,49 @@ namespace NVcad.Foundations.Angles
    [Serializable]
    sealed public class Deflection : NVcad.Foundations.Angle
    {
-      private int deflectionDirection_;
       public int deflectionDirection
       {
-         get { return deflectionDirection_; }
-         set
-         {
-            deflectionDirection_ = value >= 0 ? 1 : -1;
-         }
+         get { return Math.Sign(base.angle__); }
       }
 
-      private bool isInternalSolution { get; set; }  // start here.  make tests get 
-      // a tuple of internal and external solutions for each subtraction
-      // also add method to force external solution and another one
-      // to force internal solution
+      private bool isInternalSolution 
+      {
+         get { return (Math.Abs(base.angle__) < Math.PI); }
+      }
 
       public Deflection() { }
 
       public Deflection(Azimuth BeginAzimuth, Azimuth EndAzimuth, bool assumeInternalSolution)
       {
-         isInternalSolution = assumeInternalSolution;
+         Double angle;
 
-         if (false == isInternalSolution)
-            this.angle_ = BeginAzimuth - EndAzimuth;
-         else
-            this.angle_ = EndAzimuth - BeginAzimuth;
-
-         this.deflectionDirection = 1;
-         if (this.angle_ < 0.0 || this.angle_ > Math.PI)
+         // first assume internal solution
+         if(BeginAzimuth.angle_ > EndAzimuth.angle_)
          {
-            this.deflectionDirection = -1;
+            if ((BeginAzimuth.angle_ - EndAzimuth.angle_) > 180.0)
+            {
+               angle = (EndAzimuth.angle_ + 360.0) - BeginAzimuth.angle_;
+            }
+            else
+            {
+               angle = EndAzimuth.angle_ - BeginAzimuth.angle_;
+            }
          }
+         else // EndAzimuth >= BeginAzimuth
+         {
+            if ((EndAzimuth.angle_ - BeginAzimuth.angle_) > 180.0)
+            {
+               angle = (EndAzimuth.angle_ - BeginAzimuth.angle_) - 360.0;
+            }
+            else
+            {
+               angle = BeginAzimuth.angle_ - EndAzimuth.angle_;
+            }
+         }
+
+         this.angle_ = angle.ToRadians();
+         if (false == assumeInternalSolution)
+            this.ForceToExternalSolution();
       }
 
       public static Deflection ctorDeflectionFromAngle(double angleDegrees, int deflectionDirection)
@@ -55,40 +67,37 @@ namespace NVcad.Foundations.Angles
       /// <param name="deflectionSign">+1 for Right, -1 for left</param>
       public Deflection(double anAngleDbl, int deflectionDirection)
       {
-         base.angle_ = Math.Abs(anAngleDbl);
-         this.deflectionDirection = deflectionDirection;
-         //base.angle__ = ptsAngle.normalizeToPlusOrMinus2PiStatic(anAngleDbl);
-         //angle_ = anAngleDbl;
+         this.angle_ = deflectionDirection * anAngleDbl;
       }
 
       public Deflection(Angle anAngle)
       {
-         this.deflectionDirection = Math.Sign(anAngle.angle_);
-         angle__ = Math.Abs(anAngle.angle_);
+         this.angle_ = anAngle.angle_;
       }
 
       internal override double angle_
       {
-         get
+         get { return angle__; }
+         set 
          {
-            Double retAngle = angle__;
-
-            if (deflectionDirection >= 0)
-            {
-               if (retAngle < 0.0)
-                  retAngle += 2.0 * Math.PI;
-            }
-            else
-            {
-               if (retAngle < 0.0)
-                  retAngle += 2.0 * Math.PI;
-
-               retAngle *= -1.0;
-            }
-
-            return retAngle;
+            this.angle__ = normalizeBetweenPlusMinus2PI(value);
          }
-         set { normalize(value); }
+      }
+
+      private static Double normalizeBetweenPlusMinus2PI(Double val)
+      {
+         Double returnVal = val;
+         if (returnVal >= Angle.TwoPI())
+         {
+            returnVal = Angle.ComputeRemainderScaledByDenominator(returnVal, Angle.TwoPI());
+         }
+         else if (returnVal <= Angle.TwoPI().NAbs())
+         {
+            returnVal =
+               Angle.ComputeRemainderScaledByDenominator(-1.0 * returnVal, Angle.TwoPI());
+            returnVal = -1.0 * returnVal;
+         }
+         return returnVal;
       }
 
       /// <summary>
@@ -98,72 +107,52 @@ namespace NVcad.Foundations.Angles
       /// </summary>
       public void ForceToExternalSolution()
       {
-         if (this.isInternalSolution == false) return;
-         var complement = Math.Abs((2 * Math.PI) - this.getAsRadians());
-         base.angle_ = complement;
-         this.deflectionDirection *= -1;
-         this.isInternalSolution = false;
+         if (Math.Abs(this.angle_) > Math.PI) 
+            return; // since it's already external solution
+
+         Double angle = this.angle_;
+         int prevSign = Math.Sign(angle);
+         angle = Angle.TwoPI() - Math.Abs(angle);
+         this.angle_ = -1 * prevSign * angle;
       }
 
       public override void setFromDegreesDouble(double deg)
       {
-         base.setFromDegreesDouble(Math.Abs(deg));
-         this.deflectionDirection = Math.Sign(deg);
+         this.angle_ = deg.ToRadians();
       }
 
       public override double getAsRadians()
       {
-         Double retVal = base.getAsRadians();
-         if (this.deflectionDirection < 0)
-         {
-            if (this.isInternalSolution == true)
-            {
-               retVal = retVal + 2.0 * Math.PI;
-               retVal *= -1.0;
-            }
-         }
-         return retVal;
+         return this.angle__;
       }
 
       public override void setFromDegreesMinutesSeconds(int degrees, int minutes, double seconds)
       {
-         setFromDegreesDouble(
-               Math.Abs((double)degrees) +
-               (double)minutes / 60.0 + seconds / 3600.0
-                        );
-         deflectionDirection = Math.Sign(degrees);
+         double min = Math.Abs(minutes) + (Math.Abs(seconds) / 60.0);
+         double deg = Math.Abs(degrees) + (min / 60.0);
+         this.angle_ = deg.ToRadians() * Math.Sign(degrees);
       }
 
       public override double getAsDegreesDouble()
       {
-         return 180.0 * this.getAsRadians() / Math.PI;
+         return this.angle__.ToDegrees();
       }
 
       public static Deflection operator *(Deflection defl, Double multiplier)
       {
-         Deflection retDefl = new Deflection();
-         retDefl.angle_ = defl.angle_ * multiplier;
-         retDefl.deflectionDirection_ = defl.deflectionDirection_;
-         return retDefl;
+         return new Deflection(defl.angle__ * multiplier);
       }
 
       public static Deflection operator /(Deflection defl, Double divisor)
       {
-         if (defl.deflectionDirection_ > 0)
-            return defl * (1 / divisor);
-         else
-         { // Deflection is negative
-            Deflection retDefl = new Deflection();
-            retDefl.deflectionDirection_ = defl.deflectionDirection_;
-            //retDefl.isLessThanEqual_180degrees = true;
-            retDefl.angle__ = defl.angle__ / divisor;
-            return retDefl;
-         }
+         return new Deflection(defl.angle__ / divisor);
       }
 
       public static implicit operator Deflection(double radianDbl)
       {
-         return new Deflection(radianDbl);
+         var returnDeflection = new Deflection();
+         returnDeflection.angle__ = normalizeBetweenPlusMinus2PI(radianDbl);
+         return returnDeflection;
       }
 
       public static implicit operator Deflection(Degree degrees)
@@ -178,7 +167,7 @@ namespace NVcad.Foundations.Angles
 
       public override string ToString()
       {
-         var str = this.getAsDegreesDouble().ToString() + "°";
+         var str = Math.Abs(this.getAsDegreesDouble()).ToString() + "°";
          if (this.deflectionDirection > 0) str = str + " RT";
          else str = str + " LT";
          return str;
