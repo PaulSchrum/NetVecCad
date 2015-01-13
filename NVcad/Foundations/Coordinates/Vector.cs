@@ -37,8 +37,8 @@ namespace NVcad.Foundations.Coordinates
       public Vector(Azimuth direction, Double length)
          : this()
       {
-         x = length * Math.Sin(direction.angle_);
-         y = length * Math.Cos(direction.angle_);
+         x = length * Math.Sin(direction.getAsRadians());
+         y = length * Math.Cos(direction.getAsRadians());
          z = null;
       }
 

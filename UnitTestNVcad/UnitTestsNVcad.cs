@@ -396,7 +396,8 @@ namespace UnitTestNVcad
       [TestMethod]
       public void Vector_newVector_isCorrect()
       {
-         var aVec = new Vector(Azimuth.ctorAzimuthFromDegree(90.0),
+         var az = Azimuth.ctorAzimuthFromDegree(90.0);
+         var aVec = new Vector(az,
             50.0);
          Assert.IsNotNull(aVec);
          Assert.AreEqual(expected: 50.0,
@@ -410,7 +411,8 @@ namespace UnitTestNVcad
          var firstAngle = firstVec.DirectionHorizontal;
          Vector secondVec = firstVec.rotateCloneAboutZ(Angle.AngleFactory(-90.0));
          Assert.AreEqual(expected: firstVec.Length, actual: secondVec.Length, delta: 0.00001);
-         Assert.AreEqual(expected: firstVec.Azimuth.getAsDegreesDouble() + 90.0, actual: secondVec.Azimuth.getAsDegreesDouble(), delta: 0.00001);
+         Assert.AreEqual(expected: firstVec.Azimuth.getAsDegreesDouble() - 90.0 + 360.0,
+            actual: secondVec.Azimuth.getAsDegreesDouble(), delta: 0.00001);
       }
 
       [TestMethod]
@@ -420,7 +422,7 @@ namespace UnitTestNVcad
          var firstAngle = firstVec.DirectionHorizontal;
          Vector secondVec = firstVec.rotateCloneAboutZ(Angle.AngleFactory(-90.0));
          Assert.AreEqual(expected: firstVec.Length, actual: secondVec.Length, delta: 0.00001);
-         Assert.AreEqual(expected: firstVec.Azimuth.getAsDegreesDouble() + 90.0, actual: secondVec.Azimuth.getAsDegreesDouble(), delta: 0.00001);
+         Assert.AreEqual(expected: firstVec.Azimuth.getAsDegreesDouble() - 90.0, actual: secondVec.Azimuth.getAsDegreesDouble(), delta: 0.00001);
       }
 
       [TestMethod]
