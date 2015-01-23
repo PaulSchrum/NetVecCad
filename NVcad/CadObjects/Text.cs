@@ -8,6 +8,7 @@ using NVcad.Foundations.Coordinates;
 using System.Windows.Controls;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using NVcad.Foundations.Angles;
 
 [assembly: InternalsVisibleTo("UnitTestNVcad")]
 namespace NVcad.CadObjects
@@ -18,15 +19,10 @@ namespace NVcad.CadObjects
       public Double Height { get; set; }
       //public Double Stretch { get; set; }
       public TextJustification justification { get; set; }
-      public override Angle Rotation
-      {  get { return base.Rotation; }
-         set { base.rotation_ = value; }
-      }
 
       protected Text() : base() 
       {
          base.BoundingBox = new BoundingBox();
-         base.rotation_ = new Angle(0.0);
       }
 
       public Text(String someContent, Point aPoint) : this()

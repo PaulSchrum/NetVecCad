@@ -97,6 +97,9 @@ namespace UnitTestNVcad
             , actual: def.deflectionDirection);
       }
 
+      //needs test: public Angle GetAsCadConventionAngle()
+      //needs test: public Azimuth CreateFromCadConventionAngle(Angle angle)
+
       [TestMethod]
       public void Angle_cos_minus120_equalsMinus0_5()
       {
@@ -689,15 +692,12 @@ namespace UnitTestNVcad
             delta: 0.00001, message: "BeginRadiusVector");
          Assert.AreEqual(
             expected: -45.0,
-            actual: anArc.BeginPointAngle.getAsDegreesDouble(),
+            actual: anArc.StartAzimuth.getAsDegreesDouble(),
             delta: 0.00001, message: "BeginPointAngle");
          Assert.IsNotNull(anArc.BoundingBox);
          Assertt.AreEqual(
             expected: new Point(100,150),
             actual: anArc.CenterPt);
-         Assertt.AreEqual(
-            expected: new Vector(Azimuth.ctorAzimuthFromDegree(135.0), 50.0),
-            actual: anArc.CentralVector);
          Assert.AreEqual(
             expected: -90.0,
             actual: anArc.Deflection.getAsDegreesDouble(),
@@ -745,15 +745,12 @@ namespace UnitTestNVcad
             delta: 0.00001);
          Assert.AreEqual(
             expected: 45.0,
-            actual: anArc.BeginPointAngle.getAsDegreesDouble(),
+            actual: anArc.StartAzimuth.getAsDegreesDouble(),
             delta: 0.00001);
          Assert.IsNotNull(anArc.BoundingBox);
          Assertt.AreEqual(
             expected: new Point(100,50),
             actual: anArc.CenterPt);
-         Assertt.AreEqual(
-            expected: new Vector(Azimuth.ctorAzimuthFromDegree(45.0), 50.0),
-            actual: anArc.CentralVector);
          Assert.AreEqual(
             expected: 90.0,
             actual: anArc.Deflection.getAsDegreesDouble(),

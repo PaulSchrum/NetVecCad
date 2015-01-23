@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using NVcad.Foundations;
+using NVcad.Foundations.Angles;
 using NVcad.Foundations.Coordinates;
 
 
@@ -39,7 +40,7 @@ namespace NVcad.CadObjects
       {
          get
          {
-            return new Angle(this.Origin, this.EndPoint);
+            return new Azimuth(this.Origin, this.EndPoint);
          }
          set
          { }

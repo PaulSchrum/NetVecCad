@@ -8,6 +8,7 @@ using NVcad.Foundations;
 using NVcad.Foundations.Symbology;
 using System.Windows.Controls;
 using System.Runtime.CompilerServices;
+using NVcad.Foundations.Angles;
 
 [assembly: InternalsVisibleTo("UnitTestNVcad")]
 namespace NVcad.CadObjects
@@ -19,52 +20,16 @@ namespace NVcad.CadObjects
          Feature = Feature.Factory_NewFeature();
       }
 
-      public Feature Feature { get; set; }
-      public Feature FeatureOverride { get; set; }
-      public Point Origin { get; set; }
-      public long myIndex { get; set; }
+      public Feature Feature { get; set; }  // Foundational, not derived
+      public Feature FeatureOverride { get; set; }  // Foundational, not derived
+      public Point Origin { get; set; }  // Foundational, not derived
+      public long myIndex { get; set; }  // Foundational, not derived
 
-      protected Angle rotation_;
-      public virtual Angle Rotation
-      {
-         get
-         { return rotation_; }
-         set
-         { setRotation(value); }
-      }
-      protected virtual void setRotation(Angle newRotation)
-      {
-         rotation_ = newRotation;
-      }
+      public virtual Angle Rotation { get; set; }  // Foundational, not derived
 
-      protected Vector scale_;
-      private string p1;
-      private Point point;
-      private double p2;
-      public virtual Vector ScaleVector
-      {
-         get { return scale_; }
-         set { scale_ = value; }
-      }
+      public virtual Vector ScaleVector { get; set; }  // Foundational, not derived
 
-      //public virtual ToolTip GetToolTip()
-      //{
-      //   var result = new ToolTip();
-      //   result.Content = "Graphic Item";
-      //   return result;
-      //}
-
-      //protected Double xscale_;
-      //public virtual Double xScale
-      //{
-      //   get
-      //   { return xscale_; }
-      //   set
-      //   { xscale_ = value; }
-      //}
-
-      protected virtual void computeBoundingBox()
-      { }
+      protected virtual void computeBoundingBox() { }
 
       public BoundingBox BoundingBox { get; protected set; }
 

@@ -48,7 +48,7 @@ namespace NVcad.Foundations.Angles
       private void normalizeAndSetAngle(Double val)
       {
          Double AngleAsTurns = val / (Math.PI * 2.0);
-         var fractionalPart = AngleAsTurns.AsParts()["Fractional Part"];
+         var fractionalPart = AngleAsTurns.FP();
          if(val < 0.0)
          {
             fractionalPart = (-1.0 * fractionalPart) + 1.0;
@@ -91,10 +91,32 @@ namespace NVcad.Foundations.Angles
       public override void setFromXY(double x, double y)
       {
          double dbl = Math.Atan2(x, y);
+         if (dbl < 0.0) dbl += TwoPI();
          angle_ = dbl;
       }
 
+      public Angle GetAsCadConventionAngle()
+      {
+         Angle retVal;
+         Double angl = this.angle__;
 
+         if (angl < PIover2 * 3)
+            retVal = new Angle(PIover2 - angl);
+         else
+            retVal = new Angle(PIover2 * 5 - angl);
+
+         return retVal;
+      }
+
+      public static Azimuth CreateFromCadConventionAngle(Angle angle)
+      {
+         Azimuth retVal;
+         if (angle.angle_ <= PIover2)
+            retVal = new Azimuth(PIover2 - angle.angle_);
+         else
+            retVal = new Azimuth(PIover2 * 5 - angle.angle_);
+         return retVal;
+      }
 
       public static int getQuadrant(double angleDegrees)
       {
@@ -143,10 +165,12 @@ namespace NVcad.Foundations.Angles
 
       public static Azimuth operator +(Azimuth Az1, Deflection defl)
       {
-         var newAzDeg = Az1.getAsDegreesDouble() + defl.getAsDegreesDouble();
-         Double retDbl = Angle.normalizeToPlusOrMinus360Static(newAzDeg);
-         Azimuth retAz = new Azimuth();
-         retAz.setFromDegreesDouble(retDbl);
+         var Az1Dbl = Az1.angle__;
+         var deflDbl = defl.getAsRadians();
+         var newAzDeg = Az1Dbl + deflDbl;
+         if (newAzDeg > TwoPI()) newAzDeg -= TwoPI();
+         if (newAzDeg < 0.0) newAzDeg += TwoPI();
+         Azimuth retAz = new Azimuth(newAzDeg);
          return retAz;
       }
 

@@ -22,14 +22,13 @@ namespace NVcad.CadObjects
       public Arc(Point centerPt, Point StartPt, Deflection defl)
          : this()
       {
-         Eccentricity = 0.0;
          Origin = StartPt;
          Deflection = defl;
          CenterPt = centerPt;
-
+         //this.Radius;
          BeginRadiusVector = Origin - CenterPt;
-         BeginPointAngle = Deflection / 2;
-         CentralVector = BeginRadiusVector + BeginPointAngle;
+         //BeginPointAngle = Deflection / 2;
+         //CentralVector = BeginRadiusVector + BeginPointAngle;
          EndRadiusVector = BeginRadiusVector + Deflection;
          EndPoint = CenterPt + EndRadiusVector;
          computeBoundingBox();
@@ -63,13 +62,12 @@ namespace NVcad.CadObjects
          , dxfArc.EndAngle
          , dxfArc.Radius)
       {
-
+         
       }
 
       private void populateThis(Point StartPt, Azimuth incomingDir, Deflection defl,
          Double radius)
       {
-         Eccentricity = 0.0;
          Origin = StartPt;
          Deflection = defl;
 
@@ -80,34 +78,17 @@ namespace NVcad.CadObjects
             direction: BegRadiusDirection,
             length: radius);
          CenterPt = StartPt - BeginRadiusVector;
-         BeginPointAngle = Deflection / 2;
-         CentralVector = BeginRadiusVector + BeginPointAngle;
+         //BeginPointAngle = Deflection / 2;
+         //CentralVector = BeginRadiusVector + BeginPointAngle;
          EndRadiusVector = BeginRadiusVector + Deflection;
          EndPoint = CenterPt + EndRadiusVector;
-
+         
          computeBoundingBox();
       }
 
       public Point CenterPt { get; set; }
       public Vector BeginRadiusVector { get; protected set; }
       public Vector EndRadiusVector { get; protected set; }
-
-      public override Angle Rotation
-      {
-         get
-         {
-            return BeginRadiusVector.DirectionHorizontal + 
-               Angle.radiansFromDegree(this.deflection_.deflectionDirection * 90.0);
-         }
-         set
-         { }
-      }
-      
-      public override Vector ScaleVector
-      {
-         get {  return new Vector(1, 1, null); }
-         set { }
-      }
 
       //public override ToolTip GetToolTip()
       //{

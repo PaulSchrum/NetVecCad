@@ -188,7 +188,7 @@ namespace NVcad.Foundations.Coordinates
          Vector topRight = new Vector(totalWidth / 2.0, totalHeight / 2.0, null);
          var bottomRight = new Vector(topRight); bottomRight.flipAboutX_2d();
          var topLeft = new Vector(topRight); topLeft.flipAboutY_2d();
-         var bottomLeft = new Vector(topRight); bottomLeft.scale(-1.0, -1.0, null);
+         var bottomLeft = new Vector(topRight); bottomLeft.ScaleBy(-1.0, -1.0, null);
 
          topRight.rotateAboutZ(rotation);
          bottomRight.rotateAboutZ(rotation);

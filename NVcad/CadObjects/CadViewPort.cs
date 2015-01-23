@@ -57,7 +57,7 @@ namespace NVcad.CadObjects
       {
          Height = other.Height; Width = other.Width;
          Origin = new Point(other.Origin);
-         ScaleVector = new Vector(other.scale_.x, other.scale_.y, other.scale_.z);
+         ScaleVector = new Vector(other.ScaleVector.x, other.ScaleVector.y, other.ScaleVector.z);
          Rotation = new Angle(other.Rotation.angle_);
       }
 
@@ -121,9 +121,7 @@ namespace NVcad.CadObjects
 
       public void ScaleAbout(Point scalePt, Double scaleFactor)
       {
-         this.scale_.x *= scaleFactor;
-         this.scale_.y *= scaleFactor;
-         this.scale_.z *= scaleFactor;
+         this.ScaleVector.ScaleBy(scaleFactor);
 
          this.Height *= scaleFactor;
          this.Width *= scaleFactor;
@@ -181,10 +179,10 @@ namespace NVcad.CadObjects
 
          Double scaleToUse = possibleScales.getAbsMax();
 
-         Double verticalExaggeration = this.scale_.y /
-            this.scale_.x;
-         this.scale_.x = scaleToUse;
-         this.scale_.y = this.scale_.x * verticalExaggeration;
+         Double verticalExaggeration = this.ScaleVector.y /
+            this.ScaleVector.x;
+         this.ScaleVector.x = scaleToUse;
+         this.ScaleVector.y = this.ScaleVector.x * verticalExaggeration;
          //this.scale_.z = screenVec.x;
 
          this.Origin = this.parentModel.getBoundingBox().getCenterPoint();

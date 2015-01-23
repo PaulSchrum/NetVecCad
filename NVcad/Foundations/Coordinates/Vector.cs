@@ -9,11 +9,13 @@ using NVcad.Foundations.Angles;
 namespace NVcad.Foundations.Coordinates
 {
    [Serializable]
-   public struct Vector : ICloneable
+   public class Vector : ICloneable
    {
       public Double x { get; set; }
       public Double y { get; set; }
       public Double? z { get; set; }
+
+      public Vector() { }
 
       public Vector(double x_, double y_, double? z_)
          : this()
@@ -100,7 +102,8 @@ namespace NVcad.Foundations.Coordinates
       {
          get
          {
-            return new Azimuth(Math.Atan2(y, x));
+            Angle angle = new Angle(Math.Atan2(y, x));
+            return Azimuth.CreateFromCadConventionAngle(angle);
          }
          private set { }
       }
@@ -114,7 +117,7 @@ namespace NVcad.Foundations.Coordinates
             if(0.0 != prevLen)
             {
                Double scaleFactor = value / prevLen;
-               this.scale(scaleFactor, scaleFactor, scaleFactor);
+               this.ScaleBy(scaleFactor, scaleFactor, scaleFactor);
             }
             // else -- 0-length vector - undefined meaning,
             // thus no action -- leave as it is, silently.
@@ -143,10 +146,16 @@ namespace NVcad.Foundations.Coordinates
 
       public void rotateAboutZ(Angle rotation)
       {
-         Double rotCos = rotation.cos(); Double rotSin = rotation.sin();
-         Double newthis_x = this.x * rotation.cos() - this.y * rotation.sin();
-         this.y = this.x * rotation.sin() + this.y * rotation.cos();
-         this.x = newthis_x;
+         Double rotRad = rotation.angle_;
+         Double vecAngle = Math.Atan2(this.y, this.x);
+         vecAngle += rotRad;
+         Double lngth = this.Length;
+         x = lngth * Math.Sin(vecAngle);
+         y = lngth * Math.Cos(vecAngle);
+         //Double rotCos = rotation.cos(); Double rotSin = rotation.sin();
+         //Double newthis_x = this.x * rotation.cos() - this.y * rotation.sin();
+         //this.y = this.x * rotation.sin() + this.y * rotation.cos();
+         //this.x = newthis_x;
       }
 
       public void flipAboutX_2d()
@@ -161,12 +170,17 @@ namespace NVcad.Foundations.Coordinates
 
       public void reverseDirection()
       {
-         this.scale(-1.0, -1.0, -1.0);
+         this.ScaleBy(-1.0, -1.0, -1.0);
       }
 
-      public void scale(Double xScale, Double yScale, Double? zScale)
+      public void ScaleBy(Double xScale, Double yScale, Double? zScale)
       {
          this.x *= xScale; this.y *= yScale; this.z *= zScale;
+      }
+
+      public void ScaleBy(Double scale)
+      {
+         ScaleBy(scale, scale, scale);
       }
 
       public double dotProduct(Vector otherVec)

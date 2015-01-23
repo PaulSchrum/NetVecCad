@@ -21,6 +21,11 @@ namespace NVcad.Foundations
          return 2 * Math.PI;
       }
 
+      public static Double PIover2
+      {
+         get { return Math.PI / 2.0; }
+      }
+
       public static Angle WHOLECIRCLE 
       {
          get { return new Angle(TwoPI()); } 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using WIN = System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -24,7 +24,9 @@ using System.ComponentModel;
 using System.Media;
 using System.Windows.Threading;
 using NVcad.Foundations.Symbology;
+using NVcad.Foundations.Coordinates;
 using SYMB = NVcad.Foundations.Symbology;
+using System.Windows;
 
 namespace NVcadView
 {
@@ -95,12 +97,12 @@ namespace NVcadView
          int sign = Math.Sign(e.Delta);
          if (sign > 0) actualScale = 1.0 / wheelZoomFactor;
 
-         Point screenPt = e.GetPosition(this);
-         NVCFND.Point zoomPt = GetWorldPoint(e.GetPosition(this));
+         WIN.Point screenPt = e.GetPosition(this);
+         NVCFND.Point zoomPt = GetWorldPoint(screenPt);
          this.myCadViewPort.ScaleAbout(zoomPt, actualScale);
       }
 
-      private NVCFND.Point GetWorldPoint(Point screenPt)
+      private NVCFND.Point GetWorldPoint(WIN.Point screenPt)
       {
          var xfPoint = xformGroup_all.Inverse.Transform(screenPt);
          return
@@ -109,7 +111,7 @@ namespace NVcadView
 
       private void updateTransformsForScale(Double scale)
       {
-         this.myCadViewPort.ScaleVector.scale(
+         this.myCadViewPort.ScaleVector.ScaleBy(
             scale, scale, null);
          this.xformGroup_all.Children.Add(
                new ScaleTransform(scale, scale)
@@ -117,8 +119,8 @@ namespace NVcadView
          this.refresh();
       }
 
-      System.Windows.Point mousePos_;
-      public Point MousePos
+      WIN.Point mousePos_;
+      public WIN.Point MousePos
       {
          get { return mousePos_; }
          protected set
@@ -143,8 +145,8 @@ namespace NVcadView
 #pragma warning restore 0169
       }
 
-      private Point lastPos { get; set; }
-      private Point moveDelta;
+      private WIN.Point lastPos { get; set; }
+      private WIN.Point moveDelta;
       private void local_MouseMove(object sender, MouseEventArgs e)
       {
          if(e.LeftButton == MouseButtonState.Pressed)
@@ -161,7 +163,7 @@ namespace NVcadView
          lastPos = e.GetPosition(this);
       }
 
-      Point canvasCenter;
+      WIN.Point canvasCenter;
       TransformGroup xformGroup_all;
       internal void establishTransforms()
       {  // Code Documentation Tag 20140603_06
@@ -260,7 +262,7 @@ namespace NVcadView
          setSymbologyText(aTextBox, textItem);
          aTextBox.Text = textItem.Content;
          //aTextBox.ToolTip = textItem.GetToolTip();
-         aTextBox.RenderTransformOrigin = new Point(0, 0);
+         aTextBox.RenderTransformOrigin = new WIN.Point(0, 0);
          var rotAboutPt = xformGroup_all.Transform(textItem.Origin);
          var xfrmGrp = new TransformGroup();
          if (this.myCadViewPort.Rotation.getAsDegreesDouble() != 0.0)
@@ -299,9 +301,9 @@ namespace NVcadView
 
          PathGeometry pGeom = new PathGeometry();
          PathFigure pFig = new PathFigure();
-         pFig.StartPoint = new Point(arcItem.Origin.x, arcItem.Origin.y);
+         pFig.StartPoint = new WIN.Point(arcItem.Origin.x, arcItem.Origin.y);
          pFig.Segments.Add(
-            new ArcSegment(new Point(arcItem.EndPoint.x, arcItem.EndPoint.y),
+            new ArcSegment(new WIN.Point(arcItem.EndPoint.x, arcItem.EndPoint.y),
                new Size(arcItem.Radius, arcItem.Radius),
                arcItem.Rotation.getAsDegreesDouble(),
                largeArc,
@@ -421,13 +423,13 @@ namespace NVcadView
 
    internal static class extensionMethods
    {
-      private static Point pt;
-      public static System.Windows.Point Transform
+      private static WIN.Point pt;
+      public static WIN.Point Transform
          ( this TransformGroup xfg,
             NVCFND.Point ptPreXfrm
          )
       {
-         pt = new Point(ptPreXfrm.x, ptPreXfrm.y);
+         pt = new WIN.Point(ptPreXfrm.x, ptPreXfrm.y);
          return xfg.Transform(pt);
       }
    }

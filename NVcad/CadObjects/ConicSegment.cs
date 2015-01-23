@@ -15,42 +15,47 @@ namespace NVcad.CadObjects
    {
       public ConicSegment() : base() { }
 
-      protected Double eccentricity_;
       public virtual Double Eccentricity 
       {
-         get { return eccentricity_; }
-         set { eccentricity_ = value; }
+         get { return 0.0; }
+         private set { }
       }
 
       public virtual Double Radius
       {
-         get { return centralVector_.Length; }
-         set { centralVector_.Length = value; }
+         get; 
+         //{ return centralVector_.Length; }
+         set; 
+         //{ centralVector_.Length = value; }
       }
 
-      protected Vector centralVector_;
-      public virtual Vector CentralVector
-      {
-         get { return centralVector_; }
-         set { centralVector_ = value; }
-      }
+      public virtual Double a { get; set; }
 
-      protected Deflection deflection_;
-      public virtual Deflection Deflection
-      {
-         get { return deflection_; }
-         set { deflection_ = value; }
-      }
+      public virtual Double b { get; set; }
+      
+      //protected Vector centralVector_;
+      //public virtual Vector CentralVector
+      //{
+      //   get { return centralVector_; }
+      //   set { centralVector_ = value; }
+      //}
 
-      /// <summary>
-      /// Begin Point Angle is the deflection from the central
-      ///    vector to the begin vector
-      /// </summary>
-      protected Deflection beginPointAngle_;
-      public virtual Deflection BeginPointAngle
-      {
-         get { return beginPointAngle_; }
-         set { beginPointAngle_ = value; }
-      }
+      //protected Deflection deflection_;
+      //public virtual Deflection Deflection
+      //{
+      //   get { return deflection_; }
+      //   set { deflection_ = value; }
+      //}
+
+      ///// <summary>
+      ///// Begin Point Angle is the deflection from the central
+      /////    vector to the begin vector
+      ///// </summary>
+      //protected Deflection beginPointAngle_;
+      //public virtual Deflection BeginPointAngle
+      //{
+      //   get { return beginPointAngle_; }
+      //   set { beginPointAngle_ = value; }
+      //}
    }
 }
