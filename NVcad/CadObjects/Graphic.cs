@@ -18,6 +18,7 @@ namespace NVcad.CadObjects
       public Graphic() : base()
       {
          Feature = Feature.Factory_NewFeature();
+         Rotation = new Angle(0);
       }
 
       public Feature Feature { get; set; }  // Foundational, not derived
