@@ -303,7 +303,7 @@ namespace NVcadView
          PathFigure pFig = new PathFigure();
          pFig.StartPoint = new WIN.Point(arcItem.Origin.x, arcItem.Origin.y);
          pFig.Segments.Add(
-            new ArcSegment(new WIN.Point(arcItem.EndPoint.x, arcItem.EndPoint.y),
+            new ArcSegment(new WIN.Point(arcItem.EndPt.x, arcItem.EndPt.y),
                new Size(arcItem.Radius, arcItem.Radius),
                arcItem.Rotation.getAsDegreesDouble(),
                largeArc,
@@ -328,8 +328,8 @@ namespace NVcadView
          Line aLine = new Line();
          aLine.X1 = lineSegment.Origin.x;
          aLine.Y1 = lineSegment.Origin.y;
-         aLine.X2 = lineSegment.EndPoint.x;
-         aLine.Y2 = lineSegment.EndPoint.y;
+         aLine.X2 = lineSegment.EndPt.x;
+         aLine.Y2 = lineSegment.EndPt.y;
          aLine.HorizontalAlignment = HorizontalAlignment.Left;
          aLine.VerticalAlignment = VerticalAlignment.Bottom;
          setSymbologyNonText(aLine, lineSegment);

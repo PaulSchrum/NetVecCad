@@ -30,7 +30,7 @@ namespace NVcad.CadObjects
          //BeginPointAngle = Deflection / 2;
          //CentralVector = BeginRadiusVector + BeginPointAngle;
          EndRadiusVector = BeginRadiusVector + Deflection;
-         EndPoint = CenterPt + EndRadiusVector;
+         EndPt = CenterPt + EndRadiusVector;
          computeBoundingBox();
       }
 
@@ -65,10 +65,11 @@ namespace NVcad.CadObjects
          
       }
 
-      private void populateThis(Point StartPt, Azimuth incomingDir, Deflection defl,
+      private void populateThis(Point StartPoint, Azimuth incomingDir, Deflection defl,
          Double radius)
       {
-         Origin = StartPt;
+         Origin = StartPoint;
+         Rotation = incomingDir;
          Deflection = defl;
 
          Azimuth BegRadiusDirection = incomingDir +
@@ -77,12 +78,23 @@ namespace NVcad.CadObjects
          BeginRadiusVector = new Vector(
             direction: BegRadiusDirection,
             length: radius);
-         CenterPt = StartPt - BeginRadiusVector;
-         //BeginPointAngle = Deflection / 2;
-         //CentralVector = BeginRadiusVector + BeginPointAngle;
+         CenterPt = StartPoint - BeginRadiusVector;
          EndRadiusVector = BeginRadiusVector + Deflection;
-         EndPoint = CenterPt + EndRadiusVector;
+
+         // Conic Section components
+         Eccentricity = 0.0;
+         a = b = Radius = BeginRadiusVector.Length;
          
+         // Path Components
+         StartPt = StartPoint;
+         EndPt = CenterPt + EndRadiusVector;
+         StartAzimuth = incomingDir;
+         EndAzimuth = StartAzimuth + Deflection;
+         Length = (Deflection.angle_ / Math.PI) * Radius;
+
+         // Graphic Components not already set
+         ScaleVector = new Vector(Azimuth.ctorAzimuthFromDegree(45.0), Radius);
+
          computeBoundingBox();
       }
 

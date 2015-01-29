@@ -14,12 +14,12 @@ namespace NVcad.CadObjects
    {
       public Path() : base() { }
 
-      public Point StartPoint // wrapper of base.base.Origin
+      public Point StartPt // wrapper of base.base.Origin
       {
          get { return Origin; }
          set { Origin = value; }
       }
-      public virtual Point EndPoint { get; set; }
+      public virtual Point EndPt { get; set; }
       public virtual Azimuth StartAzimuth // adapter/wrapper of base.base.Rotation
       {
          get { return Azimuth.CreateFromCadConventionAngle(base.Rotation); }
@@ -52,11 +52,13 @@ namespace NVcad.CadObjects
          }
       }
 
-      public virtual Double Length { 
+      public virtual Double Length
+      {
          get
          {
-            return (this.EndPoint - this.Origin).Length;
+            return (this.EndPt - this.Origin).Length;
          }
-         }
+         protected set { }
+      }
    }
 }

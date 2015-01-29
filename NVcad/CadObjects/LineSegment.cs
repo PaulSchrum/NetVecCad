@@ -23,24 +23,24 @@ namespace NVcad.CadObjects
          : this()
       {
          this.Origin = new Point(X1, Y1);
-         this.EndPoint = new Point(X2, Y2);
+         this.EndPt = new Point(X2, Y2);
          this.BoundingBox = new BoundingBox(this.Origin);
-         this.BoundingBox.expandByPoint(this.EndPoint);
+         this.BoundingBox.expandByPoint(this.EndPt);
       }
 
       public LineSegment(netDxf.Entities.Line dxfLine)
       {
          this.Origin = (Point) dxfLine.StartPoint;
-         this.EndPoint = (Point)dxfLine.EndPoint;
+         this.EndPt = (Point)dxfLine.EndPoint;
          this.BoundingBox = new BoundingBox(this.Origin);
-         this.BoundingBox.expandByPoint(this.EndPoint);
+         this.BoundingBox.expandByPoint(this.EndPt);
       }
 
       public override Angle Rotation
       {
          get
          {
-            return new Azimuth(this.Origin, this.EndPoint);
+            return new Azimuth(this.Origin, this.EndPt);
          }
          set
          { }

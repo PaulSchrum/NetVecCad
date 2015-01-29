@@ -691,7 +691,7 @@ namespace UnitTestNVcad
             actual: anArc.BeginRadiusVector.Azimuth.getAsDegreesDouble(),
             delta: 0.00001, message: "BeginRadiusVector");
          Assert.AreEqual(
-            expected: -45.0,
+            expected: 90.0,
             actual: anArc.StartAzimuth.getAsDegreesDouble(),
             delta: 0.00001, message: "BeginPointAngle");
          Assert.IsNotNull(anArc.BoundingBox);
@@ -708,7 +708,7 @@ namespace UnitTestNVcad
             delta: 0.00001, message: "Eccentricity");
          Assertt.AreEqual(
             expected: new Point(150.0, 150.0),
-            actual: anArc.EndPoint);
+            actual: anArc.EndPt);
          var expecVec = new Vector(Azimuth.ctorAzimuthFromDegree(90.0),
             50.0);
          Assertt.AreEqual(
@@ -722,12 +722,13 @@ namespace UnitTestNVcad
             actual: anArc.Radius,
             delta: 0.00001, message: "Radius");
          Assert.AreEqual(
-            expected: 90.0,
+            expected: 0.0,
             actual: anArc.Rotation.getAsDegreesDouble(),
             delta: 0.00001, message: "Rotation");
-         Assertt.AreEqual(
-            expected: new Vector(1.0,1.0),
-            actual: anArc.ScaleVector);
+         Assert.AreEqual(
+            expected: 50.0,
+            actual: anArc.ScaleVector.Length,
+            delta: 0.00001);
       }
 
       [TestMethod]
@@ -744,7 +745,7 @@ namespace UnitTestNVcad
             actual: anArc.BeginRadiusVector.Azimuth.getAsDegreesDouble(),
             delta: 0.00001);
          Assert.AreEqual(
-            expected: 45.0,
+            expected: 90.0,
             actual: anArc.StartAzimuth.getAsDegreesDouble(),
             delta: 0.00001);
          Assert.IsNotNull(anArc.BoundingBox);
@@ -761,7 +762,7 @@ namespace UnitTestNVcad
             delta: 0.00001);
          Assertt.AreEqual(
             expected: new Point(150.0, 50.0),
-            actual: anArc.EndPoint);
+            actual: anArc.EndPt);
          var expecVec = new Vector(Azimuth.ctorAzimuthFromDegree(90.0),
             50.0);
          Assertt.AreEqual(
@@ -775,11 +776,12 @@ namespace UnitTestNVcad
             actual: anArc.Radius,
             delta: 0.00001);
          Assert.AreEqual(
-            expected: 90.0,
+            expected: 0.0,
             actual: anArc.Rotation.getAsDegreesDouble(),
             delta: 0.00001);
+         Double FiftyOverSR2 = 50.0 / Math.Sqrt(2.0);
          Assertt.AreEqual(
-            expected: new Vector(1.0,1.0),
+            expected: new Vector(FiftyOverSR2, FiftyOverSR2),
             actual: anArc.ScaleVector);
       }
 

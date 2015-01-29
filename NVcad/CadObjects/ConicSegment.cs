@@ -18,7 +18,7 @@ namespace NVcad.CadObjects
       public virtual Double Eccentricity 
       {
          get { return 0.0; }
-         private set { }
+         protected set { }
       }
 
       public virtual Double Radius
