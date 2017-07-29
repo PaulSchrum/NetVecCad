@@ -1,6 +1,8 @@
 NetVecCad
 =========
 
+Note. I currently consider this module to be non-viable, so I do not expect to work on it any more and I will probably delete it one day.
+
 Vector Cad Framework for .Net (using WPF)
 
 NetVec Cad is a Cad Framework in .Net based on Windows Presentation Foundation.  The purpose of this framework is to provide vector cad functionality in .Net applications.  The short name is NVcad. 
